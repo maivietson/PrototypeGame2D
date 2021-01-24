@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleInfo : MonoBehaviour
+namespace PrototypeGame2D
 {
-    private string _id;
-    private Sprite _image;
-
-    public string id
+    public class ObstacleInfo : MonoBehaviour
     {
-        get { return _id; }
-    }
+        private string _id = "up";
+        private Sprite _image;
 
-    public void SetObstacle(string id, Sprite image)
-    {
-        _id = id;
-        GetComponent<SpriteRenderer>().sprite = image;
-    }
+        public string id
+        {
+            get { return _id; }
+        }
 
+        public void SetObstacle(string id, Sprite image)
+        {
+            _id = id;
+            GetComponent<SpriteRenderer>().sprite = image;
+        }
+
+    }
 }

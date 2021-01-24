@@ -2,29 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneManager : MonoBehaviour
+namespace PrototypeGame2D.Game
 {
-    private string _message;
-
-    public string message
+    public class SceneManager : MonoBehaviour
     {
-        get { return _message; }
-    }
+        private string _message = string.Empty;
 
-    public void SendAction(string message)
-    {
-        _message = message;
-    }
+        public string message
+        {
+            get { return _message; }
+        }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void SendAction(string message)
+        {
+            _message = message;
+        }
     }
 }

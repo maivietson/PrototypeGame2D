@@ -1,43 +1,40 @@
 ﻿using GestureRecognizer;
+using PrototypeGame2D.Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GestureHandler : MonoBehaviour
+namespace PrototypeGame2D.Control
 {
-    [SerializeField] private Text textResult;
-    [SerializeField] GameObject referenceRoot;
-
-    ObstacleInfo references;
-
-    void Start()
+    public class GestureHandler : MonoBehaviour
     {
-        references = referenceRoot.GetComponentInChildren<ObstacleInfo>();
-        Debug.Log(references.id);
-    }
+        [SerializeField] private Text textResult;
+        [SerializeField] private SceneManager sceneManager;
 
-    void ShowAll()
-    {
-        references.gameObject.SetActive(true);
-    }
-
-    public void OnRecognize(RecognitionResult result)
-    {
-        StopAllCoroutines();
-        if(result != RecognitionResult.Empty)
+        void Start()
         {
-            textResult.text = result.gesture.id + "\n" + Mathf.RoundToInt(result.score.score * 100) + "%";
-            StartCoroutine(Blink(result.gesture.id));
+
         }
-    }
 
-    IEnumerator Blink(string id)
-    {
-        if(references.id == id && referenceRoot != null)
+        public void OnRecognize(RecognitionResult result)
         {
-            Destroy(referenceRoot);
-            yield return new WaitForSeconds(1.0f);
+            StopAllCoroutines();
+            if (result != RecognitionResult.Empty)
+            {
+                textResult.text = result.gesture.id + "\n" + Mathf.RoundToInt(result.score.score * 100) + "%";
+                if (result.score.score >= 0.8f)
+                {
+                    StartCoroutine(DestroyObstacle(result.gesture.id));
+                }
+            }
+        }
+
+        IEnumerator DestroyObstacle(string id)
+        {
+            sceneManager.SendAction(id);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }
+
