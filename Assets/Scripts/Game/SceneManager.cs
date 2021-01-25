@@ -8,6 +8,16 @@ namespace PrototypeGame2D.Game
     {
         private string _message = string.Empty;
 
+        private bool _isGameOver;
+
+        public bool isGameOver
+        {
+            get
+            {
+                return _isGameOver;
+            }
+        }
+
         public string message
         {
             get { return _message; }
