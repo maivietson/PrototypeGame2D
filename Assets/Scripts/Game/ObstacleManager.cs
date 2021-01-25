@@ -37,7 +37,10 @@ namespace PrototypeGame2D.Game
 
         void Update()
         {
-
+            if(_sceneManager.isGameOver)
+            {
+                CancelInvoke("SpawObstacle");
+            }
         }
 
         private void StartSpawnObstacle()

@@ -50,6 +50,8 @@ namespace PrototypeGame2D
                     {
                         _aLive = false;
                         Destroy(gameObject);
+                        sceneManager.SendAction("");
+                        sceneManager.AddScore();
                     }
                 }
             }
@@ -62,6 +64,7 @@ namespace PrototypeGame2D
             {
                 _aLive = false;
                 Destroy(gameObject);
+                sceneManager.AddMissingSymbol();
             }
         }
     }
