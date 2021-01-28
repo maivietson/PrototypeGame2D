@@ -23,28 +23,26 @@ public class FoodManager : MonoBehaviour
     [SerializeField] private float _timeSpaw;
     [SerializeField] private float _spawRate;
 
-    private Camera cam;
+    //private Camera cam;
 
-    [SerializeField] private FoodMovement food;
-    [SerializeField] private Trajectory trajectory;
-    [SerializeField] private float pushForce = 4f;
+    //[SerializeField] private FoodMovement food;
+    //[SerializeField] private Trajectory trajectory;
+    //[SerializeField] private float pushForce = 4f;
 
-    private bool isDragging = false;
-    private Vector2[] _listAngle;
+    //private bool isDragging = false;
 
-    private Vector2 startPoint;
-    [SerializeField] private Vector2 endPoint;
-    private Vector2 direction;
-    private Vector2 force;
-    private float distance;
+    //private Vector2 startPoint;
+    //[SerializeField] private Vector2 endPoint;
+    //private Vector2 direction;
+    //private Vector2 force;
+    //private float distance;
 
     private void Start()
     {
-        Init();
-        cam = Camera.main;
-        food.DeactivateRb();
+        //cam = Camera.main;
+        //food.DeactivateRb();
 
-        if(GameManager.Instance.isGameOver)
+        if(!GameManager.Instance.isGameOver)
         {
             StartSpawFood();
         }
@@ -52,25 +50,33 @@ public class FoodManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            isDragging = true;
-            OnDragStart();
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            isDragging = false;
-            OnDragEnd();
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    isDragging = true;
+        //    OnDragStart();
+        //}
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    isDragging = false;
+        //    OnDragEnd();
+        //}
 
-        if (isDragging)
+        //if (isDragging)
+        //{
+        //    OnDrag();
+        //}
+        if (GameManager.Instance.isGameOver)
         {
-            OnDrag();
+            CancelInvoke("SpawFood");
         }
     }
 
-    private void Init()
+    private Vector2 RandomAngle()
     {
+        float angleX = UnityEngine.Random.Range(-9.5f, -9.1f);
+        float angleY = UnityEngine.Random.Range(1.7f, 2.0f);
+
+        return new Vector2(angleX, angleY);
     }
 
     private void StartSpawFood()
@@ -80,8 +86,10 @@ public class FoodManager : MonoBehaviour
 
     private void SpawFood()
     {
-        int randomX = UnityEngine.Random.Range(0, 3);
-
+        Vector2 angleEnd = RandomAngle();
+        Vector2 spawPosition = transform.position;
+        GameObject foodObject = Instantiate(_foodPrefab, spawPosition, Quaternion.identity) as GameObject;
+        foodObject.GetComponent<FoodMovement>().PreMovement(spawPosition, angleEnd);
     }
 
     public float timeSpaw
@@ -100,37 +108,37 @@ public class FoodManager : MonoBehaviour
         }
     }
 
-    void OnDragStart()
-    {
-        food.DeactivateRb();
-        //startPoint = cam.ScreenToWorldPoint(Input.mousePosition);
-        startPoint = food.pos;
+    //void OnDragStart()
+    //{
+    //    food.DeactivateRb();
+    //    //startPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+    //    startPoint = food.pos;
 
-        trajectory.Show();
-    }
+    //    trajectory.Show();
+    //}
 
-    void OnDrag()
-    {
-        //endPoint = cam.ScreenToWorldPoint(Input.mousePosition);
-        distance = Vector2.Distance(startPoint, endPoint);
-        direction = (startPoint - endPoint).normalized;
-        force = direction * distance * pushForce;
+    //void OnDrag()
+    //{
+    //    endPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+    //    distance = Vector2.Distance(startPoint, endPoint);
+    //    direction = (startPoint - endPoint).normalized;
+    //    force = -direction * distance * pushForce;
 
-        Debug.DrawLine(startPoint, endPoint);
+    //    Debug.DrawLine(startPoint, endPoint);
 
-        //Debug.Log("direction: " + direction);
-        Debug.Log("startPoint: " + startPoint);
-        Debug.Log("endPoint: " + endPoint);
+    //    //Debug.Log("direction: " + direction);
+    //    Debug.Log("startPoint: " + startPoint);
+    //    Debug.Log("endPoint: " + endPoint);
 
-        trajectory.UpdateDots(food.pos, force);
-    }
+    //    trajectory.UpdateDots(food.pos, force);
+    //}
 
-    void OnDragEnd()
-    {
-        food.ActivateRb();
+    //void OnDragEnd()
+    //{
+    //    food.ActivateRb();
 
-        food.Push(force);
+    //    food.Push(force);
 
-        trajectory.Hide();
-    }
+    //    trajectory.Hide();
+    //}
 }
