@@ -18,7 +18,7 @@ namespace PrototypeGame2D.Game
         {
             get
             {
-                return _timeSpawn;
+                return   _timeSpawn;
             }
             set
             {

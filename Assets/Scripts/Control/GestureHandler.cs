@@ -28,7 +28,7 @@ namespace PrototypeGame2D.Control
                 textResult.text = result.gesture.id + "\n" + Mathf.RoundToInt(result.score.score * 100) + "%";
                 if (result.score.score >= 0.8f)
                 {
-                    StartCoroutine(DestroyObstacle(result.gesture.id));
+                    //StartCoroutine(DestroyObstacle(result.gesture.id));
                 }
             }
             else
@@ -37,11 +37,11 @@ namespace PrototypeGame2D.Control
             }
         }
 
-        IEnumerator DestroyObstacle(string id)
-        {
-            sceneManager.SendAction(id);
-            yield return new WaitForSeconds(0.5f);
-        }
+        //IEnumerator DestroyObstacle(string id)
+        //{
+        //    sceneManager.SendAction(id);
+        //    yield return new WaitForSeconds(0.5f);
+        //}
     }
 }
 

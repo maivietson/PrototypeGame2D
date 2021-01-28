@@ -6,6 +6,6 @@ PhysicsMaterial2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: food
-  friction: 0.51
-  bounciness: 1.05
+  m_Name: food_bounciness
+  friction: 0.5
+  bounciness: 0.6
