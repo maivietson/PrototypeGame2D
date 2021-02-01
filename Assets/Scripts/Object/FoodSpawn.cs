@@ -81,7 +81,7 @@ namespace PrototypeGame2D.Object
                 Vector3 pos = new Vector3(transform.position.x, transform.position.y, -0.1f);
                 FoodInfo food = _foodForSpawn[_indexFoodSpawn];
                 GameObject foodResource = Instantiate(_foodPrefab, pos, Quaternion.identity) as GameObject;
-                foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image);
+                foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.SymbolKey);
                 foodResource.GetComponent<FoodInfo>().InitFood();
 
                 ++_indexFoodSpawn;

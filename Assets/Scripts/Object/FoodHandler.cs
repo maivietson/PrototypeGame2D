@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PrototypeGame2D.Object
@@ -11,15 +12,30 @@ namespace PrototypeGame2D.Object
         // Start is called before the first frame update
         void Start()
         {
-
+            _symbol = new List<string>();
+            _symbol = GetComponent<FoodInfo>().SymbolKey;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(GameManager.Instance.message.Length > 0 && !GameManager.Instance.isGameOver)
+            if(!GameManager.Instance.isGameOver)
             {
+                string message = GameManager.Instance.message;
+                if (message.Length > 0)
+                {
+                    Debug.Log("Action: " + message);
+                    var result = _symbol.SingleOrDefault(item => item == message);
+                    _symbol.Remove(result);
+                    Debug.Log("result: " + result + " === symbolSize: " + _symbol.Count);
 
+                    if(_symbol.Count == 0)
+                    {
+                        Debug.Log("Destroy");
+                        GetComponent<FoodInfo>().isCompleteSymbol = true;
+                        Destroy(gameObject);
+                    }
+                }
             }
         }
     }

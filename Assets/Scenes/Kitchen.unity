@@ -937,7 +937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textResult: {fileID: 362817037}
-  sceneManager: {fileID: 0}
+  gameManager: {fileID: 2049523027}
 --- !u!222 &791201226
 CanvasRenderer:
   m_ObjectHideFlags: 0

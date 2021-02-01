@@ -69,9 +69,14 @@ namespace PrototypeGame2D.Game
             List<FoodInfo> foodResource = new List<FoodInfo>();
             string idOrder = "sushi_ca_hoi";
             FoodInfo fi = new FoodInfo();
-            fi.SetFoodInfo("ca_hoi", idOrder, _imageResourceFood[0]);
+            List<string> symbol = new List<string>();
+            symbol.Add("up");
+            symbol.Add("down");
+            fi.SetFoodInfo("ca_hoi", idOrder, _imageResourceFood[0], symbol);
             FoodInfo fi2 = new FoodInfo();
-            fi2.SetFoodInfo("com", idOrder, _imageResourceFood[1]);
+            List<string> symbol2 = new List<string>();
+            symbol2.Add("left");
+            fi2.SetFoodInfo("com", idOrder, _imageResourceFood[1], symbol2);
             foodResource.Add(fi);
             foodResource.Add(fi2);
 

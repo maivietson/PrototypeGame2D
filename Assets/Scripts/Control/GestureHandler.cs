@@ -10,7 +10,7 @@ namespace PrototypeGame2D.Control
     public class GestureHandler : MonoBehaviour
     {
         [SerializeField] private Text textResult;
-        [SerializeField] private SceneManager sceneManager;
+        [SerializeField] private GameManager gameManager;
 
         private DrawDetector _drawDetector;
 
@@ -28,7 +28,7 @@ namespace PrototypeGame2D.Control
                 textResult.text = result.gesture.id + "\n" + Mathf.RoundToInt(result.score.score * 100) + "%";
                 if (result.score.score >= 0.8f)
                 {
-                    //StartCoroutine(DestroyObstacle(result.gesture.id));
+                    gameManager.message = result.gesture.id;
                 }
             }
             else

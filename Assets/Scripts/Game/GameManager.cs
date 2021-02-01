@@ -19,7 +19,8 @@ namespace PrototypeGame2D.Game
         #endregion
 
         private bool _isGameOver;
-        
+        private string _message = string.Empty;
+
         public bool isGameOver
         {
             get
@@ -32,16 +33,10 @@ namespace PrototypeGame2D.Game
             }
         }
 
-        // Start is called before the first frame update
-        void Start()
+        public string message
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            get { return _message; }
+            set { _message = value; }
         }
     }
 }
