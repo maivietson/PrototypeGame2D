@@ -14,7 +14,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - food
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: food
+    uniqueID: 4290586227
     locked: 0

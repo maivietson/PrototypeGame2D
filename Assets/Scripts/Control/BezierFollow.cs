@@ -57,8 +57,9 @@ public class BezierFollow : MonoBehaviour
         routeToGo += 1;
 
         if (routeToGo > routes.Length - 1)
-            routeToGo = 0;
-
+        {
+            Destroy(gameObject);
+        }
         coroutineAllowed = true;
     }
 }

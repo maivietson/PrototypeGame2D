@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+
     private bool _isGameOver;
+    private string _message = string.Empty;
 
     public bool isGameOver
     {
@@ -29,15 +31,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public string message
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        get { return _message; }
+        set { _message = value; }
     }
 }
