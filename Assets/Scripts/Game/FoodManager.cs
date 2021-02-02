@@ -27,6 +27,7 @@ namespace PrototypeGame2D.Game
         private int _numberMenuOrder;
 
         private bool _haveFoodOrder;
+        private bool _refreshFoodResource;
 
         [SerializeField] private Sprite[] _imageResourceFood;
         [SerializeField] private Sprite[] _imageFoodOrder;
@@ -35,6 +36,12 @@ namespace PrototypeGame2D.Game
         {
             get { return _haveFoodOrder; }
             set { _haveFoodOrder = value; }
+        }
+
+        public bool refreshFoodResource
+        {
+            get { return _refreshFoodResource; }
+            set { _refreshFoodResource = value; }
         }
 
         public List<FoodInfo> AllFoodResource
@@ -54,6 +61,9 @@ namespace PrototypeGame2D.Game
             _foodOrder = new List<FoodOrder>();
             _allFoodResource = new List<FoodInfo>();
             _allMenuOrder = new List<FoodOrder>();
+
+            _refreshFoodResource = false;
+            _haveFoodOrder = false;
 
             InitMenuOrder();
         }
@@ -118,6 +128,12 @@ namespace PrototypeGame2D.Game
                     _allFoodResource.Remove(result);
                 }
             }
+        }
+
+        public void RemoveFoodResource(string foodId)
+        {
+            var result = _allFoodResource.SingleOrDefault(item => item.id == foodId);
+            _allFoodResource.Remove(result);
         }
 
         public void AddOrder(FoodOrder foodOrder)

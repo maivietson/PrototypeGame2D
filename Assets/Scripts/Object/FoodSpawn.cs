@@ -26,6 +26,7 @@ namespace PrototypeGame2D.Object
         private int _indexFoodSpawn = 0;
 
         private List<FoodInfo> _foodForSpawn;
+        private List<FoodInfo> _foodForSpawnAgain;
 
         public float timeSpawn
         {
@@ -76,13 +77,28 @@ namespace PrototypeGame2D.Object
 
         private void SpawnFood()
         {
+            if (FoodManager.Instance.refreshFoodResource)
+            {
+                _foodForSpawn = FoodManager.Instance.AllFoodResource;
+                FoodManager.Instance.refreshFoodResource = false;
+            }
+
             if (_indexFoodSpawn < _foodForSpawn.Count)
             {
                 Vector3 pos = new Vector3(transform.position.x, transform.position.y, -0.1f);
                 FoodInfo food = _foodForSpawn[_indexFoodSpawn];
                 GameObject foodResource = Instantiate(_foodPrefab, pos, Quaternion.identity) as GameObject;
-                foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.SymbolKey);
-                foodResource.GetComponent<FoodInfo>().InitFood();
+                if (foodResource.activeSelf)
+                {
+                    Debug.Log("Not active");
+                    foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.SymbolKey);
+                    foodResource.GetComponent<FoodInfo>().InitFood();
+                }
+                else
+                {
+                    Debug.Log("Active");
+                    Destroy(foodResource);
+                }
 
                 ++_indexFoodSpawn;
             }

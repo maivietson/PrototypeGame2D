@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PrototypeGame2D.Game;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,15 +25,18 @@ namespace PrototypeGame2D.Object
                 string message = GameManager.Instance.message;
                 if (message.Length > 0)
                 {
-                    Debug.Log("Action: " + message);
+                    //Debug.Log("Action: " + message);
                     var result = _symbol.SingleOrDefault(item => item == message);
                     _symbol.Remove(result);
-                    Debug.Log("result: " + result + " === symbolSize: " + _symbol.Count);
+                    //Debug.Log("result: " + result + " === symbolSize: " + _symbol.Count);
 
                     if(_symbol.Count == 0)
                     {
-                        Debug.Log("Destroy");
-                        GetComponent<FoodInfo>().isCompleteSymbol = true;
+                        //Debug.Log("Destroy");
+                        FoodInfo info = GetComponent<FoodInfo>();
+                        info.isCompleteSymbol = true;
+                        FoodManager.Instance.RemoveFoodResource(info.id);
+                        FoodManager.Instance.refreshFoodResource = true;
                         Destroy(gameObject);
                     }
                 }
