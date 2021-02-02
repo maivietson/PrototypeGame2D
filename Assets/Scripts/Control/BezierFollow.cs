@@ -1,65 +1,72 @@
-﻿using System.Collections;
+﻿using PrototypeGame2D.Object;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BezierFollow : MonoBehaviour
+namespace PrototypeGame2D.Control
 {
-    [SerializeField] private Transform[] routes;
-
-    private int routeToGo;
-
-    private float tParam;
-
-    private Vector2 objPosition;
-
-    private float speedModifier;
-
-    private bool coroutineAllowed;
-
-    private void Start()
+    public class BezierFollow : MonoBehaviour
     {
-        routeToGo = 0;
-        tParam = 0;
-        speedModifier = 0.5f;
-        coroutineAllowed = true;
-    }
+        [SerializeField] private Transform[] routes;
 
-    private void Update()
-    {
-        if (coroutineAllowed)
-            StartCoroutine(GoByTheRoute(routeToGo));
-    }
+        private int routeToGo;
 
-    private IEnumerator GoByTheRoute(int routeNumber)
-    {
-        coroutineAllowed = false;
+        private float tParam;
 
-        Vector2 p0 = routes[routeNumber].GetChild(0).position;
-        Vector2 p1 = routes[routeNumber].GetChild(1).position;
-        Vector2 p2 = routes[routeNumber].GetChild(2).position;
-        Vector2 p3 = routes[routeNumber].GetChild(3).position;
+        private Vector2 objPosition;
 
-        while(tParam < 1)
+        private float speedModifier;
+
+        private bool coroutineAllowed;
+
+        private void Start()
         {
-            tParam += Time.deltaTime * speedModifier;
-
-            objPosition = Mathf.Pow(1 - tParam, 3) * p0 +
-                3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
-                3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 +
-                Mathf.Pow(tParam, 3) * p3;
-
-            transform.position = objPosition;
-            yield return new WaitForEndOfFrame();
+            routeToGo = 0;
+            tParam = 0;
+            speedModifier = 0.5f;
+            coroutineAllowed = true;
         }
 
-        tParam = 0f;
-
-        routeToGo += 1;
-
-        if (routeToGo > routes.Length - 1)
+        private void Update()
         {
-            Destroy(gameObject);
+            if (coroutineAllowed)
+                StartCoroutine(GoByTheRoute(routeToGo));
         }
-        coroutineAllowed = true;
+
+        private IEnumerator GoByTheRoute(int routeNumber)
+        {
+            coroutineAllowed = false;
+
+            Vector2 p0 = routes[routeNumber].GetChild(0).position;
+            Vector2 p1 = routes[routeNumber].GetChild(1).position;
+            Vector2 p2 = routes[routeNumber].GetChild(2).position;
+            Vector2 p3 = routes[routeNumber].GetChild(3).position;
+
+            while (tParam < 1)
+            {
+                tParam += Time.deltaTime * speedModifier;
+
+                objPosition = Mathf.Pow(1 - tParam, 3) * p0 +
+                    3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
+                    3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 +
+                    Mathf.Pow(tParam, 3) * p3;
+
+                transform.position = objPosition;
+                yield return new WaitForEndOfFrame();
+            }
+
+            tParam = 0f;
+
+            routeToGo += 1;
+
+            if (routeToGo > routes.Length - 1)
+            {
+                FoodSpawn.Instance.foodDestroied.Add(gameObject.GetComponent<FoodInfo>());
+                Destroy(gameObject);
+                //routeToGo = 0;
+            }
+            coroutineAllowed = true;
+        }
     }
 }
+

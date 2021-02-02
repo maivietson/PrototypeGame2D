@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PrototypeGame2D.Game;
+using System.Linq;
 
 namespace PrototypeGame2D.Object
 {
@@ -26,7 +27,7 @@ namespace PrototypeGame2D.Object
         private int _indexFoodSpawn = 0;
 
         private List<FoodInfo> _foodForSpawn;
-        private List<FoodInfo> _foodForSpawnAgain;
+        private List<FoodInfo> _foodDestroied;
 
         public float timeSpawn
         {
@@ -46,6 +47,12 @@ namespace PrototypeGame2D.Object
             set { _indexFoodSpawn = value; }
         }
 
+        public List<FoodInfo> foodDestroied
+        {
+            get { return _foodDestroied; }
+            set { _foodDestroied = value; }
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -54,6 +61,7 @@ namespace PrototypeGame2D.Object
             //    StartSpawnFood();
             //}
             _foodForSpawn = new List<FoodInfo>();
+            _foodDestroied = new List<FoodInfo>();
         }
 
         // Update is called once per frame
@@ -69,7 +77,7 @@ namespace PrototypeGame2D.Object
         {
             if (!GameManager.Instance.isGameOver && FoodManager.Instance.haveFoodOrder)
             {
-                _foodForSpawn = FoodManager.Instance.AllFoodResource;
+                _foodDestroied = _foodForSpawn = FoodManager.Instance.AllFoodResource;
                 _foodForSpawn = RandomFoodResource(_foodForSpawn);
                 InvokeRepeating("SpawnFood", _timeSpawn, _spawnRate);
             }
@@ -79,28 +87,26 @@ namespace PrototypeGame2D.Object
         {
             if (FoodManager.Instance.refreshFoodResource)
             {
-                _foodForSpawn = FoodManager.Instance.AllFoodResource;
+                _foodDestroied = _foodForSpawn = FoodManager.Instance.AllFoodResource;
                 FoodManager.Instance.refreshFoodResource = false;
             }
 
             if (_indexFoodSpawn < _foodForSpawn.Count)
             {
-                Vector3 pos = new Vector3(transform.position.x, transform.position.y, -0.1f);
+                //Vector3 pos = new Vector3(transform.position.x, transform.position.y, -0.1f);
                 FoodInfo food = _foodForSpawn[_indexFoodSpawn];
-                GameObject foodResource = Instantiate(_foodPrefab, pos, Quaternion.identity) as GameObject;
-                if (foodResource.activeSelf)
+                var result = _foodDestroied.SingleOrDefault(r => r.id == food.id);
+                if (result.id.Length > 0)
                 {
-                    Debug.Log("Not active");
+                    //Debug.Log(result.id);
+                    //Debug.Log("indexFoodSpawn: " + _indexFoodSpawn);
+                    _foodDestroied.Remove(result);
+                    GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
+                    foodResource.name = "FoodResource" + _indexFoodSpawn.ToString();
                     foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.SymbolKey);
                     foodResource.GetComponent<FoodInfo>().InitFood();
+                    ++_indexFoodSpawn;
                 }
-                else
-                {
-                    Debug.Log("Active");
-                    Destroy(foodResource);
-                }
-
-                ++_indexFoodSpawn;
             }
             else
             {
