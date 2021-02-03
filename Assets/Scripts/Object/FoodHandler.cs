@@ -20,7 +20,7 @@ namespace PrototypeGame2D.Object
         // Update is called once per frame
         void Update()
         {
-            if(!GameManager.Instance.isGameOver)
+            if (!GameManager.Instance.isGameOver)
             {
                 string message = GameManager.Instance.message;
                 if (message.Length > 0)

@@ -6,6 +6,14 @@ using System.Linq;
 
 namespace PrototypeGame2D.Object
 {
+    public static class Extentions
+    {
+        public static List<T> GetClone<T>(this List<T> source)
+        {
+            return source.GetRange(0, source.Count);
+        }
+    }
+
     public class FoodSpawn : MonoBehaviour
     {
         #region Singleton class: FoodSpawn
@@ -27,7 +35,7 @@ namespace PrototypeGame2D.Object
         private int _indexFoodSpawn = 0;
 
         private List<FoodInfo> _foodForSpawn;
-        private List<FoodInfo> _foodDestroied;
+        private List<string> _foodDestroied;
 
         public float timeSpawn
         {
@@ -47,7 +55,7 @@ namespace PrototypeGame2D.Object
             set { _indexFoodSpawn = value; }
         }
 
-        public List<FoodInfo> foodDestroied
+        public List<string> foodDestroied
         {
             get { return _foodDestroied; }
             set { _foodDestroied = value; }
@@ -61,7 +69,7 @@ namespace PrototypeGame2D.Object
             //    StartSpawnFood();
             //}
             _foodForSpawn = new List<FoodInfo>();
-            _foodDestroied = new List<FoodInfo>();
+            _foodDestroied = new List<string>();
         }
 
         // Update is called once per frame
@@ -77,7 +85,8 @@ namespace PrototypeGame2D.Object
         {
             if (!GameManager.Instance.isGameOver && FoodManager.Instance.haveFoodOrder)
             {
-                _foodDestroied = _foodForSpawn = FoodManager.Instance.AllFoodResource;
+                _foodForSpawn = FoodManager.Instance.AllFoodResource;
+                CloneList();
                 _foodForSpawn = RandomFoodResource(_foodForSpawn);
                 InvokeRepeating("SpawnFood", _timeSpawn, _spawnRate);
             }
@@ -87,25 +96,31 @@ namespace PrototypeGame2D.Object
         {
             if (FoodManager.Instance.refreshFoodResource)
             {
-                _foodDestroied = _foodForSpawn = FoodManager.Instance.AllFoodResource;
+                _foodForSpawn = FoodManager.Instance.AllFoodResource;
+                CloneList();
                 FoodManager.Instance.refreshFoodResource = false;
             }
 
             if (_indexFoodSpawn < _foodForSpawn.Count)
             {
+                Debug.Log(_foodDestroied.Count);
                 //Vector3 pos = new Vector3(transform.position.x, transform.position.y, -0.1f);
                 FoodInfo food = _foodForSpawn[_indexFoodSpawn];
-                var result = _foodDestroied.SingleOrDefault(r => r.id == food.id);
-                if (result.id.Length > 0)
+                if(_foodDestroied.Count > 0)
                 {
-                    //Debug.Log(result.id);
-                    //Debug.Log("indexFoodSpawn: " + _indexFoodSpawn);
-                    _foodDestroied.Remove(result);
-                    GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
-                    foodResource.name = "FoodResource" + _indexFoodSpawn.ToString();
-                    foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.Amount, food.SymbolKey);
-                    foodResource.GetComponent<FoodInfo>().InitFood();
-                    ++_indexFoodSpawn;
+                    var result = _foodDestroied.SingleOrDefault(r => r == food.id);
+                    if (result.Length > 0)
+                    {
+                        //Debug.Log(result.id);
+                        //Debug.Log("indexFoodSpawn: " + _indexFoodSpawn);
+                        _foodDestroied.Remove(result);
+                        Debug.Log(_foodDestroied.Count);
+                        GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
+                        foodResource.name = "FoodResource" + _indexFoodSpawn.ToString();
+                        foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.Amount, food.SymbolKey);
+                        foodResource.GetComponent<FoodInfo>().InitFood();
+                        ++_indexFoodSpawn;
+                    }
                 }
             }
             else
@@ -118,6 +133,14 @@ namespace PrototypeGame2D.Object
         {
             get { return _foodForSpawn; }
             set { _foodForSpawn = value; }
+        }
+
+        private void CloneList()
+        {
+            foreach(FoodInfo fi in _foodForSpawn)
+            {
+                _foodDestroied.Add(fi.id);
+            }
         }
 
         private List<FoodInfo> RandomFoodResource(List<FoodInfo> foods)

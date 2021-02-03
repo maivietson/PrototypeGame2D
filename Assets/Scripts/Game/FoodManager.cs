@@ -174,9 +174,17 @@ namespace PrototypeGame2D.Game
             var foodInfo = r.foodResource.SingleOrDefault(i => i.id == food.id);
             if(foodInfo.Amount > 0)
                 foodInfo.Amount -= 1;
-
+            //Debug.Log(_allFoodResource.Count);
+            //foreach(FoodInfo fi in _allFoodResource)
+            //{
+            //    Debug.Log(fi.id);
+            //}
             var result = _allFoodResource.SingleOrDefault(item => item.id == food.id);
-            _allFoodResource.Remove(result);
+            Debug.Log(result.id);
+            if (result.Amount == 0)
+            {
+                _allFoodResource.Remove(result);
+            }
 
             //ComplePartFoodResource(food.idFoodOrder);
             ProgressFoodOrder(food.idFoodOrder);
@@ -187,10 +195,7 @@ namespace PrototypeGame2D.Game
             List<FoodInfo> foods = foodOrder.foodResource;
             foreach(FoodInfo fi in foods)
             {
-                for(int i = 0; i < fi.Amount; i++)
-                {
-                    _allFoodResource.Add(fi);
-                }
+                _allFoodResource.Add(fi);
             }
         }
     }
