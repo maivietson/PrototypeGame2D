@@ -103,7 +103,7 @@ namespace PrototypeGame2D.Object
                     _foodDestroied.Remove(result);
                     GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
                     foodResource.name = "FoodResource" + _indexFoodSpawn.ToString();
-                    foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.SymbolKey);
+                    foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.Amount, food.SymbolKey);
                     foodResource.GetComponent<FoodInfo>().InitFood();
                     ++_indexFoodSpawn;
                 }

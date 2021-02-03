@@ -18,13 +18,15 @@ namespace PrototypeGame2D.Object
         private int _currentStageOrder;
         private int _totalStageOrder;
 
+        private bool _haveUpdate;
+
         //public enum STATUS
         //{
         //    FOOD_COMPLETE,
         //    FOOD_NOT_COMPLETE
         //}
 
-        public STATUS _statusOrder = STATUS.FOOD_NOT_COMPLETE;
+        private STATUS _statusOrder = STATUS.FOOD_NOT_COMPLETE;
 
         public string id
         {
@@ -62,9 +64,21 @@ namespace PrototypeGame2D.Object
             set { _image = value; }
         }
 
+        public STATUS statusOrder
+        {
+            get { return _statusOrder; }
+        }
+
+        public bool haveUpdate
+        {
+            get { return _haveUpdate; }
+            set { _haveUpdate = value; }
+        }
+
         private void Start()
         {
             _currentStageOrder = 0;
+            _haveUpdate = false;
         }
 
         public void SetOrderFood(string id, float timeOrder, float priceOrder, float priceMissingOrder, Sprite image, List<FoodInfo> foods)
@@ -75,7 +89,14 @@ namespace PrototypeGame2D.Object
             _priceOrder = priceOrder;
             _priceMissingOrder = priceMissingOrder;
             _image = image;
-            _totalStageOrder = _foodResources.Count - 1;
+
+            foreach(FoodInfo fi in _foodResources)
+            {
+                for(int i = 0; i < fi.Amount; ++i)
+                {
+                    _totalStageOrder += 1;
+                }
+            }
         }
 
         public void SetStatusOrder(bool isComplete)
@@ -93,6 +114,7 @@ namespace PrototypeGame2D.Object
         public void CompletePartProgressOrder()
         {
             _currentStageOrder++;
+            CheckStatusOrder();
         }
 
         public int TotalStageOrder
@@ -105,14 +127,16 @@ namespace PrototypeGame2D.Object
             return _currentStageOrder;
         }
 
-        public STATUS CheckStatusOrder()
+        public void CheckStatusOrder()
         {
             if (_currentStageOrder == _totalStageOrder)
             {
-                return STATUS.FOOD_COMPLETE;
+                _statusOrder = STATUS.FOOD_COMPLETE;
             }
-
-            return STATUS.FOOD_NOT_COMPLETE;
+            else
+            {
+                _statusOrder = STATUS.FOOD_NOT_COMPLETE;
+            }
         } 
     }
 }

@@ -34,7 +34,9 @@ namespace PrototypeGame2D.Object
 
         public void StartOrder(string id)
         {
-            FoodManager.Instance.OrderFood(id);
+            FoodOrder order = FoodManager.Instance.OrderFood(id);
+            OrderArea areaOrder = FindObjectOfType<OrderArea>();
+            areaOrder.OrderFood(order);
         }
     }
 }

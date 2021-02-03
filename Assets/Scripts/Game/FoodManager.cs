@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static PrototypeGame2D.Core.OrderState;
 
 namespace PrototypeGame2D.Game
 {
@@ -82,11 +83,11 @@ namespace PrototypeGame2D.Game
             List<string> symbol = new List<string>();
             symbol.Add("up");
             symbol.Add("down");
-            fi.SetFoodInfo("ca_hoi", idOrder, _imageResourceFood[0], symbol);
+            fi.SetFoodInfo("ca_hoi", idOrder, _imageResourceFood[0], 1, symbol);
             FoodInfo fi2 = new FoodInfo();
             List<string> symbol2 = new List<string>();
             symbol2.Add("left");
-            fi2.SetFoodInfo("com", idOrder, _imageResourceFood[1], symbol2);
+            fi2.SetFoodInfo("com", idOrder, _imageResourceFood[1], 2, symbol2);
             foodResource.Add(fi);
             foodResource.Add(fi2);
 
@@ -110,14 +111,14 @@ namespace PrototypeGame2D.Game
             }
         }
 
-        public void OrderFood(string id)
+        public FoodOrder OrderFood(string id)
         {
             FoodOrder foodOrder = _allMenuOrder.SingleOrDefault(item => item.id == id);
             AddOrder(foodOrder);
-            OrderArea areaOrder = FindObjectOfType<OrderArea>();
-            areaOrder.OrderFood(foodOrder.imageFoodOrder);
             _haveFoodOrder = true;
             FoodSpawn.Instance.StartSpawnFood();
+
+            return foodOrder;
         }
 
         public void RemoveOrder(FoodOrder[] foodOrder)
@@ -132,10 +133,53 @@ namespace PrototypeGame2D.Game
             }
         }
 
-        public void RemoveFoodResource(string foodId)
+        //public void ComplePartFoodResource(string id)
+        //{
+        //    FoodOrder order = _allMenuOrder.SingleOrDefault(item => item.id == id);
+        //    order.CompletePartProgressOrder();
+        //    OrderArea areaOrder = FindObjectOfType<OrderArea>();
+        //    if (order.statusOrder == STATUS.FOOD_COMPLETE)
+        //    {
+        //        areaOrder.UpdateCompleteOrder(order);
+        //        StartCoroutine(RemoveFoodOrder(order));
+        //    }
+        //    else
+        //    {
+        //        areaOrder.UpdateSlotOrderFood(order);
+        //    }
+        //}
+
+        //private IEnumerator RemoveFoodOrder(FoodOrder foodOrder)
+        //{
+        //    yield return new WaitForSeconds(3.0f);
+        //    var result = _allMenuOrder.SingleOrDefault(item => item.id == foodOrder.id);
+        //    _allMenuOrder.Remove(result);
+        //}
+
+        public void ProgressFoodOrder(string id)
         {
-            var result = _allFoodResource.SingleOrDefault(item => item.id == foodId);
+            FoodOrder order = _allMenuOrder.SingleOrDefault(item => item.id == id);
+            order.CompletePartProgressOrder();
+
+            OrderArea areaOrder = FindObjectOfType<OrderArea>();
+            areaOrder.UpdateProgressOrder(_allMenuOrder);
+        }
+
+        public void RemoveFoodResource(FoodInfo food)
+        {
+            refreshFoodResource = true;
+
+            FoodOrder r = _allMenuOrder.SingleOrDefault(i => i.id == food.idFoodOrder);
+            r.haveUpdate = true;
+            var foodInfo = r.foodResource.SingleOrDefault(i => i.id == food.id);
+            if(foodInfo.Amount > 0)
+                foodInfo.Amount -= 1;
+
+            var result = _allFoodResource.SingleOrDefault(item => item.id == food.id);
             _allFoodResource.Remove(result);
+
+            //ComplePartFoodResource(food.idFoodOrder);
+            ProgressFoodOrder(food.idFoodOrder);
         }
 
         public void AddOrder(FoodOrder foodOrder)
@@ -143,7 +187,10 @@ namespace PrototypeGame2D.Game
             List<FoodInfo> foods = foodOrder.foodResource;
             foreach(FoodInfo fi in foods)
             {
-                _allFoodResource.Add(fi);
+                for(int i = 0; i < fi.Amount; i++)
+                {
+                    _allFoodResource.Add(fi);
+                }
             }
         }
     }

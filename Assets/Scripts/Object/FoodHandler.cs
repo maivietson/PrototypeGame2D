@@ -35,9 +35,7 @@ namespace PrototypeGame2D.Object
                         //Debug.Log("Destroy");
                         FoodInfo info = GetComponent<FoodInfo>();
                         info.isCompleteSymbol = true;
-                        FoodManager.Instance.RemoveFoodResource(info.id);
-                        FoodManager.Instance.refreshFoodResource = true;
-                        GetComponent<FoodOrder>().CompletePartProgressOrder();
+                        FoodManager.Instance.RemoveFoodResource(info);
                         Destroy(gameObject);
                     }
                 }
