@@ -15,8 +15,8 @@ TagManager:
   - 
   - 
   - food
-  - 
-  - 
+  - bar
+  - progressbar
   - 
   - 
   - 
@@ -44,4 +44,10 @@ TagManager:
     locked: 0
   - name: food
     uniqueID: 4290586227
+    locked: 0
+  - name: bar
+    uniqueID: 3148946705
+    locked: 0
+  - name: progressbar
+    uniqueID: 2938140399
     locked: 0

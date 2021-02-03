@@ -114,6 +114,8 @@ namespace PrototypeGame2D.Game
         {
             FoodOrder foodOrder = _allMenuOrder.SingleOrDefault(item => item.id == id);
             AddOrder(foodOrder);
+            OrderArea areaOrder = FindObjectOfType<OrderArea>();
+            areaOrder.OrderFood(foodOrder.imageFoodOrder);
             _haveFoodOrder = true;
             FoodSpawn.Instance.StartSpawnFood();
         }

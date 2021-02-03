@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PrototypeGame2D.Core.OrderState;
 
 namespace PrototypeGame2D.Object
 {
@@ -17,11 +18,11 @@ namespace PrototypeGame2D.Object
         private int _currentStageOrder;
         private int _totalStageOrder;
 
-        public enum STATUS
-        {
-            FOOD_COMPLETE,
-            FOOD_NOT_COMPLETE
-        }
+        //public enum STATUS
+        //{
+        //    FOOD_COMPLETE,
+        //    FOOD_NOT_COMPLETE
+        //}
 
         public STATUS _statusOrder = STATUS.FOOD_NOT_COMPLETE;
 
@@ -60,7 +61,12 @@ namespace PrototypeGame2D.Object
             get { return _image; }
             set { _image = value; }
         }
-        
+
+        private void Start()
+        {
+            _currentStageOrder = 0;
+        }
+
         public void SetOrderFood(string id, float timeOrder, float priceOrder, float priceMissingOrder, Sprite image, List<FoodInfo> foods)
         {
             _id = id;
