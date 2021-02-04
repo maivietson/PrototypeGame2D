@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PrototypeGame2D.Game;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static PrototypeGame2D.Core.OrderState;
@@ -79,6 +80,7 @@ namespace PrototypeGame2D.Object
         {
             _currentStageOrder = 0;
             _haveUpdate = false;
+            _timeOrder = -1;
         }
 
         public void SetOrderFood(string id, float timeOrder, float priceOrder, float priceMissingOrder, Sprite image, List<FoodInfo> foods)
@@ -99,6 +101,11 @@ namespace PrototypeGame2D.Object
             }
         }
 
+        public void CountDownTime(float time)
+        {
+            _timeOrder = _timeOrder - time;
+        }
+
         public void SetStatusOrder(bool isComplete)
         {
             if(isComplete)
@@ -113,6 +120,7 @@ namespace PrototypeGame2D.Object
 
         public void CompletePartProgressOrder()
         {
+            Debug.Log("_currentStageOrder: " + _currentStageOrder + " _totalStageOrder: " + _totalStageOrder);
             _currentStageOrder++;
             CheckStatusOrder();
         }

@@ -41,7 +41,7 @@ public class FoodManagerKit : MonoBehaviour
         //cam = Camera.main;
         //food.DeactivateRb();
 
-        if (!GameManager.Instance.isGameOver)
+        if (true)
         {
             StartSpawFood();
         }
@@ -64,7 +64,7 @@ public class FoodManagerKit : MonoBehaviour
         //{
         //    OnDrag();
         //}
-        if (GameManager.Instance.isGameOver)
+        if (true)
         {
             CancelInvoke("SpawFood");
         }

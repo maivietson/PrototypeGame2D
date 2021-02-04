@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PrototypeGame2D.Game
 {
@@ -21,6 +22,11 @@ namespace PrototypeGame2D.Game
         private bool _isGameOver;
         private string _message = string.Empty;
 
+        [SerializeField] private Text _text;
+
+        private float _money;
+        private int _orderMissing;
+
         public bool isGameOver
         {
             get
@@ -37,6 +43,33 @@ namespace PrototypeGame2D.Game
         {
             get { return _message; }
             set { _message = value; }
+        }
+
+        public float money
+        {
+            get { return _money; }
+            set { _money = value; }
+        }
+
+        public int orderMissing
+        {
+            get { return _orderMissing; }
+            set { _orderMissing = value; }
+        }
+
+        public void CalculateMoney(float money)
+        {
+            _money += money;
+            _text.text = "$ " + _money.ToString();
+        }
+
+        public void CheckMissingOrder(int orderMissing)
+        {
+            if(orderMissing == 1)
+            {
+                Debug.Log("GameOver");
+                _isGameOver = true;
+            }
         }
     }
 }

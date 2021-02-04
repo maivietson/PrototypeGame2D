@@ -30,8 +30,12 @@ namespace PrototypeGame2D.Game
         private bool _haveFoodOrder;
         private bool _refreshFoodResource;
 
+        private int _check = 0;
+
         [SerializeField] private Sprite[] _imageResourceFood;
         [SerializeField] private Sprite[] _imageFoodOrder;
+
+        private float _timeCountdown = 0.2f;
 
         public bool haveFoodOrder
         {
@@ -72,7 +76,24 @@ namespace PrototypeGame2D.Game
         // Update is called once per frame
         void Update()
         {
-
+            if(_foodOrder.Count > 0 && !GameManager.Instance.isGameOver)
+            {
+                int missingOrder = 0;
+                for(int i = 0; i < _foodOrder.Count; i++)
+                {
+                    Debug.Log("orderTime: " + _foodOrder[i].timeOrder);
+                    if(_foodOrder[i].timeOrder > 0)
+                    {
+                        _foodOrder[i].CountDownTime(_timeCountdown * Time.deltaTime);
+                    }
+                    else
+                    {
+                        _foodOrder[i].timeOrder = 0;
+                        ++missingOrder;
+                        GameManager.Instance.CheckMissingOrder(missingOrder);
+                    }
+                }
+            }
         }
 
         private void InitMenuOrder()
@@ -98,22 +119,10 @@ namespace PrototypeGame2D.Game
             _numberMenuOrder = _allMenuOrder.Count;
         }
 
-        public void StartOrderFood(FoodOrder[] foods)
-        {
-            var foodOrder = foods.Clone() as FoodOrder[];
-            _foodOrder = foodOrder.ToList();
-            foreach (FoodOrder fo in _foodOrder)
-            {
-                foreach (FoodInfo fi in fo.foodResource)
-                {
-                    _allFoodResource.Add(fi);
-                }
-            }
-        }
-
         public FoodOrder OrderFood(string id)
         {
-            FoodOrder foodOrder = _allMenuOrder.SingleOrDefault(item => item.id == id);
+            FoodOrder foodOrder = new FoodOrder();
+            foodOrder = _allMenuOrder.SingleOrDefault(item => item.id == id);
             AddOrder(foodOrder);
             _haveFoodOrder = true;
             FoodSpawn.Instance.StartSpawnFood();
@@ -158,32 +167,29 @@ namespace PrototypeGame2D.Game
 
         public void ProgressFoodOrder(string id)
         {
-            FoodOrder order = _allMenuOrder.SingleOrDefault(item => item.id == id);
+            FoodOrder order = _foodOrder.SingleOrDefault(item => item.id == id);
             order.CompletePartProgressOrder();
 
             OrderArea areaOrder = FindObjectOfType<OrderArea>();
-            areaOrder.UpdateProgressOrder(_allMenuOrder);
+            areaOrder.UpdateProgressOrder(_foodOrder);
         }
 
         public void RemoveFoodResource(FoodInfo food)
         {
+            //++_check;
+            //Debug.Log("RemoveFoodResource " + _check);
             refreshFoodResource = true;
 
-            FoodOrder r = _allMenuOrder.SingleOrDefault(i => i.id == food.idFoodOrder);
+            FoodOrder r = _foodOrder.SingleOrDefault(i => i.id == food.idFoodOrder);
             r.haveUpdate = true;
             var foodInfo = r.foodResource.SingleOrDefault(i => i.id == food.id);
             if(foodInfo.Amount > 0)
                 foodInfo.Amount -= 1;
-            //Debug.Log(_allFoodResource.Count);
-            //foreach(FoodInfo fi in _allFoodResource)
-            //{
-            //    Debug.Log(fi.id);
-            //}
-            var result = _allFoodResource.SingleOrDefault(item => item.id == food.id);
-            Debug.Log(result.id);
-            if (result.Amount == 0)
+
+            Debug.Log(foodInfo.id + " " + foodInfo.Amount);
+            if (foodInfo.Amount == 0)
             {
-                _allFoodResource.Remove(result);
+                _allFoodResource.Remove(foodInfo);
             }
 
             //ComplePartFoodResource(food.idFoodOrder);
@@ -192,7 +198,9 @@ namespace PrototypeGame2D.Game
 
         public void AddOrder(FoodOrder foodOrder)
         {
-            List<FoodInfo> foods = foodOrder.foodResource;
+            _foodOrder.Add(foodOrder);
+            List<FoodInfo> foods = new List<FoodInfo>();
+            foods = foodOrder.foodResource;
             foreach(FoodInfo fi in foods)
             {
                 _allFoodResource.Add(fi);

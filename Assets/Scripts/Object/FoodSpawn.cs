@@ -103,25 +103,26 @@ namespace PrototypeGame2D.Object
 
             if (_indexFoodSpawn < _foodForSpawn.Count)
             {
-                Debug.Log(_foodDestroied.Count);
+                Debug.Log(_foodForSpawn.Count);
                 //Vector3 pos = new Vector3(transform.position.x, transform.position.y, -0.1f);
                 FoodInfo food = _foodForSpawn[_indexFoodSpawn];
-                if(_foodDestroied.Count > 0)
-                {
-                    var result = _foodDestroied.SingleOrDefault(r => r == food.id);
-                    if (result.Length > 0)
-                    {
+                //if(_foodDestroied.Count > 0)
+                //{
+                //    Debug.Log(_foodDestroied.Count);
+                //    var result = _foodDestroied.SingleOrDefault(r => r == food.id);
+                //    if (result.Length > 0)
+                //    {
                         //Debug.Log(result.id);
                         //Debug.Log("indexFoodSpawn: " + _indexFoodSpawn);
-                        _foodDestroied.Remove(result);
-                        Debug.Log(_foodDestroied.Count);
+                        //_foodDestroied.Remove(result);
+                        //Debug.Log(_foodDestroied.Count);
                         GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
-                        foodResource.name = "FoodResource" + _indexFoodSpawn.ToString();
+                        foodResource.name = food.id;
                         foodResource.GetComponent<FoodInfo>().SetFoodInfo(food.id, food.idFoodOrder, food.image, food.Amount, food.SymbolKey);
                         foodResource.GetComponent<FoodInfo>().InitFood();
                         ++_indexFoodSpawn;
-                    }
-                }
+                //    }
+                //}
             }
             else
             {

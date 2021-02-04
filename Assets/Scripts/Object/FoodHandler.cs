@@ -25,18 +25,25 @@ namespace PrototypeGame2D.Object
                 string message = GameManager.Instance.message;
                 if (message.Length > 0)
                 {
-                    //Debug.Log("Action: " + message);
                     var result = _symbol.SingleOrDefault(item => item == message);
-                    _symbol.Remove(result);
+                    Debug.Log("Action: " + result);
+                    Debug.Log("symbolSize: " + _symbol.Count);
+                    if (result != null)
+                    {
+                        Debug.Log("Action: " + message);
+                        _symbol.Remove(result);
+                        GameManager.Instance.message = "";
+                    }
                     //Debug.Log("result: " + result + " === symbolSize: " + _symbol.Count);
 
-                    if(_symbol.Count == 0)
+                    if (_symbol.Count == 0)
                     {
                         //Debug.Log("Destroy");
                         FoodInfo info = GetComponent<FoodInfo>();
                         info.isCompleteSymbol = true;
                         FoodManager.Instance.RemoveFoodResource(info);
                         Destroy(gameObject);
+                        GameManager.Instance.message = "";
                     }
                 }
             }
