@@ -39,24 +39,20 @@ namespace PrototypeGame2D.Object
 
         public void SetImageOrder(Sprite image)
         {
-            GetComponent<SpriteRenderer>().sprite = image;
+            transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = image;
             _isSlotEmpty = false;
         }
 
         public void UpdateProgress()
         {
-            //Debug.Log(_foodOrder.foodResource.Count);
-            string foodResource = string.Empty;
-            foreach(FoodInfo fi in _foodOrder.foodResource)
-            {
-                foodResource += fi.Amount.ToString() + " " + fi.id + " ";
-            }
-            _text.text = foodResource;
+            _text.text = _foodOrder.Name;
+            GetComponentInChildren<FoodResourceSlot>().SetupSlot(_foodOrder.foodResource);
         }
 
         public void ResetSlot()
         {
-            GetComponent<SpriteRenderer>().sprite = null;
+            transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = null;
+            GetComponentInChildren<FoodResourceSlot>().Reset();
             _isSlotEmpty = true;
             _text.text = "";
         }

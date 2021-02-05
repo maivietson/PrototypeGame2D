@@ -17,8 +17,8 @@ TagManager:
   - food
   - bar
   - progressbar
-  - 
-  - 
+  - gate_in
+  - gate_out
   - 
   - 
   - 
@@ -50,4 +50,10 @@ TagManager:
     locked: 0
   - name: progressbar
     uniqueID: 2938140399
+    locked: 0
+  - name: gate_in
+    uniqueID: 3287383071
+    locked: 0
+  - name: gate_out
+    uniqueID: 807731285
     locked: 0

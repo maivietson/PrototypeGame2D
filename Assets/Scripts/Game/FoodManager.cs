@@ -113,6 +113,7 @@ namespace PrototypeGame2D.Game
             foodResource.Add(fi2);
 
             FoodOrder fo = new FoodOrder();
+            fo.Name = "Sushi";
             fo.SetOrderFood(idOrder, 5.0f, 5.0f, 3.0f, _imageFoodOrder[0], foodResource);
             _allMenuOrder.Add(fo);
 
@@ -199,6 +200,10 @@ namespace PrototypeGame2D.Game
         public void AddOrder(FoodOrder foodOrder)
         {
             _foodOrder.Add(foodOrder);
+
+            // sort order follow time order
+            _foodOrder.OrderBy(item => item.timeOrder);
+
             List<FoodInfo> foods = new List<FoodInfo>();
             foods = foodOrder.foodResource;
             foreach(FoodInfo fi in foods)

@@ -15,6 +15,7 @@ namespace PrototypeGame2D.Object
         private float _priceMissingOrder;
         private string _id;
         private Sprite _image;
+        private string _name;
 
         private int _currentStageOrder;
         private int _totalStageOrder;
@@ -28,6 +29,12 @@ namespace PrototypeGame2D.Object
         //}
 
         private STATUS _statusOrder = STATUS.FOOD_NOT_COMPLETE;
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         public string id
         {
