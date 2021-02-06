@@ -1,4 +1,5 @@
 ﻿using PrototypeGame2D.Game;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -127,7 +128,7 @@ namespace PrototypeGame2D.Object
 
         public void CompletePartProgressOrder()
         {
-            Debug.Log("_currentStageOrder: " + _currentStageOrder + " _totalStageOrder: " + _totalStageOrder);
+            //Debug.Log("_currentStageOrder: " + _currentStageOrder + " _totalStageOrder: " + _totalStageOrder);
             _currentStageOrder++;
             CheckStatusOrder();
         }
@@ -152,7 +153,12 @@ namespace PrototypeGame2D.Object
             {
                 _statusOrder = STATUS.FOOD_NOT_COMPLETE;
             }
-        } 
+        }
+
+        public void Check()
+        {
+            Debug.Log("Name Order: " + _name);
+        }
     }
 }
 

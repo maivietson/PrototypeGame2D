@@ -21,14 +21,19 @@ namespace PrototypeGame2D.Control
 
         public void OnRecognize(RecognitionResult result)
         {
-            StopAllCoroutines();
+            //StopAllCoroutines();
             if (result != RecognitionResult.Empty)
             {
                 _drawDetector.ClearLines();
                 textResult.text = result.gesture.id + "\n" + Mathf.RoundToInt(result.score.score * 100) + "%";
                 if (result.score.score >= 0.8f)
                 {
+                    StartCoroutine(SendAction(result.gesture.id));
                     gameManager.message = result.gesture.id;
+                }
+                else
+                {
+                    gameManager.message = "";
                 }
             }
             else
@@ -37,11 +42,12 @@ namespace PrototypeGame2D.Control
             }
         }
 
-        //IEnumerator DestroyObstacle(string id)
-        //{
-        //    sceneManager.SendAction(id);
-        //    yield return new WaitForSeconds(0.5f);
-        //}
+        IEnumerator SendAction(string id)
+        {
+            gameManager.message = id;
+            yield return new WaitForSeconds(0.5f);
+            gameManager.message = "";
+        }
     }
 }
 

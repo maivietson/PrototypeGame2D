@@ -7,6 +7,11 @@ namespace PrototypeGame2D.Object
 {
     public class Customer : MonoBehaviour
     {
+        [SerializeField] private string _name;
+        [SerializeField] private float _timeOrder;
+        [SerializeField] private Sprite[] _imageResourceFood;
+        [SerializeField] private Sprite _imageFoodOrder;
+
         private string _id;
         public string id
         {
@@ -25,8 +30,9 @@ namespace PrototypeGame2D.Object
         // Update is called once per frame
         void Update()
         {
-            if (FoodManager.Instance.numberMenuOrder > 0 && !_ordered)
+            if (!_ordered)
             {
+                //Debug.Log("nfsjd");
                 _ordered = true;
                 StartOrder("sushi_ca_hoi");
             }
@@ -34,9 +40,32 @@ namespace PrototypeGame2D.Object
 
         public void StartOrder(string id)
         {
-            FoodOrder order = FoodManager.Instance.OrderFood(id);
+            FoodOrder order = CreateOrder();
+            FoodManager.Instance.OrderFood(order);
             OrderArea areaOrder = FindObjectOfType<OrderArea>();
             areaOrder.OrderFood(order);
+        }
+
+        public FoodOrder CreateOrder()
+        {
+            List<FoodInfo> foodResource = new List<FoodInfo>();
+            string idOrder = _name;
+            FoodInfo fi = new FoodInfo();
+            List<string> symbol = new List<string>();
+            symbol.Add("up");
+            fi.SetFoodInfo("ca_hoi", idOrder, _imageResourceFood[0], 1, symbol);
+            FoodInfo fi2 = new FoodInfo();
+            List<string> symbol2 = new List<string>();
+            symbol2.Add("left");
+            fi2.SetFoodInfo("com", idOrder, _imageResourceFood[1], 2, symbol2);
+            foodResource.Add(fi);
+            foodResource.Add(fi2);
+
+            FoodOrder fo = new FoodOrder();
+            fo.Name = _name;
+            fo.SetOrderFood(idOrder, _timeOrder, 5.0f, 3.0f, _imageFoodOrder, foodResource);
+
+            return fo;
         }
     }
 }

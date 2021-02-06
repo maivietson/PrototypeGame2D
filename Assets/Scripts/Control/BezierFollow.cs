@@ -61,7 +61,7 @@ namespace PrototypeGame2D.Control
 
             if (routeToGo > routes.Length - 1)
             {
-                FoodSpawn.Instance.foodDestroied.Add(gameObject.GetComponent<FoodInfo>().id);
+                //FoodSpawn.Instance.foodDestroied.Add(gameObject.GetComponent<FoodInfo>().id);
                 Destroy(gameObject);
                 //routeToGo = 0;
             }

@@ -23,27 +23,36 @@ namespace PrototypeGame2D.Object
             if (!GameManager.Instance.isGameOver)
             {
                 string message = GameManager.Instance.message;
-                if (message.Length > 0)
+                if (message.Length > 0 && GetComponent<FoodInfo>().SymbolKey.Count > 0)
                 {
-                    var result = _symbol.SingleOrDefault(item => item == message);
-                    Debug.Log("Action: " + result);
-                    Debug.Log("symbolSize: " + _symbol.Count);
-                    if (result != null)
+                    GameManager.Instance.message = "";
+                    Debug.Log("FoodManger: Action: " + message);
+                    foreach (string it in GetComponent<FoodInfo>().SymbolKey)
                     {
-                        Debug.Log("Action: " + message);
-                        _symbol.Remove(result);
-                        GameManager.Instance.message = "";
+                        if (it == message)
+                        {
+                            GetComponent<FoodInfo>().SymbolKey.Remove(it);
+                            Debug.Log("FoodManger: result: " + it + " === symbolSize: " + _symbol.Count);
+                            break;
+                        }
                     }
+                    //Debug.Log("FoodManger: Action: " + message);
+                    //var result = _symbol.Where(item => item == message).FirstOrDefault();
+                    //if (result.Length > 0)
+                    //{
+                    //    _symbol.Remove(result);
+                    //    GameManager.Instance.message = "";
+                    //    Debug.Log("FoodHandle: result: " + result + " === symbolSize: " + _symbol.Count);
+                    //}
                     //Debug.Log("result: " + result + " === symbolSize: " + _symbol.Count);
 
-                    if (_symbol.Count == 0)
+                    if (GetComponent<FoodInfo>().SymbolKey.Count == 0)
                     {
                         //Debug.Log("Destroy");
                         FoodInfo info = GetComponent<FoodInfo>();
-                        info.isCompleteSymbol = true;
+                        Debug.Log("FoodManger: Food complete: " + info.id + " of " + info.idFoodOrder);
                         FoodManager.Instance.RemoveFoodResource(info);
                         Destroy(gameObject);
-                        GameManager.Instance.message = "";
                     }
                 }
             }

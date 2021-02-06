@@ -29,7 +29,8 @@ namespace PrototypeGame2D.Object
 
         public void UpdateProgressOrder(List<FoodOrder> allFoodOrder)
         {
-            var result = allFoodOrder.SingleOrDefault(item => item.haveUpdate == true);
+            var result = allFoodOrder.Where(item => item.haveUpdate == true && item.statusOrder == Core.OrderState.STATUS.FOOD_NOT_COMPLETE).FirstOrDefault();
+            Debug.Log("OrderArea: " + result.id + " have changed");
             for (int i = 0; i < _slotOrder.Length; ++i)
             {
                 OrderSlot os = _slotOrder[i].GetComponent<OrderSlot>();
@@ -40,14 +41,45 @@ namespace PrototypeGame2D.Object
                         if(result.statusOrder == Core.OrderState.STATUS.FOOD_COMPLETE)
                         {
                             GameManager.Instance.CalculateMoney(result.priceOrder);
+                            //FoodManager.Instance.RemoveOrder(result);
+                            //allFoodOrder.Remove(result);
                             os.ResetSlot();
                         }
                         else
                         {
+                            Debug.Log("OrderArea: " + result.id);
                             os.foodOrder = result;
                             os.UpdateProgress();
-                            result.haveUpdate = false;
                         }
+                        result.haveUpdate = false;
+                    }
+                }
+            }
+        }
+
+        public void UpdateProgress(FoodOrder order)
+        {
+            for(int i = 0; i < _slotOrder.Length; ++i)
+            {
+                OrderSlot os = _slotOrder[i].GetComponent<OrderSlot>();
+                if (!os.isSlotEmpty)
+                {
+                    if (order.id == os.id)
+                    {
+                        if (order.statusOrder == Core.OrderState.STATUS.FOOD_COMPLETE)
+                        {
+                            GameManager.Instance.CalculateMoney(order.priceOrder);
+                            //FoodManager.Instance.RemoveOrder(result);
+                            //allFoodOrder.Remove(result);
+                            os.ResetSlot();
+                        }
+                        else
+                        {
+                            Debug.Log("OrderArea: " + order.id);
+                            os.foodOrder = order;
+                            os.UpdateProgress();
+                        }
+                        order.haveUpdate = false;
                     }
                 }
             }

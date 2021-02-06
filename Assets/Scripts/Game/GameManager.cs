@@ -65,7 +65,7 @@ namespace PrototypeGame2D.Game
 
         public void CheckMissingOrder(int orderMissing)
         {
-            if(orderMissing == 1)
+            if(orderMissing == 10)
             {
                 Debug.Log("GameOver");
                 _isGameOver = true;

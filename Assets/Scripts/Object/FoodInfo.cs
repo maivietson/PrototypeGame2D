@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,6 +64,16 @@ namespace PrototypeGame2D.Object
         public void InitFood()
         {
             GetComponent<SpriteRenderer>().sprite = _image;
+        }
+
+        public void Clone(FoodInfo foodInfo)
+        {
+            this._id = foodInfo.id;
+            this._idFoodOrder = foodInfo.idFoodOrder;
+            this._image = foodInfo.image;
+            this._symbolKey = foodInfo.SymbolKey;
+            this._amount = foodInfo.Amount;
+            _isCompleteSymbol = false;
         }
     }
 }
