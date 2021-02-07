@@ -137,11 +137,11 @@ namespace PrototypeGame2D.Game
             areaOrder.UpdateProgressOrder(_foodOrder);
         }
 
+        //public void HandleFood(string id)
         public void HandleFood(string id)
         {
             Debug.Log("FoodManager: foodResource " + id + " _foodForSpawn size " + _foodForSpawn.Count);
             _refreshFoodResource = true;
-            _foodForSpawn.Remove(_foodForSpawn.Where(i => i.ID == id).FirstOrDefault());
             Debug.Log("FoodManager: _foodForSpawn size " + _foodForSpawn.Count);
 
             float minTime = 1000;
@@ -171,13 +171,22 @@ namespace PrototypeGame2D.Game
             if (_foodInfoTmp.Amount > 0)
             {
                 _foodInfoTmp.Amount -= 1;
+                for (int i = 0; i < _foodForSpawn.Count; i++)
+                {
+                    if (_foodForSpawn[i].ID.Equals(_foodInfoTmp.id))
+                    {
+                        _foodForSpawn.RemoveAt(i);
+                        break;
+                    }
+                }
+                _foodOrderTmp.CompletePartProgressOrder();
             }
             //if (_foodInfoTmp.Amount == 0)
             //{
             //    Debug.Log("FoodManger: " + _foodInfoTmp.id);
             //    _foodForSpawn.Remove(_foodInfoTmp);
             //}
-            _foodOrderTmp.CompletePartProgressOrder();
+            //_foodOrderTmp.CompletePartProgressOrder();
 
             //ProgressFoodOrder();
             UpdateSlotOrder(_foodOrderTmp);
@@ -262,13 +271,6 @@ namespace PrototypeGame2D.Game
         {
             _foodOrder.Add(foodOrder);
 
-            //List<FoodInfo> foods = new List<FoodInfo>();
-            //foods = foodOrder.foodResource;
-            //foreach(FoodInfo fi in foods)
-            //{
-            //    _allFoodResource.Add(fi);
-            //}
-
             foreach(FoodInfo fi in foodOrder.foodResource)
             {
                 for(int i = 0; i < fi.Amount; i++)
@@ -278,6 +280,23 @@ namespace PrototypeGame2D.Game
                     _foodForSpawn.Add(fis);
                 }
             }
+        }
+
+        public void CompleteOrder(FoodOrder order)
+        {
+            for(int i = 0; i < _foodOrder.Count; i++)
+            {
+                if(_foodOrder[i].Name.Equals(order.Name))
+                {
+                    _foodOrder.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        public int GetNumberOrder()
+        {
+            return _foodOrder.Count;
         }
     }
 }

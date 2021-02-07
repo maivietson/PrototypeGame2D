@@ -19,12 +19,16 @@ namespace PrototypeGame2D.Control
 
         private bool coroutineAllowed;
 
+        private float minScale, maxScale;
+
         private void Start()
         {
             routeToGo = 0;
             tParam = 0;
             speedModifier = 0.5f;
             coroutineAllowed = true;
+            minScale = 0.4f;
+            maxScale = 0.75f;
         }
 
         private void Update()
@@ -52,6 +56,18 @@ namespace PrototypeGame2D.Control
                     Mathf.Pow(tParam, 3) * p3;
 
                 transform.position = objPosition;
+                if(routeNumber == 0)
+                {
+                    float sc = Mathf.Clamp(minScale + tParam, minScale, maxScale);
+                    Vector3 scale = new Vector3(sc, sc);
+                    transform.localScale = scale;
+                }
+                if(routeNumber == 2)
+                {
+                    float sc = Mathf.Clamp(maxScale - tParam * minScale, minScale, maxScale);
+                    Vector3 scale = new Vector3(sc, sc);
+                    transform.localScale = scale;
+                }
                 yield return new WaitForEndOfFrame();
             }
 

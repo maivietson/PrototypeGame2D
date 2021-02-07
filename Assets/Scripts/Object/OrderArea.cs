@@ -69,8 +69,7 @@ namespace PrototypeGame2D.Object
                         if (order.statusOrder == Core.OrderState.STATUS.FOOD_COMPLETE)
                         {
                             GameManager.Instance.CalculateMoney(order.priceOrder);
-                            //FoodManager.Instance.RemoveOrder(result);
-                            //allFoodOrder.Remove(result);
+                            FoodManager.Instance.CompleteOrder(order);
                             os.ResetSlot();
                         }
                         else

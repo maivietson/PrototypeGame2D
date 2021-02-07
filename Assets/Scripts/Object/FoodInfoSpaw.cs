@@ -60,6 +60,7 @@ namespace PrototypeGame2D.Object
                         Debug.Log("FoodManager: _symbol size: " + _symbol.Count);
                         FoodManager.Instance.HandleFood(_id);
                         GameManager.Instance.message = "";
+                        Destroy(gameObject);
                     }
                     
                 }

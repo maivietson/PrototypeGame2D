@@ -25,7 +25,6 @@ namespace PrototypeGame2D.Game
         [SerializeField] private Text _text;
 
         private float _money;
-        private int _orderMissing;
 
         public bool isGameOver
         {
@@ -51,12 +50,6 @@ namespace PrototypeGame2D.Game
             set { _money = value; }
         }
 
-        public int orderMissing
-        {
-            get { return _orderMissing; }
-            set { _orderMissing = value; }
-        }
-
         public void CalculateMoney(float money)
         {
             _money += money;
@@ -66,6 +59,15 @@ namespace PrototypeGame2D.Game
         public void CheckMissingOrder(int orderMissing)
         {
             if(orderMissing == 10)
+            {
+                Debug.Log("GameOver");
+                _isGameOver = true;
+            }
+        }
+
+        private void Update()
+        {
+            if(FoodManager.Instance.GetNumberOrder() == 0)
             {
                 Debug.Log("GameOver");
                 _isGameOver = true;
