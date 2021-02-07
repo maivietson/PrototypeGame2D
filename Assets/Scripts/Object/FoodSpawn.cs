@@ -138,6 +138,7 @@ namespace PrototypeGame2D.Object
                 foodResource.name = food.ID;
                 foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, food.Symbol);
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
+                foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
                 ++_indexFoodSpawn;
             }
             else

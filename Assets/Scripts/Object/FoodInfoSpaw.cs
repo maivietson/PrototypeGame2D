@@ -37,6 +37,15 @@ namespace PrototypeGame2D.Object
             _symbol = symbol;
         }
 
+        public void InitSymbol()
+        {
+            foreach (string sb in _symbol)
+            {
+                Sprite symbolSprite = Resources.Load<Sprite>("symbol/" + sb);
+                transform.GetChild(1).GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = symbolSprite;
+            }
+        }
+
         private void Update()
         {
             if(!GameManager.Instance.isGameOver)

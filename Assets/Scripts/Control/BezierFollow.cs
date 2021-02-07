@@ -46,6 +46,8 @@ namespace PrototypeGame2D.Control
             Vector2 p2 = routes[routeNumber].GetChild(2).position;
             Vector2 p3 = routes[routeNumber].GetChild(3).position;
 
+            Transform rootSymbol = transform.GetChild(1);
+
             while (tParam < 1)
             {
                 tParam += Time.deltaTime * speedModifier;
@@ -58,15 +60,21 @@ namespace PrototypeGame2D.Control
                 transform.position = objPosition;
                 if(routeNumber == 0)
                 {
+                    rootSymbol.gameObject.SetActive(false);
                     float sc = Mathf.Clamp(minScale + tParam, minScale, maxScale);
                     Vector3 scale = new Vector3(sc, sc);
                     transform.localScale = scale;
                 }
                 if(routeNumber == 2)
                 {
+                    rootSymbol.gameObject.SetActive(false);
                     float sc = Mathf.Clamp(maxScale - tParam * minScale, minScale, maxScale);
                     Vector3 scale = new Vector3(sc, sc);
                     transform.localScale = scale;
+                }
+                if(routeNumber == 1)
+                {
+                    rootSymbol.gameObject.SetActive(true);
                 }
                 yield return new WaitForEndOfFrame();
             }
