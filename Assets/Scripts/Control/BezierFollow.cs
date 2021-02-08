@@ -61,7 +61,7 @@ namespace PrototypeGame2D.Control
                 if(routeNumber == 0)
                 {
                     rootSymbol.gameObject.SetActive(false);
-                    float sc = Mathf.Clamp(minScale + tParam, minScale, maxScale);
+                    float sc = Mathf.Clamp(minScale + tParam * minScale, minScale, maxScale);
                     Vector3 scale = new Vector3(sc, sc);
                     transform.localScale = scale;
                 }

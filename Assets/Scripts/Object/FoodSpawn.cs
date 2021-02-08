@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PrototypeGame2D.Game;
 using System.Linq;
+using PrototypeGame2D.Core;
 
 namespace PrototypeGame2D.Object
 {
@@ -95,31 +96,31 @@ namespace PrototypeGame2D.Object
             }
         }
 
-        private IEnumerator SpawnFoodResource()
-        {
-            if (FoodManager.Instance.refreshFoodResource)
-            {
-                //_foodForSpawn = RandomFoodResource(FoodManager.Instance.FoodInfoSpaws);
-                _foodForSpawn = FoodManager.Instance.FoodInfoSpaws;
-                FoodManager.Instance.refreshFoodResource = false;
-            }
+        //private IEnumerator SpawnFoodResource()
+        //{
+        //    if (FoodManager.Instance.refreshFoodResource)
+        //    {
+        //        //_foodForSpawn = RandomFoodResource(FoodManager.Instance.FoodInfoSpaws);
+        //        _foodForSpawn = FoodManager.Instance.FoodInfoSpaws;
+        //        FoodManager.Instance.refreshFoodResource = false;
+        //    }
 
-            if (_indexFoodSpawn < _foodForSpawn.Count)
-            {
-                FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
+        //    if (_indexFoodSpawn < _foodForSpawn.Count)
+        //    {
+        //        FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
 
-                GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
-                foodResource.name = food.ID;
-                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, food.Symbol);
-                foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
-                ++_indexFoodSpawn;
-            }
-            else
-            {
-                _indexFoodSpawn = 0;
-            }
-            yield return new WaitForSeconds(_timeSpawn);
-        }
+        //        GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
+        //        foodResource.name = food.ID;
+        //        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, food.Symbol);
+        //        foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
+        //        ++_indexFoodSpawn;
+        //    }
+        //    else
+        //    {
+        //        _indexFoodSpawn = 0;
+        //    }
+        //    yield return new WaitForSeconds(_timeSpawn);
+        //}
 
         private void SpawnFood()
         {
@@ -136,7 +137,7 @@ namespace PrototypeGame2D.Object
 
                 GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
                 foodResource.name = food.ID;
-                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, food.Symbol);
+                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol());
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
                 foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
                 ++_indexFoodSpawn;
@@ -160,6 +161,15 @@ namespace PrototypeGame2D.Object
             }
 
             return foodsRandom;
+        }
+
+        private List<string> RandomSymbol()
+        {
+            List<string> random = new List<string>();
+            string symbolRan = Symbols.GetRandomSymbol();
+            random.Add(symbolRan);
+
+            return random;
         }
     }
 }

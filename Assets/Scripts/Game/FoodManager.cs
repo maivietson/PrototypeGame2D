@@ -128,16 +128,17 @@ namespace PrototypeGame2D.Game
             _foodOrder.Remove(foodOrder);
         }
 
-        public void ProgressFoodOrder()
-        {
-            //FoodOrder order = _foodOrder.Where(item => item.id == id).FirstOrDefault();
-            //order.CompletePartProgressOrder();
+        //public void ProgressFoodOrder()
+        //{
+        //    //FoodOrder order = _foodOrder.Where(item => item.id == id).FirstOrDefault();
+        //    //order.CompletePartProgressOrder();
 
-            OrderArea areaOrder = FindObjectOfType<OrderArea>();
-            areaOrder.UpdateProgressOrder(_foodOrder);
-        }
+        //    OrderArea areaOrder = FindObjectOfType<OrderArea>();
+        //    areaOrder.UpdateProgressOrder(_foodOrder);
+        //}
 
         //public void HandleFood(string id)
+
         public void HandleFood(string id)
         {
             Debug.Log("FoodManager: foodResource " + id + " _foodForSpawn size " + _foodForSpawn.Count);
@@ -198,74 +199,74 @@ namespace PrototypeGame2D.Game
             areaOrder.UpdateProgress(order);
         }
 
-        public void RemoveFoodResource(FoodInfo food)
-        {
-            //++_check;
-            //Debug.Log("foodOrder: " + food.idFoodOrder);
-            _refreshFoodResource = true;
+        //public void RemoveFoodResource(FoodInfo food)
+        //{
+        //    //++_check;
+        //    //Debug.Log("foodOrder: " + food.idFoodOrder);
+        //    _refreshFoodResource = true;
 
-            float minTime = 1000;
+        //    float minTime = 1000;
 
-            foreach (FoodOrder fo in _foodOrder)
-            {
-                if(fo.statusOrder == STATUS.FOOD_NOT_COMPLETE)
-                {
-                    var fi = fo.foodResource.Where(i => i.id == food.id).FirstOrDefault();
-                    //if (fi != null)
-                    //{
-                    if (fo.timeOrder < minTime)
-                    {
-                        Debug.Log("FoodManger: " + fo.id + " line 144");
-                        minTime = fo.timeOrder;
-                        _foodOrderTmp = fo;
-                        _foodInfoTmp = fi;
-                    }
-                    //}
-                }
-            }
-            Debug.Log("FoodManger: " + _foodInfoTmp.id + " Amount: " + _foodInfoTmp.Amount);
-            //if(_foodOrderTmp != null && _foodInfoTmp != null)
-            //{
-            //Debug.Log("SON: " + _foodOrderTmp.id + " " + _foodInfoTmp.id + " line 159");
-            _foodOrderTmp.haveUpdate = true;
-            //_foodOrderTmp.Check();
+        //    foreach (FoodOrder fo in _foodOrder)
+        //    {
+        //        if(fo.statusOrder == STATUS.FOOD_NOT_COMPLETE)
+        //        {
+        //            var fi = fo.foodResource.Where(i => i.id == food.id).FirstOrDefault();
+        //            //if (fi != null)
+        //            //{
+        //            if (fo.timeOrder < minTime)
+        //            {
+        //                Debug.Log("FoodManger: " + fo.id + " line 144");
+        //                minTime = fo.timeOrder;
+        //                _foodOrderTmp = fo;
+        //                _foodInfoTmp = fi;
+        //            }
+        //            //}
+        //        }
+        //    }
+        //    Debug.Log("FoodManger: " + _foodInfoTmp.id + " Amount: " + _foodInfoTmp.Amount);
+        //    //if(_foodOrderTmp != null && _foodInfoTmp != null)
+        //    //{
+        //    //Debug.Log("SON: " + _foodOrderTmp.id + " " + _foodInfoTmp.id + " line 159");
+        //    _foodOrderTmp.haveUpdate = true;
+        //    //_foodOrderTmp.Check();
 
-            if (_foodInfoTmp.Amount > 0)
-            {
-                _foodInfoTmp.Amount -= 1;
-            }
-            Debug.Log("FoodManger: " + _foodInfoTmp.id + " Amount: " + _foodInfoTmp.Amount);
-            if (_foodInfoTmp.Amount == 0)
-            {
-                Debug.Log("FoodManger: " + _foodInfoTmp.id);
-                _allFoodResource.Remove(_foodInfoTmp);
-                //Debug.Log("Remove: " + _foodInfoTmp.id + " and _allFoodResource: " + _allFoodResource.Count);
-            }
+        //    if (_foodInfoTmp.Amount > 0)
+        //    {
+        //        _foodInfoTmp.Amount -= 1;
+        //    }
+        //    Debug.Log("FoodManger: " + _foodInfoTmp.id + " Amount: " + _foodInfoTmp.Amount);
+        //    if (_foodInfoTmp.Amount == 0)
+        //    {
+        //        Debug.Log("FoodManger: " + _foodInfoTmp.id);
+        //        _allFoodResource.Remove(_foodInfoTmp);
+        //        //Debug.Log("Remove: " + _foodInfoTmp.id + " and _allFoodResource: " + _allFoodResource.Count);
+        //    }
 
-            _foodOrderTmp.CompletePartProgressOrder();
+        //    _foodOrderTmp.CompletePartProgressOrder();
 
-            ProgressFoodOrder();
+        //    ProgressFoodOrder();
 
-            //_foodOrderTmp = null;
-            //_foodOrderTmp = null;
-            //}
+        //    //_foodOrderTmp = null;
+        //    //_foodOrderTmp = null;
+        //    //}
 
-            //FoodOrder r = _foodOrder.Where(i => i.id == food.idFoodOrder).FirstOrDefault();
-            //r.haveUpdate = true;
-            //r.Check();
-            //var foodInfo = r.foodResource.Where(i => i.id == food.id).FirstOrDefault();
-            //if(foodInfo.Amount > 0)
-            //    foodInfo.Amount -= 1;
+        //    //FoodOrder r = _foodOrder.Where(i => i.id == food.idFoodOrder).FirstOrDefault();
+        //    //r.haveUpdate = true;
+        //    //r.Check();
+        //    //var foodInfo = r.foodResource.Where(i => i.id == food.id).FirstOrDefault();
+        //    //if(foodInfo.Amount > 0)
+        //    //    foodInfo.Amount -= 1;
 
-            //Debug.Log(foodInfo.id + " " + foodInfo.Amount);
-            //if (foodInfo.Amount == 0)
-            //{
-            //    _allFoodResource.Remove(foodInfo);
-            //}
+        //    //Debug.Log(foodInfo.id + " " + foodInfo.Amount);
+        //    //if (foodInfo.Amount == 0)
+        //    //{
+        //    //    _allFoodResource.Remove(foodInfo);
+        //    //}
 
-            //ComplePartFoodResource(food.idFoodOrder);
+        //    //ComplePartFoodResource(food.idFoodOrder);
 
-        }
+        //}
 
         public void AddOrder(FoodOrder foodOrder)
         {

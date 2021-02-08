@@ -75,6 +75,7 @@ namespace PrototypeGame2D.Game
             }
             if(_isGameOver)
             {
+                _isGameOver = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene(2);
             }
         }

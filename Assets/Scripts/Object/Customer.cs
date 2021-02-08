@@ -1,4 +1,5 @@
-﻿using PrototypeGame2D.Game;
+﻿using PrototypeGame2D.Core;
+using PrototypeGame2D.Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,11 +35,11 @@ namespace PrototypeGame2D.Object
             {
                 //Debug.Log("nfsjd");
                 _ordered = true;
-                StartOrder("sushi_ca_hoi");
+                StartOrder();
             }
         }
 
-        public void StartOrder(string id)
+        public void StartOrder()
         {
             FoodOrder order = CreateOrder();
             FoodManager.Instance.OrderFood(order);
@@ -52,11 +53,11 @@ namespace PrototypeGame2D.Object
             string idOrder = _name;
             FoodInfo fi = new FoodInfo();
             List<string> symbol = new List<string>();
-            symbol.Add("up");
+            symbol.Add(Symbols.GetRandomSymbol());
             fi.SetFoodInfo("ca_hoi", idOrder, _imageResourceFood[0], 1, symbol);
             FoodInfo fi2 = new FoodInfo();
             List<string> symbol2 = new List<string>();
-            symbol2.Add("left");
+            symbol2.Add(Symbols.GetRandomSymbol());
             fi2.SetFoodInfo("com", idOrder, _imageResourceFood[1], 2, symbol2);
             foodResource.Add(fi);
             foodResource.Add(fi2);

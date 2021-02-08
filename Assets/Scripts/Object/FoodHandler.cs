@@ -51,7 +51,7 @@ namespace PrototypeGame2D.Object
                         //Debug.Log("Destroy");
                         FoodInfo info = GetComponent<FoodInfo>();
                         Debug.Log("FoodManger: Food complete: " + info.id + " of " + info.idFoodOrder);
-                        FoodManager.Instance.RemoveFoodResource(info);
+                        //FoodManager.Instance.RemoveFoodResource(info);
                         Destroy(gameObject);
                     }
                 }
