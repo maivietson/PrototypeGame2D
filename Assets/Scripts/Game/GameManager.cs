@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,7 +59,7 @@ namespace PrototypeGame2D.Game
 
         public void CheckMissingOrder(int orderMissing)
         {
-            if(orderMissing == 10)
+            if(orderMissing == 2)
             {
                 Debug.Log("GameOver");
                 _isGameOver = true;
@@ -72,6 +73,15 @@ namespace PrototypeGame2D.Game
                 Debug.Log("GameOver");
                 _isGameOver = true;
             }
+            if(_isGameOver)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+            }
+        }
+
+        public void StartGame()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
         }
     }
 }
