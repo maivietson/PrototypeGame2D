@@ -26,13 +26,14 @@ namespace PrototypeGame2D.Control
             {
                 _drawDetector.ClearLines();
                 textResult.text = result.gesture.id + "\n" + Mathf.RoundToInt(result.score.score * 100) + "%";
-                if (result.score.score >= 0.8f)
+                if (result.score.score >= 0.7f)
                 {
                     StartCoroutine(SendAction(result.gesture.id));
                     gameManager.message = result.gesture.id;
                 }
                 else
                 {
+                    textResult.text = result.gesture.id + "\n" + Mathf.RoundToInt(result.score.score * 100) + "% very low";
                     gameManager.message = "";
                 }
             }
@@ -46,6 +47,7 @@ namespace PrototypeGame2D.Control
         {
             gameManager.message = id;
             yield return new WaitForSeconds(0.5f);
+            textResult.text = "undetected symbol";
             gameManager.message = "";
         }
     }

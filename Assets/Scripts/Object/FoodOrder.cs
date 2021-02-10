@@ -17,6 +17,7 @@ namespace PrototypeGame2D.Object
         private string _id;
         private Sprite _image;
         private string _name;
+        private float _timeForOrder;
 
         private int _currentStageOrder;
         private int _totalStageOrder;
@@ -47,6 +48,12 @@ namespace PrototypeGame2D.Object
         {
             get { return _timeOrder; }
             set { _timeOrder = value; }
+        }
+
+        public float TimeForOrder
+        {
+            get { return _timeForOrder; }
+            set { _timeForOrder = value; }
         }
 
         public float priceOrder
@@ -99,6 +106,7 @@ namespace PrototypeGame2D.Object
             _priceOrder = priceOrder;
             _priceMissingOrder = priceMissingOrder;
             _image = image;
+            _timeForOrder = timeOrder;
 
             foreach(FoodInfo fi in _foodResources)
             {

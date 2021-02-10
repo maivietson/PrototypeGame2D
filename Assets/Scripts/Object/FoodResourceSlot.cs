@@ -11,12 +11,6 @@ namespace PrototypeGame2D.Object
 
         [SerializeField] private GameObject[] _listSlot;
 
-        //public List<FoodInfo> ListFoodResource
-        //{
-        //    get { return _listFoodResource; }
-        //    set { _listFoodResource = value; }
-        //}
-
         public void SetupSlot(List<FoodInfo> foodInfo)
         {
             _listFoodResource = foodInfo;

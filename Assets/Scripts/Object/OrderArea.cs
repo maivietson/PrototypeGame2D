@@ -21,6 +21,7 @@ namespace PrototypeGame2D.Object
                     os.SetImageOrder(foodOrder.imageFoodOrder);
                     os.id = foodOrder.id;
                     os.foodOrder = foodOrder;
+                    os.DisplayProgress();
                     os.UpdateProgress();
                     break;
                 }
@@ -80,6 +81,18 @@ namespace PrototypeGame2D.Object
                         }
                         order.haveUpdate = false;
                     }
+                }
+            }
+        }
+
+        public void UpdateProgressBar()
+        {
+            for (int i = 0; i < _slotOrder.Length; ++i)
+            {
+                OrderSlot os = _slotOrder[i].GetComponent<OrderSlot>();
+                if (!os.isSlotEmpty)
+                {
+                    os.UpdateProgressBar();
                 }
             }
         }

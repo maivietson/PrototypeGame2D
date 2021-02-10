@@ -38,6 +38,8 @@ namespace PrototypeGame2D.Game
 
         private float _timeCountdown = 0.2f;
 
+        OrderArea areaOrder;
+
         public List<FoodInfoSpaw> FoodInfoSpaws
         {
             get { return _foodForSpawn; }
@@ -79,7 +81,9 @@ namespace PrototypeGame2D.Game
 
             _foodInfoTmp = new FoodInfo();
             _foodOrderTmp = new FoodOrder();
-    }
+
+            areaOrder = FindObjectOfType<OrderArea>();
+        }
 
         // Update is called once per frame
         void Update()
@@ -102,6 +106,7 @@ namespace PrototypeGame2D.Game
                             ++missingOrder;
                             GameManager.Instance.CheckMissingOrder(missingOrder);
                         }
+                        areaOrder.UpdateProgressBar();
                     }
                 }
             }
@@ -195,7 +200,7 @@ namespace PrototypeGame2D.Game
 
         public void UpdateSlotOrder(FoodOrder order)
         {
-            OrderArea areaOrder = FindObjectOfType<OrderArea>();
+            //OrderArea areaOrder = FindObjectOfType<OrderArea>();
             areaOrder.UpdateProgress(order);
         }
 

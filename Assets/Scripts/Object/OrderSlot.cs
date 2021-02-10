@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PrototypeGame2D.Control;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace PrototypeGame2D.Object
         private float _time;
 
         [SerializeField] TextMesh _text;
+        [SerializeField] GameObject _progressBar;
 
         public bool isSlotEmpty
         {
@@ -43,10 +45,21 @@ namespace PrototypeGame2D.Object
             _isSlotEmpty = false;
         }
 
+        public void DisplayProgress()
+        {
+            _progressBar.SetActive(true);
+        }
+
         public void UpdateProgress()
         {
             _text.text = _foodOrder.Name;
             GetComponentInChildren<FoodResourceSlot>().SetupSlot(_foodOrder.foodResource);
+        }
+
+        public void UpdateProgressBar()
+        {
+            Debug.Log("OrderSlot: timeForOrder " + _foodOrder.TimeForOrder + " timeOrder: " + _foodOrder.timeOrder + " Name: " + _foodOrder.Name);
+            GetComponentInChildren<ProgressOrder>().UpdatePrgressOrder(_foodOrder.TimeForOrder, _foodOrder.timeOrder);
         }
 
         public void ResetSlot()
@@ -55,6 +68,7 @@ namespace PrototypeGame2D.Object
             GetComponentInChildren<FoodResourceSlot>().Reset();
             _isSlotEmpty = true;
             _text.text = "";
+            _progressBar.SetActive(false);
         }
     }
 }
