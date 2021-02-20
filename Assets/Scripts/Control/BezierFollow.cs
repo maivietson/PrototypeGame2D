@@ -21,6 +21,12 @@ namespace PrototypeGame2D.Control
 
         private float minScale, maxScale;
 
+        public float SpeedModifier
+        {
+            get { return speedModifier; }
+            set { speedModifier = value; }
+        }
+
         private void Start()
         {
             routeToGo = 0;

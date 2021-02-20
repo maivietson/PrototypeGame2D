@@ -9,7 +9,8 @@ namespace PrototypeGame2D.Core
         public enum STATUS
         {
             FOOD_COMPLETE,
-            FOOD_NOT_COMPLETE
+            FOOD_NOT_COMPLETE,
+            FOOD_MISSING
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using PrototypeGame2D.Object;
+using PrototypeGame2D.Core;
 
 namespace PrototypeGame2D.Game
 {
@@ -17,6 +19,7 @@ namespace PrototypeGame2D.Game
             {
                 Instance = this;
             }
+
         }
         #endregion
 
@@ -24,8 +27,13 @@ namespace PrototypeGame2D.Game
         private string _message = string.Empty;
 
         [SerializeField] private Text _text;
+        [SerializeField] TextAsset dataJson;
 
         private float _money;
+        private bool _completeLoad;
+        private int _limitOrder;
+        private int _numberOrder;
+        private List<FoodOrder> _listMenuInRes;
 
         public bool isGameOver
         {
@@ -66,23 +74,79 @@ namespace PrototypeGame2D.Game
             }
         }
 
+        private void Start()
+        {
+            _listMenuInRes = new List<FoodOrder>();
+            _completeLoad = false;
+            _limitOrder = 0;
+            _numberOrder = 0;
+            _isGameOver = false;
+            StartGame();
+        }
+
         private void Update()
         {
-            if(FoodManager.Instance.GetNumberOrder() == 0)
-            {
-                Debug.Log("GameOver");
-                _isGameOver = true;
-            }
             if(_isGameOver)
             {
-                _isGameOver = false;
+                //_isGameOver = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene(2);
             }
+            else
+            {
+                if(_completeLoad && _limitOrder < 3)
+                {
+                    OrderFood();
+                    _limitOrder++;
+                }
+
+                if (FoodManager.Instance.GetNumberOrder() == 0)
+                {
+                    Debug.Log("GameOver");
+                    _isGameOver = true;
+                }
+            }
+        }
+
+        public void OrderFood()
+        {
+            ++_numberOrder;
+            int ranOrder = Random.Range(0, _listMenuInRes.Count);
+            FoodOrder order = new FoodOrder(_listMenuInRes[ranOrder]);
+            order.id = _numberOrder.ToString();
+            StartOrder(order);
         }
 
         public void StartGame()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            Menus menusFood = JsonUtility.FromJson<Menus>(dataJson.text);
+            foreach(Orders od in menusFood.OrdersFood)
+            {
+                List<FoodInfo> foodResource = new List<FoodInfo>();
+                foreach(ResourceFood rf in od.ResourceFoodOrder)
+                {
+                    FoodInfo fi = new FoodInfo();
+                    List<string> symbol = new List<string>();
+                    symbol.Add(Symbols.GetRandomSymbol());
+                    Sprite foodSprite = Resources.Load<Sprite>("foodSprite/" + rf.Image);
+                    fi.SetFoodInfo(rf.ID, od.Name, foodSprite, rf.Amount, symbol);
+                    foodResource.Add(fi);
+                }
+
+                FoodOrder fo = new FoodOrder();
+                Sprite orderSprite = Resources.Load<Sprite>("orderSprite/" + od.Image);
+                fo.Name = od.Name;
+                fo.SetOrderFood(od.Name, od.TimeOrder, od.PriceOrder, od.PriceMissingOrder, orderSprite, foodResource);
+
+                _listMenuInRes.Add(fo);
+            }
+            _completeLoad = true;
+        }
+
+        public void StartOrder(FoodOrder order)
+        {
+            FoodManager.Instance.OrderFood(order);
+            OrderArea areaOrder = FindObjectOfType<OrderArea>();
+            areaOrder.OrderFood(order);
         }
     }
 }

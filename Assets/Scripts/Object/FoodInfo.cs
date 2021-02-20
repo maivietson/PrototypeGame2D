@@ -51,6 +51,16 @@ namespace PrototypeGame2D.Object
             set { _amount = value; }
         }
 
+        public FoodInfo()
+        {
+
+        }
+
+        public FoodInfo(FoodInfo food)
+        {
+            SetFoodInfo(food.id, food.idFoodOrder, food.image, food.Amount, food.SymbolKey);
+        }
+
         public void SetFoodInfo(string id, string idFoodOrder, Sprite image, int amount, List<string> symbol)
         {
             _id = id;
@@ -64,16 +74,6 @@ namespace PrototypeGame2D.Object
         public void InitFood()
         {
             GetComponent<SpriteRenderer>().sprite = _image;
-        }
-
-        public void Clone(FoodInfo foodInfo)
-        {
-            this._id = foodInfo.id;
-            this._idFoodOrder = foodInfo.idFoodOrder;
-            this._image = foodInfo.image;
-            this._symbolKey = foodInfo.SymbolKey;
-            this._amount = foodInfo.Amount;
-            _isCompleteSymbol = false;
         }
     }
 }

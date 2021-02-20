@@ -65,7 +65,7 @@ namespace PrototypeGame2D.Object
                 OrderSlot os = _slotOrder[i].GetComponent<OrderSlot>();
                 if (!os.isSlotEmpty)
                 {
-                    if (order.id == os.id)
+                    if (order.id == os.id && order.haveUpdate)
                     {
                         if (order.statusOrder == Core.OrderState.STATUS.FOOD_COMPLETE)
                         {
@@ -78,6 +78,8 @@ namespace PrototypeGame2D.Object
                             Debug.Log("OrderArea: " + order.id);
                             os.foodOrder = order;
                             os.UpdateProgress();
+                            order.haveUpdate = false;
+                            break;
                         }
                         order.haveUpdate = false;
                     }

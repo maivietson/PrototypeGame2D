@@ -12,6 +12,11 @@ namespace PrototypeGame2D.Control
 
         private void Start()
         {
+            InitProgress();
+        }
+
+        public void InitProgress()
+        {
             _progressRed.SetActive(true);
             _progressYellow.SetActive(true);
             _progressGreen.SetActive(true);

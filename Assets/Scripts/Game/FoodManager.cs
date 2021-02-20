@@ -36,7 +36,8 @@ namespace PrototypeGame2D.Game
 
         private bool _checking = false;
 
-        private float _timeCountdown = 0.2f;
+        private float _timeSacle = 0.5f;
+        private int _missingOrder = 0;
 
         OrderArea areaOrder;
 
@@ -79,6 +80,8 @@ namespace PrototypeGame2D.Game
             _refreshFoodResource = false;
             _haveFoodOrder = false;
 
+            _missingOrder = 0;
+
             _foodInfoTmp = new FoodInfo();
             _foodOrderTmp = new FoodOrder();
 
@@ -90,7 +93,6 @@ namespace PrototypeGame2D.Game
         {
             if(_foodOrder.Count > 0 && !GameManager.Instance.isGameOver)
             {
-                int missingOrder = 0;
                 for(int i = 0; i < _foodOrder.Count; i++)
                 {
                     if(_foodOrder[i].statusOrder == STATUS.FOOD_NOT_COMPLETE)
@@ -98,13 +100,12 @@ namespace PrototypeGame2D.Game
                         //Debug.Log("orderTime: " + _foodOrder[i].timeOrder);
                         if (_foodOrder[i].timeOrder > 0)
                         {
-                            _foodOrder[i].CountDownTime(Time.deltaTime);
+                            _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle);
                         }
                         else
                         {
                             _foodOrder[i].timeOrder = 0;
-                            ++missingOrder;
-                            GameManager.Instance.CheckMissingOrder(missingOrder);
+                            _foodOrder[i].statusOrder = STATUS.FOOD_MISSING;
                         }
                         areaOrder.UpdateProgressBar();
                     }
@@ -130,6 +131,11 @@ namespace PrototypeGame2D.Game
 
         public void RemoveOrder(FoodOrder foodOrder)
         {
+            if(foodOrder.statusOrder == STATUS.FOOD_MISSING)
+            {
+                ++_missingOrder;
+                GameManager.Instance.CheckMissingOrder(_missingOrder);
+            }
             _foodOrder.Remove(foodOrder);
         }
 

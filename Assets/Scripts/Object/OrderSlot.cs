@@ -1,4 +1,5 @@
 ﻿using PrototypeGame2D.Control;
+using PrototypeGame2D.Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,16 +60,28 @@ namespace PrototypeGame2D.Object
         public void UpdateProgressBar()
         {
             Debug.Log("OrderSlot: timeForOrder " + _foodOrder.TimeForOrder + " timeOrder: " + _foodOrder.timeOrder + " Name: " + _foodOrder.Name);
-            GetComponentInChildren<ProgressOrder>().UpdatePrgressOrder(_foodOrder.TimeForOrder, _foodOrder.timeOrder);
+            if(_foodOrder.statusOrder == Core.OrderState.STATUS.FOOD_NOT_COMPLETE)
+            {
+                GetComponentInChildren<ProgressOrder>().UpdatePrgressOrder(_foodOrder.TimeForOrder, _foodOrder.timeOrder);
+            }
+            if(_foodOrder.statusOrder == Core.OrderState.STATUS.FOOD_MISSING)
+            {
+                FoodManager.Instance.RemoveOrder(_foodOrder);
+                ResetSlot();
+            }
         }
 
         public void ResetSlot()
         {
             transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = null;
             GetComponentInChildren<FoodResourceSlot>().Reset();
+            GetComponentInChildren<ProgressOrder>().InitProgress();
             _isSlotEmpty = true;
             _text.text = "";
             _progressBar.SetActive(false);
+
+            // Order
+            GameManager.Instance.OrderFood();
         }
     }
 }

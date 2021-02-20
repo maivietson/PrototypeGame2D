@@ -1883,7 +1883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &407166817
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3126,7 +3126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &662385993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7485,7 +7485,7 @@ GameObject:
   - component: {fileID: 2049523027}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7517,6 +7517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 1373971326}
+  dataJson: {fileID: 4900000, guid: 8a05fb81d5d8e73408e136580eeb7bfc, type: 3}
 --- !u!1 &2090302366
 GameObject:
   m_ObjectHideFlags: 0

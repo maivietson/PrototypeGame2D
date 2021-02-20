@@ -82,6 +82,7 @@ namespace PrototypeGame2D.Object
 
         public STATUS statusOrder
         {
+            set { _statusOrder = value; }
             get { return _statusOrder; }
         }
 
@@ -96,6 +97,22 @@ namespace PrototypeGame2D.Object
             _currentStageOrder = 0;
             _haveUpdate = false;
             _timeOrder = -1;
+        }
+
+        public FoodOrder()
+        {
+        }
+
+        public FoodOrder(FoodOrder order)
+        {
+            List<FoodInfo> foodResource = new List<FoodInfo>();
+            foreach(FoodInfo fi in order.foodResource)
+            {
+                FoodInfo food = new FoodInfo(fi);
+                foodResource.Add(food);
+            }
+            _name = order.Name;
+            SetOrderFood(order.id, order.timeOrder, order.priceOrder, order.priceMissingOrder, order.imageFoodOrder, foodResource);
         }
 
         public void SetOrderFood(string id, float timeOrder, float priceOrder, float priceMissingOrder, Sprite image, List<FoodInfo> foods)
@@ -167,6 +184,7 @@ namespace PrototypeGame2D.Object
         {
             Debug.Log("Name Order: " + _name);
         }
+
     }
 }
 
