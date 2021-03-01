@@ -96,7 +96,7 @@ namespace PrototypeGame2D.Object
                 OrderSlot os = _slotOrder[i].GetComponent<OrderSlot>();
                 if (os.isSlotEmpty)
                 {
-                    Destroy(_slotOrder[i]);
+                    //Destroy(_slotOrder[i]);
                 }
             }
         }
