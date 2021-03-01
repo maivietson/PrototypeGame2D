@@ -93,22 +93,30 @@ namespace PrototypeGame2D.Game
             }
             else
             {
-                if(_completeLoad && _limitOrder < 3)
+                if(_completeLoad && _limitOrder < 2)
                 {
                     OrderFood();
                     _limitOrder++;
                 }
 
-                if (FoodManager.Instance.GetNumberOrder() == 0)
-                {
-                    Debug.Log("GameOver");
-                    _isGameOver = true;
-                }
+                //if (FoodManager.Instance.GetNumberOrder() == 0)
+                //{
+                //    Debug.Log("GameOver");
+                //    _isGameOver = true;
+                //}
             }
         }
 
-        public void OrderFood()
+        public void OrderFood(float timeOrder = 0)
         {
+            //StartOrder(order);
+            StartCoroutine(DelayOrderFood(timeOrder));
+        }
+
+        IEnumerator DelayOrderFood(float timeOrder)
+        {
+            Debug.Log("DelayOrderFood " + timeOrder);
+            yield return new WaitForSeconds(timeOrder);
             ++_numberOrder;
             int ranOrder = Random.Range(0, _listMenuInRes.Count);
             FoodOrder order = new FoodOrder(_listMenuInRes[ranOrder]);

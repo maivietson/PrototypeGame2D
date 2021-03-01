@@ -31,7 +31,7 @@ public class Character : MonoBehaviour
             _directionTrans = -1;
         }
         transform.Translate(new Vector3(_speedTrans * Time.deltaTime * _directionTrans, 0, 0));
-        transform.position = new Vector3(transform.position.x, 0, 0);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     private void CharacterRotate()

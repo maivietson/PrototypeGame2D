@@ -81,6 +81,13 @@ namespace PrototypeGame2D.Object
             _progressBar.SetActive(false);
 
             // Order
+            //GameManager.Instance.OrderFood();
+            StartCoroutine("StartOrder");
+        }
+
+        IEnumerator StartOrder()
+        {
+            yield return new WaitForSeconds(5.0f);
             GameManager.Instance.OrderFood();
         }
     }

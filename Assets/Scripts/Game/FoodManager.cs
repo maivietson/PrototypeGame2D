@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using static PrototypeGame2D.Core.OrderState;
 
 namespace PrototypeGame2D.Game
@@ -22,6 +23,8 @@ namespace PrototypeGame2D.Game
 
         #endregion
 
+        [SerializeField] private Text _textSpeedSpawn;
+
         private List<FoodOrder> _foodOrder;
         private List<FoodInfo> _allFoodResource;
         private int _numberMenuOrder;
@@ -38,6 +41,9 @@ namespace PrototypeGame2D.Game
 
         private float _timeSacle = 0.5f;
         private int _missingOrder = 0;
+
+        private int _numFoodComplete;
+        private float _speedSpawn;
 
         OrderArea areaOrder;
 
@@ -70,6 +76,12 @@ namespace PrototypeGame2D.Game
             get { return _numberMenuOrder; }
         }
 
+        public float SpeedSpawn
+        {
+            get { return _speedSpawn; }
+            set { _speedSpawn = value; }
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -81,6 +93,8 @@ namespace PrototypeGame2D.Game
             _haveFoodOrder = false;
 
             _missingOrder = 0;
+            _numFoodComplete = 0;
+            _speedSpawn = 0.5f;
 
             _foodInfoTmp = new FoodInfo();
             _foodOrderTmp = new FoodOrder();
@@ -110,12 +124,17 @@ namespace PrototypeGame2D.Game
                         areaOrder.UpdateProgressBar();
                     }
                 }
+
+                _foodOrder = _foodOrder.OrderBy(item => item.timeOrder).ToList();
             }
+
             if(!GameManager.Instance.isGameOver && _haveFoodOrder && !_checking)
             {
                 _checking = true;
                 FoodSpawn.Instance.StartSpawnFood();
             }
+
+            _textSpeedSpawn.text = "Speed: " + _speedSpawn.ToString();
         }
 
         private void InitMenuOrder()
@@ -139,22 +158,11 @@ namespace PrototypeGame2D.Game
             _foodOrder.Remove(foodOrder);
         }
 
-        //public void ProgressFoodOrder()
-        //{
-        //    //FoodOrder order = _foodOrder.Where(item => item.id == id).FirstOrDefault();
-        //    //order.CompletePartProgressOrder();
-
-        //    OrderArea areaOrder = FindObjectOfType<OrderArea>();
-        //    areaOrder.UpdateProgressOrder(_foodOrder);
-        //}
-
-        //public void HandleFood(string id)
-
         public void HandleFood(string id)
         {
-            Debug.Log("FoodManager: foodResource " + id + " _foodForSpawn size " + _foodForSpawn.Count);
+            //Debug.Log("FoodManager: foodResource " + id + " _foodForSpawn size " + _foodForSpawn.Count);
             _refreshFoodResource = true;
-            Debug.Log("FoodManager: _foodForSpawn size " + _foodForSpawn.Count);
+            //Debug.Log("FoodManager: _foodForSpawn size " + _foodForSpawn.Count);
 
             float minTime = 1000;
 
@@ -193,14 +201,7 @@ namespace PrototypeGame2D.Game
                 }
                 _foodOrderTmp.CompletePartProgressOrder();
             }
-            //if (_foodInfoTmp.Amount == 0)
-            //{
-            //    Debug.Log("FoodManger: " + _foodInfoTmp.id);
-            //    _foodForSpawn.Remove(_foodInfoTmp);
-            //}
-            //_foodOrderTmp.CompletePartProgressOrder();
 
-            //ProgressFoodOrder();
             UpdateSlotOrder(_foodOrderTmp);
         }
 
@@ -209,75 +210,6 @@ namespace PrototypeGame2D.Game
             //OrderArea areaOrder = FindObjectOfType<OrderArea>();
             areaOrder.UpdateProgress(order);
         }
-
-        //public void RemoveFoodResource(FoodInfo food)
-        //{
-        //    //++_check;
-        //    //Debug.Log("foodOrder: " + food.idFoodOrder);
-        //    _refreshFoodResource = true;
-
-        //    float minTime = 1000;
-
-        //    foreach (FoodOrder fo in _foodOrder)
-        //    {
-        //        if(fo.statusOrder == STATUS.FOOD_NOT_COMPLETE)
-        //        {
-        //            var fi = fo.foodResource.Where(i => i.id == food.id).FirstOrDefault();
-        //            //if (fi != null)
-        //            //{
-        //            if (fo.timeOrder < minTime)
-        //            {
-        //                Debug.Log("FoodManger: " + fo.id + " line 144");
-        //                minTime = fo.timeOrder;
-        //                _foodOrderTmp = fo;
-        //                _foodInfoTmp = fi;
-        //            }
-        //            //}
-        //        }
-        //    }
-        //    Debug.Log("FoodManger: " + _foodInfoTmp.id + " Amount: " + _foodInfoTmp.Amount);
-        //    //if(_foodOrderTmp != null && _foodInfoTmp != null)
-        //    //{
-        //    //Debug.Log("SON: " + _foodOrderTmp.id + " " + _foodInfoTmp.id + " line 159");
-        //    _foodOrderTmp.haveUpdate = true;
-        //    //_foodOrderTmp.Check();
-
-        //    if (_foodInfoTmp.Amount > 0)
-        //    {
-        //        _foodInfoTmp.Amount -= 1;
-        //    }
-        //    Debug.Log("FoodManger: " + _foodInfoTmp.id + " Amount: " + _foodInfoTmp.Amount);
-        //    if (_foodInfoTmp.Amount == 0)
-        //    {
-        //        Debug.Log("FoodManger: " + _foodInfoTmp.id);
-        //        _allFoodResource.Remove(_foodInfoTmp);
-        //        //Debug.Log("Remove: " + _foodInfoTmp.id + " and _allFoodResource: " + _allFoodResource.Count);
-        //    }
-
-        //    _foodOrderTmp.CompletePartProgressOrder();
-
-        //    ProgressFoodOrder();
-
-        //    //_foodOrderTmp = null;
-        //    //_foodOrderTmp = null;
-        //    //}
-
-        //    //FoodOrder r = _foodOrder.Where(i => i.id == food.idFoodOrder).FirstOrDefault();
-        //    //r.haveUpdate = true;
-        //    //r.Check();
-        //    //var foodInfo = r.foodResource.Where(i => i.id == food.id).FirstOrDefault();
-        //    //if(foodInfo.Amount > 0)
-        //    //    foodInfo.Amount -= 1;
-
-        //    //Debug.Log(foodInfo.id + " " + foodInfo.Amount);
-        //    //if (foodInfo.Amount == 0)
-        //    //{
-        //    //    _allFoodResource.Remove(foodInfo);
-        //    //}
-
-        //    //ComplePartFoodResource(food.idFoodOrder);
-
-        //}
 
         public void AddOrder(FoodOrder foodOrder)
         {
@@ -301,6 +233,12 @@ namespace PrototypeGame2D.Game
                 if(_foodOrder[i].Name.Equals(order.Name))
                 {
                     _foodOrder.RemoveAt(i);
+                    ++_numFoodComplete;
+                    if (_numFoodComplete % 5 == 0 && _numFoodComplete > 0)
+                    {
+                        _speedSpawn += 0.05f;
+                    }
+                    Debug.Log("FoodManager: RemoveOrder " + _numFoodComplete);
                     break;
                 }
             }
