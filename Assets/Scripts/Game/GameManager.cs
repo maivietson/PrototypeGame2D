@@ -26,13 +26,15 @@ namespace PrototypeGame2D.Game
         private bool _isGameOver;
         private string _message = string.Empty;
 
-        [SerializeField] private Text _text;
+        [SerializeField] private Text _textMoney;
+        [SerializeField] private Text _textLive;
         [SerializeField] TextAsset dataJson;
 
         private float _money;
         private bool _completeLoad;
         private int _limitOrder;
         private int _numberOrder;
+        private int _missingOrder;
         private List<FoodOrder> _listMenuInRes;
 
         public bool isGameOver
@@ -62,14 +64,16 @@ namespace PrototypeGame2D.Game
         public void CalculateMoney(float money)
         {
             _money += money;
-            _text.text = "$ " + _money.ToString();
+            _textMoney.text = "$ " + _money.ToString();
         }
 
-        public void CheckMissingOrder(int orderMissing)
+        public void MissingOrder()
         {
-            if(orderMissing == 2)
+            --_missingOrder;
+            SetTextLive(_missingOrder);
+
+            if(_missingOrder == 0)
             {
-                Debug.Log("GameOver");
                 _isGameOver = true;
             }
         }
@@ -80,8 +84,11 @@ namespace PrototypeGame2D.Game
             _completeLoad = false;
             _limitOrder = 0;
             _numberOrder = 0;
+            _missingOrder = 3;
             _isGameOver = false;
+
             StartGame();
+            SetTextLive(_missingOrder);
         }
 
         private void Update()
@@ -93,7 +100,7 @@ namespace PrototypeGame2D.Game
             }
             else
             {
-                if(_completeLoad && _limitOrder < 2)
+                if(_completeLoad && _limitOrder < 3)
                 {
                     OrderFood();
                     _limitOrder++;
@@ -105,6 +112,11 @@ namespace PrototypeGame2D.Game
                 //    _isGameOver = true;
                 //}
             }
+        }
+
+        private void SetTextLive(int live)
+        {
+            _textLive.text = live.ToString();
         }
 
         public void OrderFood(float timeOrder = 0)

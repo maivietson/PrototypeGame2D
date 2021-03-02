@@ -133,8 +133,6 @@ namespace PrototypeGame2D.Game
                 _checking = true;
                 FoodSpawn.Instance.StartSpawnFood();
             }
-
-            _textSpeedSpawn.text = "Speed: " + _speedSpawn.ToString();
         }
 
         private void InitMenuOrder()
@@ -152,8 +150,8 @@ namespace PrototypeGame2D.Game
         {
             if(foodOrder.statusOrder == STATUS.FOOD_MISSING)
             {
-                ++_missingOrder;
-                GameManager.Instance.CheckMissingOrder(_missingOrder);
+                //++_missingOrder;
+                GameManager.Instance.MissingOrder();
             }
             _foodOrder.Remove(foodOrder);
         }

@@ -34,6 +34,7 @@ namespace PrototypeGame2D.Object
         [SerializeField] private float _spawnRate;
 
         private int _indexFoodSpawn = 0;
+        private bool _delaySpawnFood;
 
         private List<FoodInfoSpaw> _foodForSpawn;
         private List<string> _foodDestroied;
@@ -67,6 +68,7 @@ namespace PrototypeGame2D.Object
         {
             _foodForSpawn = new List<FoodInfoSpaw>();
             _foodDestroied = new List<string>();
+            _delaySpawnFood = false;
         }
 
         // Update is called once per frame
@@ -77,50 +79,55 @@ namespace PrototypeGame2D.Object
                 CancelInvoke("SpawnFood");
                 //StopAllCoroutines();
             }
-            //else
-            //{
-            //    StartSpawnFood();
-            //}
+            else
+            {
+                if(!_delaySpawnFood)
+                {
+                    _delaySpawnFood = true;
+                    StartSpawnFood();
+                }
+            }
         }
 
         public void StartSpawnFood()
         {
             if (!GameManager.Instance.isGameOver && FoodManager.Instance.haveFoodOrder)
             {
-                //Debug.Log("_foodForSpawn: " + _foodForSpawn.Count);
                 _foodForSpawn = FoodManager.Instance.FoodInfoSpaws;
                 //_foodForSpawn = RandomFoodResource(_foodForSpawn);
-                InvokeRepeating("SpawnFood", _timeSpawn, _spawnRate);
+                //InvokeRepeating("SpawnFood", _timeSpawn, _spawnRate);
 
-                //StartCoroutine("SpawnFoodResource");
+                StartCoroutine("SpawnFoodResource");
             }
         }
 
-        //private IEnumerator SpawnFoodResource()
-        //{
-        //    if (FoodManager.Instance.refreshFoodResource)
-        //    {
-        //        //_foodForSpawn = RandomFoodResource(FoodManager.Instance.FoodInfoSpaws);
-        //        _foodForSpawn = FoodManager.Instance.FoodInfoSpaws;
-        //        FoodManager.Instance.refreshFoodResource = false;
-        //    }
+        private IEnumerator SpawnFoodResource()
+        {
+            if (FoodManager.Instance.refreshFoodResource)
+            {
+                //_foodForSpawn = RandomFoodResource(FoodManager.Instance.FoodInfoSpaws);
+                _foodForSpawn = FoodManager.Instance.FoodInfoSpaws;
+                FoodManager.Instance.refreshFoodResource = false;
+            }
 
-        //    if (_indexFoodSpawn < _foodForSpawn.Count)
-        //    {
-        //        FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
+            if (_indexFoodSpawn < _foodForSpawn.Count)
+            {
+                FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
 
-        //        GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
-        //        foodResource.name = food.ID;
-        //        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, food.Symbol);
-        //        foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
-        //        ++_indexFoodSpawn;
-        //    }
-        //    else
-        //    {
-        //        _indexFoodSpawn = 0;
-        //    }
-        //    yield return new WaitForSeconds(_timeSpawn);
-        //}
+                GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
+                foodResource.name = food.ID;
+                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol());
+                foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
+                foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
+                ++_indexFoodSpawn;
+            }
+            else
+            {
+                _indexFoodSpawn = 0;
+            }
+            yield return new WaitForSeconds(_timeSpawn);
+            _delaySpawnFood = false;
+        }
 
         private void SpawnFood()
         {
