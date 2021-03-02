@@ -1,4 +1,5 @@
-﻿using PrototypeGame2D.Object;
+﻿using PrototypeGame2D.Core;
+using PrototypeGame2D.Object;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +28,12 @@ namespace PrototypeGame2D.Game
 
         private List<FoodOrder> _foodOrder;
         private List<FoodInfo> _allFoodResource;
-        private int _numberMenuOrder;
 
         private List<FoodInfoSpaw> _foodForSpawn;
 
         private bool _haveFoodOrder;
         private bool _refreshFoodResource;
+        private bool _isPowerUpSlowConveyor;
 
         private FoodInfo _foodInfoTmp;
         private FoodOrder _foodOrderTmp;
@@ -43,7 +44,7 @@ namespace PrototypeGame2D.Game
         private int _missingOrder = 0;
 
         private int _numFoodComplete;
-        private float _speedSpawn;
+        private int _levelConveyor;
 
         OrderArea areaOrder;
 
@@ -71,15 +72,17 @@ namespace PrototypeGame2D.Game
             set { _allFoodResource = value; }
         }
 
-        public int numberMenuOrder
+        // at time not use
+        public bool IsPowerUpSlowConveyor
         {
-            get { return _numberMenuOrder; }
+            set { _isPowerUpSlowConveyor = value; }
         }
+        //
 
-        public float SpeedSpawn
+        public int LevelConveyor
         {
-            get { return _speedSpawn; }
-            set { _speedSpawn = value; }
+            get { return _levelConveyor; }
+            set { _levelConveyor = value; }
         }
 
         // Start is called before the first frame update
@@ -91,10 +94,11 @@ namespace PrototypeGame2D.Game
 
             _refreshFoodResource = false;
             _haveFoodOrder = false;
+            _isPowerUpSlowConveyor = false;
 
             _missingOrder = 0;
             _numFoodComplete = 0;
-            _speedSpawn = 0.5f;
+            _levelConveyor = 0;
 
             _foodInfoTmp = new FoodInfo();
             _foodOrderTmp = new FoodOrder();
@@ -231,12 +235,11 @@ namespace PrototypeGame2D.Game
                 if(_foodOrder[i].Name.Equals(order.Name))
                 {
                     _foodOrder.RemoveAt(i);
-                    ++_numFoodComplete;
+                    if(!_isPowerUpSlowConveyor) ++_numFoodComplete;
                     if (_numFoodComplete % 5 == 0 && _numFoodComplete > 0)
                     {
-                        _speedSpawn += 0.05f;
+                        _levelConveyor = _numFoodComplete / 5;
                     }
-                    Debug.Log("FoodManager: RemoveOrder " + _numFoodComplete);
                     break;
                 }
             }

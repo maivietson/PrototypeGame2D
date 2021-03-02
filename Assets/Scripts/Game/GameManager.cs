@@ -34,7 +34,7 @@ namespace PrototypeGame2D.Game
         private bool _completeLoad;
         private int _limitOrder;
         private int _numberOrder;
-        private int _missingOrder;
+        private int _missingOrder = Defination.LIMIT_MISSING_ORDER;
         private List<FoodOrder> _listMenuInRes;
 
         public bool isGameOver
@@ -64,7 +64,7 @@ namespace PrototypeGame2D.Game
         public void CalculateMoney(float money)
         {
             _money += money;
-            _textMoney.text = "$ " + _money.ToString();
+            _textMoney.text = _money.ToString();
         }
 
         public void MissingOrder()
@@ -84,11 +84,10 @@ namespace PrototypeGame2D.Game
             _completeLoad = false;
             _limitOrder = 0;
             _numberOrder = 0;
-            _missingOrder = 3;
             _isGameOver = false;
 
             StartGame();
-            SetTextLive(_missingOrder);
+            SetTextLive(Defination.LIMIT_MISSING_ORDER);
         }
 
         private void Update()
@@ -121,13 +120,11 @@ namespace PrototypeGame2D.Game
 
         public void OrderFood(float timeOrder = 0)
         {
-            //StartOrder(order);
             StartCoroutine(DelayOrderFood(timeOrder));
         }
 
         IEnumerator DelayOrderFood(float timeOrder)
         {
-            Debug.Log("DelayOrderFood " + timeOrder);
             yield return new WaitForSeconds(timeOrder);
             ++_numberOrder;
             int ranOrder = Random.Range(0, _listMenuInRes.Count);
@@ -167,6 +164,15 @@ namespace PrototypeGame2D.Game
             FoodManager.Instance.OrderFood(order);
             OrderArea areaOrder = FindObjectOfType<OrderArea>();
             areaOrder.OrderFood(order);
+        }
+
+        public void AddLive()
+        {
+            if(_missingOrder < Defination.LIMIT_MISSING_ORDER)
+            {
+                _missingOrder++;
+                SetTextLive(_missingOrder);
+            }
         }
     }
 }

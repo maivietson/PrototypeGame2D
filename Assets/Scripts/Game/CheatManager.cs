@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PrototypeGame2D.Core;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +13,6 @@ namespace PrototypeGame2D.Game
 
         private bool _enableCheatSpeedConveyor;
         private bool _enableCheatMenu;
-
-        private float SPEED_CONVEYOR_BASE = 0.5f;
-        private float SPEED_CONVEYOR = 0.05f;
 
         private void Start()
         {
@@ -33,7 +31,7 @@ namespace PrototypeGame2D.Game
         public void CheatSpeedConveyor(float value)
         {
             _speedConveyor.text = "Speed: " + value.ToString();
-            FoodManager.Instance.SpeedSpawn = value * SPEED_CONVEYOR + SPEED_CONVEYOR_BASE;
+            FoodManager.Instance.LevelConveyor = System.Convert.ToInt32(value);
         }
 
         public void CheatClick()

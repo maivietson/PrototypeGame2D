@@ -16,9 +16,7 @@ namespace PrototypeGame2D.Core
 
         public static string GetRandomSymbol()
         {
-            Debug.Log("Symbols: Length: " + _listSymbol.Length);
             int indexRan = Random.Range(0, _listSymbol.Length - 1);
-            Debug.Log("Symbols: Random: " + indexRan);
             return _listSymbol[indexRan];
         }
     }

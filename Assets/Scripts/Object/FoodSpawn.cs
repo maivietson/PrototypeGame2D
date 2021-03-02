@@ -37,7 +37,7 @@ namespace PrototypeGame2D.Object
         private bool _delaySpawnFood;
 
         private List<FoodInfoSpaw> _foodForSpawn;
-        private List<string> _foodDestroied;
+        private List<string> _symbolForPowerUp;
 
         public float timeSpawn
         {
@@ -57,17 +57,17 @@ namespace PrototypeGame2D.Object
             set { _indexFoodSpawn = value; }
         }
 
-        public List<string> foodDestroied
-        {
-            get { return _foodDestroied; }
-            set { _foodDestroied = value; }
-        }
+        //public List<string> foodDestroied
+        //{
+        //    get { return _foodDestroied; }
+        //    set { _foodDestroied = value; }
+        //}
 
         // Start is called before the first frame update
         void Start()
         {
             _foodForSpawn = new List<FoodInfoSpaw>();
-            _foodDestroied = new List<string>();
+            _symbolForPowerUp = new List<string>();
             _delaySpawnFood = false;
         }
 
@@ -76,8 +76,8 @@ namespace PrototypeGame2D.Object
         {
             if(GameManager.Instance.isGameOver && !FoodManager.Instance.haveFoodOrder)
             {
-                CancelInvoke("SpawnFood");
-                //StopAllCoroutines();
+                //CancelInvoke("SpawnFood");
+                StopAllCoroutines();
             }
             else
             {
@@ -101,6 +101,18 @@ namespace PrototypeGame2D.Object
             }
         }
 
+        public void StartSpawnFoodWithOneSymbol()
+        {
+            _symbolForPowerUp = RandomSymbol();
+            StartCoroutine("SpawnFoodWithOneSymbol");
+        }
+
+        private IEnumerator SpawnFoodWithOneSymbol()
+        {
+            yield return new WaitForSeconds(Defination.TIME_POWER_UP_ONLY_SYMBOL);
+            _symbolForPowerUp.Clear();
+        }
+
         private IEnumerator SpawnFoodResource()
         {
             if (FoodManager.Instance.refreshFoodResource)
@@ -115,8 +127,16 @@ namespace PrototypeGame2D.Object
                 FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
 
                 GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
+                foodResource.transform.localScale = new Vector3(0.4f, 0.4f);
                 foodResource.name = food.ID;
-                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol());
+                if(_symbolForPowerUp.Count > 0)
+                {
+                    foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, _symbolForPowerUp);
+                }
+                else
+                {
+                    foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol());
+                }
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
                 foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
                 ++_indexFoodSpawn;

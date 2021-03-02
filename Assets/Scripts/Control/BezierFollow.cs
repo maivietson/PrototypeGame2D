@@ -1,4 +1,5 @@
-﻿using PrototypeGame2D.Game;
+﻿using PrototypeGame2D.Core;
+using PrototypeGame2D.Game;
 using PrototypeGame2D.Object;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace PrototypeGame2D.Control
             while (tParam < 1)
             {
                 //tParam += Time.deltaTime * speedModifier;
-                tParam += Time.deltaTime * FoodManager.Instance.SpeedSpawn;
+                tParam += Time.deltaTime * (Defination.SPEED_CONVEYOR_BASE + FoodManager.Instance.LevelConveyor * Defination.SPEED_CONVEYOR);
 
                 objPosition = Mathf.Pow(1 - tParam, 3) * p0 +
                     3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
