@@ -50,30 +50,48 @@ namespace PrototypeGame2D.Object
         {
             if(!GameManager.Instance.isGameOver)
             {
-                string message = GameManager.Instance.message;
-                if(message.Length > 0)
+                if (PowerUpManager.Instance.PowerupCompleteAllFoodInConveyor)
                 {
-                    if(_symbol.Count > 0)
+                    _symbol.Clear();
+                    CompleteFoodResource();
+                }
+                else
+                {
+                    string message = GameManager.Instance.message;
+                    if (message.Length > 0)
                     {
-                        Debug.Log("FoodManager: message: " + message + " _symbol size: " + _symbol.Count);
-                        var result = _symbol.Where(i => i.Equals(message)).FirstOrDefault();
-                        if (result != null)
+                        if (_symbol.Count > 0)
                         {
-                            Debug.Log("FoodManager: message: " + message + " symbol: " + result + " _symbol size: " + _symbol.Count);
-                            _symbol.Remove(result);
-                            GameManager.Instance.message = "";
+                            //Debug.Log("FoodManager: message: " + message + " _symbol size: " + _symbol.Count);
+                            HandleSymbol(message);
                         }
+                        if (_symbol.Count == 0)
+                        {
+                            //Debug.Log("FoodManager: _symbol size: " + _symbol.Count);
+                            CompleteFoodResource();
+                        }
+
                     }
-                    if(_symbol.Count == 0)
-                    {
-                        Debug.Log("FoodManager: _symbol size: " + _symbol.Count);
-                        FoodManager.Instance.HandleFood(_id);
-                        GameManager.Instance.message = "";
-                        Destroy(gameObject);
-                    }
-                    
                 }
             }
+        }
+
+        private void HandleSymbol(string message)
+        {
+            var result = _symbol.Where(i => i.Equals(message)).FirstOrDefault();
+            if (result != null)
+            {
+                Debug.Log("FoodManager: message: " + message + " symbol: " + result + " _symbol size: " + _symbol.Count);
+                _symbol.Remove(result);
+                GameManager.Instance.message = "";
+            }
+        }
+
+        private void CompleteFoodResource()
+        {
+            FoodManager.Instance.HandleFood(_id);
+            GameManager.Instance.message = "";
+            Destroy(gameObject);
         }
     }
 }

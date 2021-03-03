@@ -12,6 +12,7 @@ namespace PrototypeGame2D.Core
         public static short TIME_POWER_UP_ONLY_SYMBOL = 10;
         public static short LEVEL_REDUCE_TO_SLOW_CONVEYOR = 2;
         public static short TIME_SLOW_CONVEYOR = 10;
+        public static short TIME_WAIT_COMPLETE_FOOD_IN_CONVEYOR = 1;
     }
 }
 

@@ -8,6 +8,25 @@ namespace PrototypeGame2D.Game
 {
     public class PowerUpManager : MonoBehaviour
     {
+        #region Singleton class : PowerUpManager
+        public static PowerUpManager Instance;
+        private void Awake()
+        {
+            if(Instance == null)
+            {
+                Instance = this;
+            }
+        }
+        #endregion
+
+        private bool _completeAllFoodInConveyor;
+
+        public bool PowerupCompleteAllFoodInConveyor
+        {
+            get { return _completeAllFoodInConveyor; }
+            set { _completeAllFoodInConveyor = value; }
+        }
+
         public void AddLive()
         {
             GameManager.Instance.PowerupAddLive();
@@ -41,6 +60,18 @@ namespace PrototypeGame2D.Game
         public void CompleteMoreFoodForAllOrder()
         {
             FoodManager.Instance.PowerupCompleteFoodLotsOfAllOrder();
+        }
+
+        public void CompleteAllFoodInConveyor()
+        {
+            StartCoroutine("CompleteAllFoodInConveyorWait");
+        }
+
+        IEnumerator CompleteAllFoodInConveyorWait()
+        {
+            _completeAllFoodInConveyor = true;
+            yield return new WaitForSeconds(Defination.TIME_WAIT_COMPLETE_FOOD_IN_CONVEYOR);
+            _completeAllFoodInConveyor = false;
         }
     }
 }
