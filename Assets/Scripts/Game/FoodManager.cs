@@ -301,6 +301,42 @@ namespace PrototypeGame2D.Game
             }
         }
 
+        public void PowerupCompleteFoodLotsOfAllOrder()
+        {
+            for (int i = 0; i < _foodOrder.Count; i++)
+            {
+                if (_foodOrder[i].statusOrder != STATUS.FOOD_COMPLETE)
+                {
+                    FoodInfo targetFood = new FoodInfo();
+                    int maxFoodResource = 0;
+                    foreach (FoodInfo fi in _foodOrder[i].foodResource)
+                    {
+                        if(fi.Amount > maxFoodResource)
+                        {
+                            maxFoodResource = fi.Amount;
+                            targetFood = fi;
+                        }
+                    }
+
+                    while (targetFood.Amount > 0)
+                    {
+                        for (int j = 0; j < _foodForSpawn.Count; j++)
+                        {
+                            if (_foodForSpawn[j].ID.Equals(targetFood.id))
+                            {
+                                _foodForSpawn.RemoveAt(j);
+                                break;
+                            }
+                        }
+                        targetFood.Amount--;
+                        _foodOrder[i].CompletePartProgressOrder();
+                    }
+                    _foodOrder[i].haveUpdate = true;
+                    UpdateSlotOrder(_foodOrder[i]);
+                }
+            }
+        }
+
         // at time not use
         public int GetNumberOrder()
         {

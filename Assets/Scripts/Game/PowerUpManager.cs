@@ -10,12 +10,12 @@ namespace PrototypeGame2D.Game
     {
         public void AddLive()
         {
-            GameManager.Instance.AddLive();
+            GameManager.Instance.PowerupAddLive();
         }
 
         public void SpawnFoodOnlySymbol()
         {
-            FoodSpawn.Instance.StartSpawnFoodWithOneSymbol();
+            FoodSpawn.Instance.PowerupStartSpawnFoodWithOneSymbol();
         }
 
         public void SlowConveyor()
@@ -36,6 +36,11 @@ namespace PrototypeGame2D.Game
         public void CompleteOrder()
         {
             FoodManager.Instance.PowerupCompleteOrder();
+        }
+
+        public void CompleteMoreFoodForAllOrder()
+        {
+            FoodManager.Instance.PowerupCompleteFoodLotsOfAllOrder();
         }
     }
 }

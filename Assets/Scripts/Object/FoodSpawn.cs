@@ -101,7 +101,7 @@ namespace PrototypeGame2D.Object
             }
         }
 
-        public void StartSpawnFoodWithOneSymbol()
+        public void PowerupStartSpawnFoodWithOneSymbol()
         {
             _symbolForPowerUp = RandomSymbol();
             StartCoroutine("SpawnFoodWithOneSymbol");

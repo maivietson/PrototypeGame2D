@@ -166,7 +166,7 @@ namespace PrototypeGame2D.Game
             areaOrder.OrderFood(order);
         }
 
-        public void AddLive()
+        public void PowerupAddLive()
         {
             if(_missingOrder < Defination.LIMIT_MISSING_ORDER)
             {
