@@ -189,22 +189,44 @@ namespace PrototypeGame2D.Game
                     }
                 }
             }
-            _foodOrderTmp.haveUpdate = true;
-            if (_foodInfoTmp.Amount > 0)
+            //_foodOrderTmp.haveUpdate = true;
+            //if (_foodInfoTmp.Amount > 0)
+            //{
+            //    _foodInfoTmp.Amount -= 1;
+            //    for (int i = 0; i < _foodForSpawn.Count; i++)
+            //    {
+            //        if (_foodForSpawn[i].ID.Equals(_foodInfoTmp.id))
+            //        {
+            //            _foodForSpawn.RemoveAt(i);
+            //            break;
+            //        }
+            //    }
+            //    _foodOrderTmp.CompletePartProgressOrder();
+            //}
+
+            //UpdateSlotOrder(_foodOrderTmp);
+
+            HandleOrderFood(_foodOrderTmp, _foodInfoTmp);
+        }
+
+        private void HandleOrderFood(FoodOrder order, FoodInfo food)
+        {
+            order.haveUpdate = true;
+            if (food.Amount > 0)
             {
-                _foodInfoTmp.Amount -= 1;
+                food.Amount -= 1;
                 for (int i = 0; i < _foodForSpawn.Count; i++)
                 {
-                    if (_foodForSpawn[i].ID.Equals(_foodInfoTmp.id))
+                    if (_foodForSpawn[i].ID.Equals(food.id))
                     {
                         _foodForSpawn.RemoveAt(i);
                         break;
                     }
                 }
-                _foodOrderTmp.CompletePartProgressOrder();
+                order.CompletePartProgressOrder();
             }
 
-            UpdateSlotOrder(_foodOrderTmp);
+            UpdateSlotOrder(order);
         }
 
         public void UpdateSlotOrder(FoodOrder order)
@@ -245,10 +267,46 @@ namespace PrototypeGame2D.Game
             }
         }
 
+        public void PowerupCompleteOrder()
+        {
+            int countOrderComplete = 0;
+            for (int i = 0; i < _foodOrder.Count; )
+            {
+                if(_foodOrder[i].statusOrder != STATUS.FOOD_COMPLETE && countOrderComplete <= 3)
+                {
+                    ++countOrderComplete;
+                    foreach(FoodInfo fi in _foodOrder[i].foodResource)
+                    {
+                        while(fi.Amount > 0)
+                        {
+                            for (int j = 0; j < _foodForSpawn.Count; j++)
+                            {
+                                if (_foodForSpawn[j].ID.Equals(fi.id))
+                                {
+                                    _foodForSpawn.RemoveAt(j);
+                                    break;
+                                }
+                            }
+                            fi.Amount--;
+                        }
+                    }
+                    _foodOrder[i].statusOrder = STATUS.FOOD_COMPLETE;
+                    _foodOrder[i].haveUpdate = true;
+                    UpdateSlotOrder(_foodOrder[i]);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+
+        // at time not use
         public int GetNumberOrder()
         {
             return _foodOrder.Count;
         }
+        //
     }
 }
 

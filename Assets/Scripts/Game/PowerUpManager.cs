@@ -32,6 +32,11 @@ namespace PrototypeGame2D.Game
             FoodManager.Instance.LevelConveyor = currentLevel;
             FoodManager.Instance.IsPowerUpSlowConveyor = false;
         }
+
+        public void CompleteOrder()
+        {
+            FoodManager.Instance.PowerupCompleteOrder();
+        }
     }
 }
 
