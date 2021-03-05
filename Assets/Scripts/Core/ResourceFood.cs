@@ -9,6 +9,7 @@ namespace PrototypeGame2D.Core
     {
         public string ID;
         public string IdFoodOrder;
+        public string Icon;
         public string Image;
         public int Amount;
     }

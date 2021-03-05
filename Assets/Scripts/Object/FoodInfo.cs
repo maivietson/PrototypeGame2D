@@ -14,6 +14,7 @@ namespace PrototypeGame2D.Object
         private int _amount;
 
         [SerializeField] private Sprite _image;
+        [SerializeField] private Sprite _icon;
 
         public string id
         {
@@ -25,6 +26,12 @@ namespace PrototypeGame2D.Object
         {
             get { return _image; }
             set { _image = value; }
+        }
+
+        public Sprite Icon
+        {
+            get { return _icon; }
+            set { _icon = value; }
         }
 
         public string idFoodOrder
@@ -58,7 +65,7 @@ namespace PrototypeGame2D.Object
 
         public FoodInfo(FoodInfo food)
         {
-            SetFoodInfo(food.id, food.idFoodOrder, food.image, food.Amount, food.SymbolKey);
+            SetFoodInfo(food.id, food.idFoodOrder, food.image, food.Icon, food.Amount, food.SymbolKey);
         }
 
         public void SetFoodInfo(string id, string idFoodOrder, Sprite image, int amount, List<string> symbol)
@@ -69,6 +76,12 @@ namespace PrototypeGame2D.Object
             _symbolKey = symbol;
             _amount = amount;
             _isCompleteSymbol = false;
+        }
+
+        public void SetFoodInfo(string id, string idFoodOrder, Sprite image, Sprite icon, int amount, List<string> symbol)
+        {
+            _icon = icon;
+            SetFoodInfo(id, idFoodOrder, image, amount, symbol);
         }
 
         public void InitFood()

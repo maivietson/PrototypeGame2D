@@ -144,13 +144,14 @@ namespace PrototypeGame2D.Game
                     FoodInfo fi = new FoodInfo();
                     List<string> symbol = new List<string>();
                     symbol.Add(Symbols.GetRandomSymbol());
-                    Sprite foodSprite = Resources.Load<Sprite>("foodSprite/" + rf.Image);
-                    fi.SetFoodInfo(rf.ID, od.Name, foodSprite, rf.Amount, symbol);
+                    Sprite foodSprite = Resources.Load<Sprite>("foodSprite/small/" + rf.Image);
+                    Sprite foodIconSprite = Resources.Load<Sprite>("orderSprite/food/" + rf.Icon);
+                    fi.SetFoodInfo(rf.ID, od.Name, foodSprite, foodIconSprite, rf.Amount, symbol);
                     foodResource.Add(fi);
                 }
 
                 FoodOrder fo = new FoodOrder();
-                Sprite orderSprite = Resources.Load<Sprite>("orderSprite/" + od.Image);
+                Sprite orderSprite = Resources.Load<Sprite>("orderSprite/order/" + od.Image);
                 fo.Name = od.Name;
                 fo.SetOrderFood(od.Name, od.TimeOrder, od.PriceOrder, od.PriceMissingOrder, orderSprite, foodResource);
 

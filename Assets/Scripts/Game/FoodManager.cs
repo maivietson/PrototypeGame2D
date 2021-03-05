@@ -170,21 +170,25 @@ namespace PrototypeGame2D.Game
 
             foreach (FoodOrder fo in _foodOrder)
             {
-                if (fo.statusOrder == STATUS.FOOD_NOT_COMPLETE)
+                bool existFood = fo.foodResource.Any(i => i.id == id);
+                if(existFood)
                 {
-                    var fi = fo.foodResource.Where(i => i.id == id).FirstOrDefault();
-                    if (fo.timeOrder < minTime)
+                    if (fo.statusOrder == STATUS.FOOD_NOT_COMPLETE)
                     {
-                        if(fi.Amount > 0)
+                        var fi = fo.foodResource.Where(i => i.id == id).FirstOrDefault();
+                        if (fo.timeOrder < minTime)
                         {
-                            Debug.Log("FoodManger: " + fo.id + " line 144");
-                            minTime = fo.timeOrder;
-                            _foodOrderTmp = fo;
-                            _foodInfoTmp = fi;
-                        }
-                        else
-                        {
-                            minTime = 1000;
+                            if (fi.Amount > 0)
+                            {
+                                Debug.Log("FoodManger: " + fo.id + " line 144");
+                                minTime = fo.timeOrder;
+                                _foodOrderTmp = fo;
+                                _foodInfoTmp = fi;
+                            }
+                            else
+                            {
+                                minTime = 1000;
+                            }
                         }
                     }
                 }

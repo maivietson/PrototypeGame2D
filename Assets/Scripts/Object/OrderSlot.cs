@@ -3,6 +3,7 @@ using PrototypeGame2D.Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PrototypeGame2D.Object
 {
@@ -14,6 +15,7 @@ namespace PrototypeGame2D.Object
         private float _time;
 
         [SerializeField] TextMesh _text;
+        [SerializeField] Text _nameOrder;
         [SerializeField] GameObject _progressBar;
 
         public bool isSlotEmpty
@@ -42,7 +44,8 @@ namespace PrototypeGame2D.Object
 
         public void SetImageOrder(Sprite image)
         {
-            transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = image;
+            //transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = image;
+            transform.GetChild(1).GetComponent<Image>().sprite = image;
             _isSlotEmpty = false;
         }
 
@@ -53,7 +56,8 @@ namespace PrototypeGame2D.Object
 
         public void UpdateProgress()
         {
-            _text.text = _foodOrder.Name;
+            //_text.text = _foodOrder.Name;
+            _nameOrder.text = _foodOrder.Name;
             GetComponentInChildren<FoodResourceSlot>().SetupSlot(_foodOrder.foodResource);
         }
 
@@ -73,11 +77,13 @@ namespace PrototypeGame2D.Object
 
         public void ResetSlot()
         {
-            transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = null;
+            //transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = null;
+            transform.GetChild(1).GetComponent<Image>().sprite = null;
             GetComponentInChildren<FoodResourceSlot>().Reset();
             GetComponentInChildren<ProgressOrder>().InitProgress();
             _isSlotEmpty = true;
-            _text.text = "";
+            //_text.text = "";
+            _nameOrder.text = "";
             _progressBar.SetActive(false);
 
             // Order
