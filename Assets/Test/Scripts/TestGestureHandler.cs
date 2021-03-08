@@ -11,6 +11,7 @@ public class TestGestureHandler : MonoBehaviour
 	public Slider scoreMatch;
 
 	public DrawDetector[] detectors;
+	public Recognizer recognizer;
 
     private void Start()
     {
