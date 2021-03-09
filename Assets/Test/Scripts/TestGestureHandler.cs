@@ -16,6 +16,10 @@ public class TestGestureHandler : MonoBehaviour
     private void Start()
     {
 		OnChangeMinMax();
+		foreach (var detector in detectors)
+		{
+			scoreMatch.value = detector.scoreToAccept * 100f;
+		}
 	}
 
     public void OnChangeMinMax()
@@ -30,7 +34,13 @@ public class TestGestureHandler : MonoBehaviour
 		}
 	}
 
-
+	public void OnScoreChange()
+    {
+		foreach (var detector in detectors)
+		{
+			detector.scoreToAccept = scoreMatch.value / 100f;
+		}
+	}
 
 	//Gesture handler
 	public void OnRecognize(RecognitionResult result)
