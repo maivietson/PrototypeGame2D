@@ -14,12 +14,15 @@ namespace CatCooking.Core
         protected Sprite _imageIngridient;
         protected Sprite _imageIcon;
 
-        public abstract void InitIngredients(string id, string order, Sprite image, Sprite icon, List<string> symbols, int amount);
+        public abstract void InitIngredients(string id, string order, Sprite image, Sprite icon, int amount);
+        public abstract void InitSymbol();
 
         public void InitSprite()
         {
             GetComponent<SpriteRenderer>().sprite = _imageIngridient;
         }
+
+
     }
 }
 

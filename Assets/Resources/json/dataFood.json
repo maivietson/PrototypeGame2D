@@ -1,5 +1,5 @@
 {
-  "OrdersFood": [
+  "Menus": [
     {
       "ID": "1",
       "Name": "Sushi_salmon",
@@ -7,18 +7,18 @@
       "TimeOrder": 20,
       "PriceOrder": 5,
       "PriceMissingOrder": 3,
-      "ResourceFoodOrder": [
+      "Ingredients": [
         {
           "ID": "Tuna",
           "IdFoodOrder": "Sushi_salmon",
-		  "Icon": "Salmon",
+          "Icon": "Salmon",
           "Image": "Salmon",
           "Amount": 1
         },
         {
           "ID": "Rice",
           "IdFoodOrder": "Sushi_salmon",
-		  "Icon": "Rice",
+          "Icon": "Rice",
           "Image": "Rice",
           "Amount": 2
         }
@@ -31,90 +31,90 @@
       "TimeOrder": 30,
       "PriceOrder": 8,
       "PriceMissingOrder": 4,
-      "ResourceFoodOrder": [
+      "Ingredients": [
         {
           "ID": "Flour",
           "IdFoodOrder": "Tempura",
-		  "Icon": "Flour",
+          "Icon": "Flour",
           "Image": "Flour",
           "Amount": 1
         },
         {
           "ID": "Shrimp",
           "IdFoodOrder": "Tempura",
-		  "Icon": "Shrimp",
+          "Icon": "Shrimp",
           "Image": "Shrimp",
           "Amount": 1
         }
       ]
     },
-	{
+    {
       "ID": "3",
       "Name": "Udon",
       "Image": "Udon",
       "TimeOrder": 30,
       "PriceOrder": 8,
       "PriceMissingOrder": 4,
-      "ResourceFoodOrder": [
+      "Ingredients": [
         {
           "ID": "Pork",
           "IdFoodOrder": "Udon",
-		  "Icon": "Pork",
+          "Icon": "Pork",
           "Image": "Pork",
           "Amount": 1
         },
         {
           "ID": "Noodle",
           "IdFoodOrder": "Udon",
-		  "Icon": "Noodle",
+          "Icon": "Noodle",
           "Image": "Noodle",
           "Amount": 1
         }
       ]
     },
-	{
+    {
       "ID": "4",
       "Name": "Sushi_tom",
       "Image": "Ebi_Nigiri",
       "TimeOrder": 30,
       "PriceOrder": 8,
       "PriceMissingOrder": 4,
-      "ResourceFoodOrder": [
+      "Ingredients": [
         {
           "ID": "Shrimp",
           "IdFoodOrder": "Sushi_tom",
-		  "Icon": "Shrimp",
+          "Icon": "Shrimp",
           "Image": "Shrimp",
           "Amount": 1
         },
         {
           "ID": "Rice",
           "IdFoodOrder": "Sushi_tom",
-		  "Icon": "Rice",
+          "Icon": "Rice",
           "Image": "Rice",
           "Amount": 2
         }
       ]
     },
-	{
+    {
       "ID": "5",
       "Name": "Tonkatsu",
       "Image": "Tonkatsu",
       "TimeOrder": 30,
       "PriceOrder": 8,
       "PriceMissingOrder": 4,
-      "ResourceFoodOrder": [
+      "Ingredients": [
         {
           "ID": "Pork",
           "IdFoodOrder": "Tonkatsu",
-		  "Icon": "Pork",
+          "Icon": "Pork",
           "Image": "Pork",
           "Amount": 1
         },
         {
           "ID": "Flour",
           "IdFoodOrder": "Tonkatsu",
-		  "Icon": "Flour",
+          "Icon": "Flour",
           "Image": "Flour",
           "Amount": 1
         }
