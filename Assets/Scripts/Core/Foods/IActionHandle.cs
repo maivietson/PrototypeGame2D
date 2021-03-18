@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CatCooking.Core
+namespace CatCooking.Core.Foods
 {
     public interface IActionHandle
     {

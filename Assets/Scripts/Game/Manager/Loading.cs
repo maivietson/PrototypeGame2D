@@ -37,10 +37,7 @@ namespace CatCooking.Game.Manager
             }
         }
 
-        public void LoadTheme()
-        {
-
-        }
+        
     }
 }
 

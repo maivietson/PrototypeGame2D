@@ -1,4 +1,4 @@
-using CatCooking.Core;
+using CatCooking.Core.Foods;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +24,16 @@ namespace CatCooking.GameObject
         }
 
         public void MatchSymbol(string symbol)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShowSymbol()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void HideSymbol()
         {
             throw new System.NotImplementedException();
         }

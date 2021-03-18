@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CatCooking.Core
+namespace CatCooking.Core.Foods
 {
     public abstract class AFoodIngredients : MonoBehaviour
     {
@@ -16,6 +16,8 @@ namespace CatCooking.Core
 
         public abstract void InitIngredients(string id, string order, Sprite image, Sprite icon, int amount);
         public abstract void InitSymbol();
+        public abstract void ShowSymbol();
+        public abstract void HideSymbol();
 
         public void InitSprite()
         {
