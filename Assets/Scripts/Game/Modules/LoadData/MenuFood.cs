@@ -6,6 +6,6 @@ namespace CatCooking.Game.Modules.LoadData
 {
     public class MenuFood
     {
-        public Foods[] Menus;
+        public FoodsInMenu[] Menus;
     }
 }

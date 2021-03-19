@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CatCooking.GameObject
+namespace CatCooking.Objects
 {
-    public class FoodOrder : MonoBehaviour
+    public class Dish : MonoBehaviour
     {
         private List<FoodIngredients> mFoodIngredients;
 
@@ -17,16 +17,16 @@ namespace CatCooking.GameObject
 
         private Sprite mImage;
 
-        public void InitFoodOrder(string id, float timeorder, float priceorder, float pricemissing, Sprite image, List<FoodIngredients> listIngredients)
+        public void InitDishOrder(string id, string name, float timeorder, float priceorder, float pricemissing, Sprite image, List<FoodIngredients> listIngredients)
         {
             mID = id;
+            mName = name;
             mPriceOrder = priceorder;
             mPriceMissing = pricemissing;
             mTimeOrder = timeorder;
             mImage = image;
             mFoodIngredients = listIngredients;
         }
-
     }
 }
 

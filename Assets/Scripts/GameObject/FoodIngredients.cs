@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CatCooking.GameObject
+namespace CatCooking.Objects
 {
     public class FoodIngredients : AFoodIngredients, IActionHandle
     {
@@ -15,7 +15,7 @@ namespace CatCooking.GameObject
             _imageIcon = icon;
             _amount = amount;
 
-            InitSprite();
+            InitIngredient();
         }
 
         public override void InitSymbol()
@@ -36,6 +36,11 @@ namespace CatCooking.GameObject
         public override void HideSymbol()
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void SetActive(bool active)
+        {
+            gameObject.SetActive(active);
         }
     }
 }

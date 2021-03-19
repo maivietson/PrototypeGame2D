@@ -18,13 +18,18 @@ namespace CatCooking.Core.Foods
         public abstract void InitSymbol();
         public abstract void ShowSymbol();
         public abstract void HideSymbol();
+        public abstract void SetActive(bool active);
 
         public void InitSprite()
         {
             GetComponent<SpriteRenderer>().sprite = _imageIngridient;
         }
 
-
+        public void InitIngredient()
+        {
+            gameObject.SetActive(false);
+            InitSprite();
+        }
     }
 }
 

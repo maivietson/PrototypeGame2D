@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CatCooking.Game.Modules.LoadData
 {
     [System.Serializable]
-    public class Foods
+    public class FoodsInMenu
     {
         public string ID;
         public string Name;
