@@ -99,17 +99,11 @@ namespace PrototypeGame2D.Game
             }
             else
             {
-                if(_completeLoad && _limitOrder < 3)
+                if(ThemesManager.Instance.CompleteLoadTheme && _limitOrder < 3)
                 {
                     OrderFood();
                     _limitOrder++;
                 }
-
-                //if (FoodManager.Instance.GetNumberOrder() == 0)
-                //{
-                //    Debug.Log("GameOver");
-                //    _isGameOver = true;
-                //}
             }
         }
 
@@ -127,37 +121,21 @@ namespace PrototypeGame2D.Game
         {
             yield return new WaitForSeconds(timeOrder);
             ++_numberOrder;
-            int ranOrder = Random.Range(0, _listMenuInRes.Count);
-            FoodOrder order = new FoodOrder(_listMenuInRes[ranOrder]);
+            int ranOrder = Random.Range(0, ThemesManager.Instance.ListDishMenu.Count);
+            FoodOrder order = new FoodOrder(ThemesManager.Instance.ListDishMenu[ranOrder]);
             order.id = _numberOrder.ToString();
             StartOrder(order);
         }
 
         public void StartGame()
         {
-            Menus menusFood = JsonUtility.FromJson<Menus>(dataJson.text);
-            foreach(Orders od in menusFood.OrdersFood)
-            {
-                List<FoodInfo> foodResource = new List<FoodInfo>();
-                foreach(ResourceFood rf in od.ResourceFoodOrder)
-                {
-                    FoodInfo fi = new FoodInfo();
-                    List<string> symbol = new List<string>();
-                    symbol.Add(Symbols.GetRandomSymbol());
-                    Sprite foodSprite = Resources.Load<Sprite>("foodSprite/small/" + rf.Image);
-                    Sprite foodIconSprite = Resources.Load<Sprite>("orderSprite/food/" + rf.Icon);
-                    fi.SetFoodInfo(rf.ID, od.Name, foodSprite, foodIconSprite, rf.Amount, symbol);
-                    foodResource.Add(fi);
-                }
+            ThemesManager.Instance.CreateTheme(THEME.THEME_JAPAN);
+            //_listMenuInRes = ThemesManager.Instance.ListDishMenu;
+        }
 
-                FoodOrder fo = new FoodOrder();
-                Sprite orderSprite = Resources.Load<Sprite>("orderSprite/order/" + od.Image);
-                fo.Name = od.Name;
-                fo.SetOrderFood(od.Name, od.TimeOrder, od.PriceOrder, od.PriceMissingOrder, orderSprite, foodResource);
-
-                _listMenuInRes.Add(fo);
-            }
-            _completeLoad = true;
+        public void ChangeTheme(THEME theme)
+        {
+            ThemesManager.Instance.CreateTheme(theme);
         }
 
         public void StartOrder(FoodOrder order)
