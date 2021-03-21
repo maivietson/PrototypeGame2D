@@ -57,13 +57,6 @@ namespace PrototypeGame2D.Object
             set { _indexFoodSpawn = value; }
         }
 
-        //public List<string> foodDestroied
-        //{
-        //    get { return _foodDestroied; }
-        //    set { _foodDestroied = value; }
-        //}
-
-        // Start is called before the first frame update
         void Start()
         {
             _foodForSpawn = new List<FoodInfoSpaw>();
@@ -76,7 +69,6 @@ namespace PrototypeGame2D.Object
         {
             if(GameManager.Instance.isGameOver && !FoodManager.Instance.haveFoodOrder)
             {
-                //CancelInvoke("SpawnFood");
                 StopAllCoroutines();
             }
             else
@@ -94,8 +86,6 @@ namespace PrototypeGame2D.Object
             if (!GameManager.Instance.isGameOver && FoodManager.Instance.haveFoodOrder)
             {
                 _foodForSpawn = FoodManager.Instance.FoodInfoSpaws;
-                //_foodForSpawn = RandomFoodResource(_foodForSpawn);
-                //InvokeRepeating("SpawnFood", _timeSpawn, _spawnRate);
 
                 StartCoroutine("SpawnFoodResource");
             }

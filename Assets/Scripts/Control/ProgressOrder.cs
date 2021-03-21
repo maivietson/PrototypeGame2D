@@ -16,7 +16,7 @@ namespace PrototypeGame2D.Control
 
         public void InitProgress()
         {
-
+            _progress.transform.GetChild(0).GetComponent<Image>().color = new Color32(0, 255, 13, 255);
         }
 
         public void UpdatePrgressOrder(float timeOrder, float timeCurrent)

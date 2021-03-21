@@ -17,6 +17,7 @@ namespace PrototypeGame2D.Core
 
         public static void LoadSymbolForTheme(string nameTheme)
         {
+            mListSymbol = new List<string>();
             TextAsset symbolJson = Resources.Load<TextAsset>("themes/" + nameTheme + "/dataSymbol/dataSymbol");
             SymbolsTemp symbols = JsonUtility.FromJson<SymbolsTemp>(symbolJson.text);
             foreach (string sy in symbols.AllSymbols)
