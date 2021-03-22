@@ -12,14 +12,11 @@ namespace PrototypeGame2D.Object
 
         [SerializeField] private GameObject[] _listSlot;
 
-
         public void SetupSlot(List<FoodInfo> foodInfo)
         {
             _listFoodResource = foodInfo;
             for (int i = 0; i < _listFoodResource.Count; i++)
             {
-                //_listSlot[i].GetComponent<SpriteRenderer>().sprite = foodInfo[i].image;
-                //_listSlot[i].transform.GetChild(0).GetComponent<TextMesh>().text = foodInfo[i].Amount.ToString();
                 Color tempColor = _listSlot[i].GetComponent<Image>().color;
                 tempColor.a = 1.0f;
                 _listSlot[i].GetComponent<Image>().color = tempColor;
@@ -33,8 +30,6 @@ namespace PrototypeGame2D.Object
         {
             for (int i = 0; i < _listFoodResource.Count; i++)
             {
-                //_listSlot[i].GetComponent<SpriteRenderer>().sprite = null;
-                //_listSlot[i].transform.GetChild(0).GetComponent<TextMesh>().text = "";
                 Color tempColor = _listSlot[i].GetComponent<Image>().color;
                 tempColor.a = 0.0f;
                 _listSlot[i].GetComponent<Image>().color = tempColor;

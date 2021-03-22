@@ -97,15 +97,15 @@ namespace PrototypeGame2D.Game
                 //_isGameOver = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene(2);
             }
-            else
-            {
-                if(ThemesManager.Instance.CompleteLoadTheme && _limitOrder < 3)
-                {
-                    OrderFood();
-                    _limitOrder++;
-                }
-            }
         }
+        public void MakeFirstOrder()
+        {
+            for(int i = 0; i < 2; i++)
+            {
+                OrderFood();
+            }
+            OrderFood(5.0f);
+        }    
 
         private void SetTextLive(int live)
         {
@@ -129,8 +129,10 @@ namespace PrototypeGame2D.Game
 
         public void StartGame()
         {
-            ThemesManager.Instance.CreateTheme(THEME.THEME_JAPAN);
-            //_listMenuInRes = ThemesManager.Instance.ListDishMenu;
+            if(ThemesManager.Instance.CreateTheme(THEME.THEME_JAPAN))
+            {
+                MakeFirstOrder();
+            }
         }
 
         public void ChangeTheme(THEME theme)

@@ -44,7 +44,7 @@ namespace PrototypeGame2D.Game
 
         private bool bCompleteLoadTheme;
 
-        public void CreateTheme(THEME theme)
+        public bool CreateTheme(THEME theme)
         {
             mListDishMenu.Clear();
             switch(theme)
@@ -61,6 +61,8 @@ namespace PrototypeGame2D.Game
                     break;
             }
             InitTheme();
+
+            return true;
         }
 
         public void InitTheme()

@@ -29,36 +29,6 @@ namespace PrototypeGame2D.Object
             }
         }
 
-        //public void UpdateProgressOrder(List<FoodOrder> allFoodOrder)
-        //{
-        //    var result = allFoodOrder.Where(item => item.haveUpdate == true && item.statusOrder == Core.OrderState.STATUS.FOOD_NOT_COMPLETE).FirstOrDefault();
-        //    Debug.Log("OrderArea: " + result.id + " have changed");
-        //    for (int i = 0; i < _slotOrder.Length; ++i)
-        //    {
-        //        OrderSlot os = _slotOrder[i].GetComponent<OrderSlot>();
-        //        if (!os.isSlotEmpty)
-        //        {
-        //            if (result.id == os.id)
-        //            {
-        //                if(result.statusOrder == Core.OrderState.STATUS.FOOD_COMPLETE)
-        //                {
-        //                    GameManager.Instance.CalculateMoney(result.priceOrder);
-        //                    FoodManager.Instance.RemoveOrder(result);
-        //                    //allFoodOrder.Remove(result);
-        //                    os.ResetSlot();
-        //                }
-        //                else
-        //                {
-        //                    Debug.Log("OrderArea: " + result.id);
-        //                    os.foodOrder = result;
-        //                    os.UpdateProgress();
-        //                }
-        //                result.haveUpdate = false;
-        //            }
-        //        }
-        //    }
-        //}
-
         public void UpdateProgress(FoodOrder order)
         {
             for(int i = 0; i < _slotOrder.Length; ++i)
@@ -96,7 +66,7 @@ namespace PrototypeGame2D.Object
                 OrderSlot os = _slotOrder[i].GetComponent<OrderSlot>();
                 if (os.isSlotEmpty)
                 {
-                    //Destroy(_slotOrder[i]);
+                    _slotOrder[i].transform.SetSiblingIndex(_slotOrder.Length);
                 }
             }
         }
