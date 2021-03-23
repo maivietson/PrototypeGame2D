@@ -31,11 +31,10 @@ namespace PrototypeGame2D.Game
         [SerializeField] TextAsset dataJson;
 
         private float _money;
-        private bool _completeLoad;
-        private int _limitOrder;
-        private int _numberOrder;
+        private int dishComplete;
+        private int _idNumber;
         private int _missingOrder = Defination.LIMIT_MISSING_ORDER;
-        private List<FoodOrder> _listMenuInRes;
+        private List<FoodOrder> listDishForOrder;
 
         public bool isGameOver
         {
@@ -63,8 +62,25 @@ namespace PrototypeGame2D.Game
 
         public void CalculateMoney(float money)
         {
+            CheckNumberDishComplete();
+
+            DisplayUIMoney(money);
+        }
+
+        private void DisplayUIMoney(float money)
+        {
             _money += money;
             _textMoney.text = _money.ToString();
+        }
+
+        private void CheckNumberDishComplete()
+        {
+            ++dishComplete;
+            if(dishComplete == ThemesManager.Instance.LimitDifficult)
+            {
+                IncrementDifficult();
+                ThemesManager.Instance.IncrementLimitDifficult(listDishForOrder.Count);
+            }
         }
 
         public void MissingOrder()
@@ -80,11 +96,10 @@ namespace PrototypeGame2D.Game
 
         private void Start()
         {
-            _listMenuInRes = new List<FoodOrder>();
-            _completeLoad = false;
-            _limitOrder = 0;
-            _numberOrder = 0;
+            listDishForOrder = new List<FoodOrder>();
+            dishComplete = 0;
             _isGameOver = false;
+            _idNumber = 0;
 
             StartGame();
             SetTextLive(Defination.LIMIT_MISSING_ORDER);
@@ -98,14 +113,28 @@ namespace PrototypeGame2D.Game
                 UnityEngine.SceneManagement.SceneManager.LoadScene(2);
             }
         }
-        public void MakeFirstOrder()
+
+        private void MakeFirstTime()
         {
-            for(int i = 0; i < 2; i++)
+            for(int i = 0; i < ThemesManager.Instance.StartingNumberOfDish; i++)
+            {
+                listDishForOrder.Add(ThemesManager.Instance.GetDishFromPool());
+            }
+        }    
+
+        private void MakeFirstOrder()
+        {
+            for (int i = 0; i < ThemesManager.Instance.StartingNumberOfDish; i++)
             {
                 OrderFood();
             }
             OrderFood(5.0f);
-        }    
+        }
+
+        private void IncrementDifficult()
+        {
+            listDishForOrder.Add(ThemesManager.Instance.GetDishFromPool());
+        }
 
         private void SetTextLive(int live)
         {
@@ -115,15 +144,16 @@ namespace PrototypeGame2D.Game
         public void OrderFood(float timeOrder = 0)
         {
             StartCoroutine(DelayOrderFood(timeOrder));
+            _idNumber++;
         }
 
         IEnumerator DelayOrderFood(float timeOrder)
         {
             yield return new WaitForSeconds(timeOrder);
-            ++_numberOrder;
-            int ranOrder = Random.Range(0, ThemesManager.Instance.ListDishMenu.Count);
-            FoodOrder order = new FoodOrder(ThemesManager.Instance.ListDishMenu[ranOrder]);
-            order.id = _numberOrder.ToString();
+            int ranOrder = Random.Range(0, ThemesManager.Instance.ListDishPool.Count);
+            FoodOrder order = new FoodOrder(ThemesManager.Instance.ListDishPool[ranOrder]);
+            order.id = _idNumber.ToString();
+            
             StartOrder(order);
         }
 
@@ -131,6 +161,7 @@ namespace PrototypeGame2D.Game
         {
             if(ThemesManager.Instance.CreateTheme(THEME.THEME_JAPAN))
             {
+                MakeFirstTime();
                 MakeFirstOrder();
             }
         }

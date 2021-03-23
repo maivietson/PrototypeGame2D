@@ -33,6 +33,7 @@ namespace PrototypeGame2D.Game
         [SerializeField] private GameObject mConveyor;
         [SerializeField] private GameObject mConveyorBelt;
         [SerializeField] private GameObject mGateA;
+        //[SerializeField] private GameObject mCover;
         [SerializeField] private GameObject mGateB;
         [SerializeField] private GameObject mKitchen;
 
@@ -44,9 +45,14 @@ namespace PrototypeGame2D.Game
 
         private bool bCompleteLoadTheme;
 
+        private int startingNumberOfDish;
+
+        private int currentNumberDish;
+
+        private int limitDifficult;
+
         public bool CreateTheme(THEME theme)
         {
-            mListDishMenu.Clear();
             switch(theme)
             {
                 case THEME.THEME_USA:
@@ -67,6 +73,12 @@ namespace PrototypeGame2D.Game
 
         public void InitTheme()
         {
+            // init
+            mListDishMenu.Clear();
+            startingNumberOfDish = 2;
+            currentNumberDish = 0;
+            limitDifficult = 5;
+
             // Load themes
             LoadTheme();
 
@@ -119,9 +131,13 @@ namespace PrototypeGame2D.Game
             Sprite conveyorBelt = Resources.Load<Sprite>("themes/" + mNameTheme + "/env/conveyorBelt");
             mConveyorBelt.GetComponent<SpriteRenderer>().sprite = conveyorBelt;
 
-            Sprite gate = Resources.Load<Sprite>("themes/" + mNameTheme + "/env/gate");
+            Sprite gate = Resources.Load<Sprite>("themes/" + mNameTheme + "/env/gate_without_cover");
             mGateA.GetComponent<SpriteRenderer>().sprite = gate;
             mGateB.GetComponent<SpriteRenderer>().sprite = gate;
+
+            Sprite cover = Resources.Load<Sprite>("themes/" + mNameTheme + "/env/cover");
+            mGateA.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = cover;
+            mGateB.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = cover;
 
             Sprite kitchen = Resources.Load<Sprite>("themes/" + mNameTheme + "/env/kitchen");
             mKitchen.GetComponent<SpriteRenderer>().sprite = kitchen;
@@ -134,11 +150,47 @@ namespace PrototypeGame2D.Game
 
         // get area
 
+        public FoodOrder GetDishFromPool()
+        {
+            int random = Random.Range(currentNumberDish, mListDishMenu.Count);
+            FoodOrder dish = mListDishMenu[random];
+            SwapDish(random);
+
+            return dish;
+        }
+
+        private void SwapDish(int ranOrder)
+        {
+            FoodOrder tmp = ThemesManager.Instance.ListDishPool[ranOrder];
+            ThemesManager.Instance.ListDishPool[ranOrder] = ThemesManager.Instance.ListDishPool[currentNumberDish];
+            ThemesManager.Instance.ListDishPool[currentNumberDish] = tmp;
+
+            ++currentNumberDish;
+
+            if (currentNumberDish > ThemesManager.Instance.ListDishPool.Count)
+            {
+                currentNumberDish = 0;
+            }
+        }
+
+        public void IncrementLimitDifficult(int dishAvaible)
+        {
+            limitDifficult += dishAvaible;
+        }
+
         public List<string> Symbol { get { return mListSymbol; } }
 
-        public List<FoodOrder> ListDishMenu { get { return mListDishMenu; } }
+        public List<FoodOrder> ListDishPool { get { return mListDishMenu; } }
 
         public bool CompleteLoadTheme { get { return bCompleteLoadTheme; } }
+
+        public int StartingNumberOfDish
+        {
+            get { return startingNumberOfDish; }
+            set { startingNumberOfDish = value; }
+        }
+
+        public int LimitDifficult { get { return limitDifficult; } }
     }
 }
 
