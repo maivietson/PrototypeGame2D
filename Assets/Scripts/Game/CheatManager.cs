@@ -39,6 +39,11 @@ namespace PrototypeGame2D.Game
             _enableCheatMenu = !_enableCheatMenu;
             _menuCheat.SetActive(_enableCheatMenu);
         }
+
+        public void ChangeThemeUSA()
+        {
+            GameManager.Instance.ChangeTheme(THEME.THEME_USA);
+        }
     }
 }
 
