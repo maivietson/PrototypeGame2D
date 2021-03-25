@@ -20,6 +20,7 @@ namespace PrototypeGame2D.Game
         #endregion
 
         private bool _completeAllFoodInConveyor;
+        private bool _isPowerUpSlowConveyor;
 
         public bool PowerupCompleteAllFoodInConveyor
         {
@@ -46,10 +47,10 @@ namespace PrototypeGame2D.Game
         {
             int currentLevel = FoodManager.Instance.LevelConveyor;
             FoodManager.Instance.LevelConveyor = (FoodManager.Instance.LevelConveyor - Defination.LEVEL_REDUCE_TO_SLOW_CONVEYOR) > 0 ? (FoodManager.Instance.LevelConveyor - Defination.LEVEL_REDUCE_TO_SLOW_CONVEYOR) : 0;
-            FoodManager.Instance.IsPowerUpSlowConveyor = true;
+            _isPowerUpSlowConveyor = true;
             yield return new WaitForSeconds(Defination.TIME_SLOW_CONVEYOR);
             FoodManager.Instance.LevelConveyor = currentLevel;
-            FoodManager.Instance.IsPowerUpSlowConveyor = false;
+            _isPowerUpSlowConveyor = false;
         }
 
         public void CompleteOrder()
@@ -73,6 +74,9 @@ namespace PrototypeGame2D.Game
             yield return new WaitForSeconds(Defination.TIME_WAIT_COMPLETE_FOOD_IN_CONVEYOR);
             _completeAllFoodInConveyor = false;
         }
+
+        // get area
+        public bool IsPowerUpSlowConveyor { get { return _isPowerUpSlowConveyor; } }
     }
 }
 

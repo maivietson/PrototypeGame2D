@@ -75,12 +75,18 @@ namespace PrototypeGame2D.Game
 
         private void CheckNumberDishComplete()
         {
-            ++dishComplete;
+            if(!PowerUpManager.Instance.IsPowerUpSlowConveyor && !PowerUpManager.Instance.PowerupCompleteAllFoodInConveyor) ++dishComplete;
             if(dishComplete == ThemesManager.Instance.LimitDifficult)
             {
                 IncrementDifficult();
+                IncrementLevelSpeed();
                 ThemesManager.Instance.IncrementLimitDifficult(listDishForOrder.Count);
             }
+        }
+
+        private void IncrementLevelSpeed()
+        {
+            FoodManager.Instance.LevelConveyor += 1;
         }
 
         public void MissingOrder()
