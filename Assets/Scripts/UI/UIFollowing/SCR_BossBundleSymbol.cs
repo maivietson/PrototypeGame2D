@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GestureRecognizer;
 
-public class SCR_BossOverlap : MonoBehaviour, IBossInfo
+public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
 {
     //public Sprite[] _symbolList;
     public SpriteRenderer[] symbolsBG;
@@ -13,7 +13,7 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
     // Start is called before the first frame update
     void Start()
     {
-        //SetGesture(_symbolList);
+
     }
 
     private void Update()
@@ -27,24 +27,23 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
 
     public void SetGesture(GesturePattern[] patterns)
     {
-        throw new System.NotImplementedException();
         //for (int i = 0; i < patterns.Length; i++)
         //{
         //    //symbolsDrawing[i].pattern = patterns[i];
         //}
         //currentActive = 0;
+        throw new System.NotImplementedException();
     }
+
     public void SetGesture(Sprite[] symbolList)
     {
-        //throw new System.NotImplementedException();
         for (int i = 0; i < symbolList.Length; i++)
         {
             ShowImage(i);
             symbolsDrawing[i].sprite = symbolList[i];
         }
         currentActive = 0;
-    } 
-   
+    }
 
     //Check drew gesture
     //public void HandleRightGesture(GesturePattern drewPattern)
@@ -52,7 +51,10 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
     //    if (symbolsDrawing[currentActive].pattern.id.Equals(drewPattern.id))
     //    {
     //        HideImage();
-
+    //    }
+    //    else
+    //    {
+    //        ResetBundle();
     //    }
     //}
 

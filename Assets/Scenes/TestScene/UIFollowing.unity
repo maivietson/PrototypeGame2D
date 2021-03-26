@@ -152,9 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52bfa0b6a381ca4ab30473d56d98b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPrefab: {fileID: 2263503949836367820, guid: 4f6ffde15007bad4fb196a6cff38aab4,
-    type: 3}
-  UIFollowPrefab: {fileID: 7895514576320199303, guid: a0bffd8edac57af47917e77b3361d017,
+  symbolImg:
+  - {fileID: 21300000, guid: 76054c9af19651345aca75641f525aca, type: 3}
+  - {fileID: 21300000, guid: 4de8907087b274b428161fde8b0425e4, type: 3}
+  - {fileID: 21300000, guid: 1cc279b5129c16046bacd47551d8fb4c, type: 3}
+  - {fileID: 21300000, guid: 51abf71e889db784b8b9f6195c08eff7, type: 3}
+  - {fileID: 21300000, guid: 51abf71e889db784b8b9f6195c08eff7, type: 3}
+  targetPrefab: {fileID: 5083388041128804650, guid: f1c4d392812e952409f7fcb647ae6144,
     type: 3}
   targetMovement: {fileID: 1387183558}
   canvasRect: {fileID: 1033756836}

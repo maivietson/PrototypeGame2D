@@ -7,18 +7,33 @@ using GestureRecognizer;
 
 public class SCR_BossPyramid : MonoBehaviour, IBossInfo
 {
-    public Image[] symbolsBG;
-    public GesturePatternDraw[] symbolsDrawing;
+   // public Sprite[] _symbolList;
+    public SpriteRenderer[] symbolsBG;
+    public SpriteRenderer[] symbolsDrawing;
     private int currentActive;
+
+   
+    public void SetGesture(Sprite[] symbolList)
+    {
+        for (int i = 0; i < symbolList.Length; i++)
+        {
+            ShowImage(i);
+            symbolsDrawing[i].sprite = symbolList[i];
+        }
+        currentActive = 0;
+    }
 
     public void SetGesture(GesturePattern[] patterns)
     {
-        for (int i = 0; i < patterns.Length; i++)
-        {
-            symbolsDrawing[i].pattern = patterns[i];
-        }
-        ShowUpOrder();
-        currentActive = 0;
+       
+        //for (int i = 0; i < patterns.Length; i++)
+        //{
+        //    //symbolsDrawing[i].pattern = patterns[i];
+        //}
+        //ShowUpOrder();
+        //currentActive = 0;
+
+        throw new System.NotImplementedException();
     }
 
     private void ShowUpOrder()
@@ -26,15 +41,13 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
 
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void ShowImage(int idx)
     {
-        
+        if (!symbolsBG[idx].enabled)
+        {
+            symbolsBG[idx].enabled = true;
+            symbolsDrawing[idx].enabled = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

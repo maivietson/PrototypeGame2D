@@ -25,5 +25,6 @@ public class SCR_TargetObj : MonoBehaviour
         offsetPos.y = startY + FollowGameObject.instance._radius * Mathf.Sin(2 * Time.time);
         transform.position = offsetPos;
     }
+    
 
 }

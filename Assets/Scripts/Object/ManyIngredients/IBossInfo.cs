@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IBossInfo 
 {
     public void SetGesture(GestureRecognizer.GesturePattern[] patterns);
+    public void SetGesture(Sprite[] symbolList);
 }
