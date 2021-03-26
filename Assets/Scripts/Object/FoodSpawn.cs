@@ -119,13 +119,24 @@ namespace PrototypeGame2D.Object
                 GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
                 foodResource.transform.localScale = new Vector3(0.4f, 0.4f);
                 foodResource.name = food.ID;
-                if(_symbolForPowerUp.Count > 0)
+                if (food.Semi)
                 {
-                    foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, _symbolForPowerUp);
+                    foodResource.GetComponent<FoodInfoSpaw>().PlayEffect();
+                }
+                if (_symbolForPowerUp.Count > 0)
+                {
+                    foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, _symbolForPowerUp, food.Semi);
                 }
                 else
                 {
-                    foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol());
+                    if(food.Semi)
+                    {
+                        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbolSemi(), food.Semi);
+                    }
+                    else
+                    {
+                        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol(), food.Semi);
+                    }
                 }
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
                 foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
@@ -154,7 +165,7 @@ namespace PrototypeGame2D.Object
 
                 GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
                 foodResource.name = food.ID;
-                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol());
+                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol(), food.Semi);
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
                 foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
                 ++_indexFoodSpawn;
@@ -184,6 +195,15 @@ namespace PrototypeGame2D.Object
         {
             List<string> random = new List<string>();
             string symbolRan = Symbols.GetRandomSymbol();
+            random.Add(symbolRan);
+
+            return random;
+        }
+
+        private List<string> RandomSymbolSemi()
+        {
+            List<string> random = new List<string>();
+            string symbolRan = Symbols.GetRandomSymbolSemi();
             random.Add(symbolRan);
 
             return random;

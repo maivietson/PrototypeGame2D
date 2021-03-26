@@ -96,7 +96,7 @@ namespace PrototypeGame2D.Object
         public bool Semi
         {
             get { return _semi; }
-            set { _semi = false; }
+            set { _semi = value; }
         }
 
         private void Start()
@@ -119,6 +119,7 @@ namespace PrototypeGame2D.Object
                 foodResource.Add(food);
             }
             _name = order.Name;
+            _semi = order.Semi;
             SetOrderFood(order.id, order.timeOrder, order.priceOrder, order.priceMissingOrder, order.imageFoodOrder, foodResource);
         }
 

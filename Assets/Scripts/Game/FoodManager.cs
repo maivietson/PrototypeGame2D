@@ -219,7 +219,7 @@ namespace PrototypeGame2D.Game
                 for(int i = 0; i < fi.Amount; i++)
                 {
                     FoodInfoSpaw fis = new FoodInfoSpaw();
-                    fis.SetFoodSpawn(fi.id, fi.image, fi.SymbolKey);
+                    fis.SetFoodSpawn(fi.id, fi.image, fi.SymbolKey, foodOrder.Semi);
                     _foodForSpawn.Add(fis);
                 }
             }
