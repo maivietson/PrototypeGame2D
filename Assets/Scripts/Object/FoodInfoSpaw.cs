@@ -50,6 +50,7 @@ namespace PrototypeGame2D.Object
         {
             if(!GameManager.Instance.isGameOver)
             {
+                bool activeSymbol = transform.GetChild(1).gameObject.activeSelf;
                 if (PowerUpManager.Instance.PowerupCompleteAllFoodInConveyor)
                 {
                     _symbol.Clear();
@@ -58,7 +59,7 @@ namespace PrototypeGame2D.Object
                 else
                 {
                     string message = GameManager.Instance.message;
-                    if (message.Length > 0)
+                    if (message.Length > 0 && activeSymbol)
                     {
                         if (_symbol.Count > 0)
                         {

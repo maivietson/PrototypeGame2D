@@ -33,7 +33,6 @@ namespace PrototypeGame2D.Game
 
         private bool _haveFoodOrder;
         private bool _refreshFoodResource;
-        private bool _isPowerUpSlowConveyor;
 
         private FoodInfo _foodInfoTmp;
         private FoodOrder _foodOrderTmp;
@@ -72,13 +71,6 @@ namespace PrototypeGame2D.Game
             set { _allFoodResource = value; }
         }
 
-        // at time not use
-        public bool IsPowerUpSlowConveyor
-        {
-            set { _isPowerUpSlowConveyor = value; }
-        }
-        //
-
         public int LevelConveyor
         {
             get { return _levelConveyor; }
@@ -94,7 +86,6 @@ namespace PrototypeGame2D.Game
 
             _refreshFoodResource = false;
             _haveFoodOrder = false;
-            _isPowerUpSlowConveyor = false;
 
             _missingOrder = 0;
             _numFoodComplete = 0;
@@ -115,7 +106,6 @@ namespace PrototypeGame2D.Game
                 {
                     if(_foodOrder[i].statusOrder == STATUS.FOOD_NOT_COMPLETE)
                     {
-                        //Debug.Log("orderTime: " + _foodOrder[i].timeOrder);
                         if (_foodOrder[i].timeOrder > 0)
                         {
                             _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle);
@@ -154,7 +144,6 @@ namespace PrototypeGame2D.Game
         {
             if(foodOrder.statusOrder == STATUS.FOOD_MISSING)
             {
-                //++_missingOrder;
                 GameManager.Instance.MissingOrder();
             }
             _foodOrder.Remove(foodOrder);
@@ -162,9 +151,7 @@ namespace PrototypeGame2D.Game
 
         public void HandleFood(string id)
         {
-            //Debug.Log("FoodManager: foodResource " + id + " _foodForSpawn size " + _foodForSpawn.Count);
             _refreshFoodResource = true;
-            //Debug.Log("FoodManager: _foodForSpawn size " + _foodForSpawn.Count);
 
             float minTime = 1000;
 
@@ -193,22 +180,6 @@ namespace PrototypeGame2D.Game
                     }
                 }
             }
-            //_foodOrderTmp.haveUpdate = true;
-            //if (_foodInfoTmp.Amount > 0)
-            //{
-            //    _foodInfoTmp.Amount -= 1;
-            //    for (int i = 0; i < _foodForSpawn.Count; i++)
-            //    {
-            //        if (_foodForSpawn[i].ID.Equals(_foodInfoTmp.id))
-            //        {
-            //            _foodForSpawn.RemoveAt(i);
-            //            break;
-            //        }
-            //    }
-            //    _foodOrderTmp.CompletePartProgressOrder();
-            //}
-
-            //UpdateSlotOrder(_foodOrderTmp);
 
             HandleOrderFood(_foodOrderTmp, _foodInfoTmp);
         }
@@ -235,7 +206,6 @@ namespace PrototypeGame2D.Game
 
         public void UpdateSlotOrder(FoodOrder order)
         {
-            //OrderArea areaOrder = FindObjectOfType<OrderArea>();
             areaOrder.UpdateProgress(order);
         }
 
@@ -261,11 +231,6 @@ namespace PrototypeGame2D.Game
                 if(_foodOrder[i].Name.Equals(order.Name))
                 {
                     _foodOrder.RemoveAt(i);
-                    if(!_isPowerUpSlowConveyor) ++_numFoodComplete;
-                    if (_numFoodComplete % 5 == 0 && _numFoodComplete > 0)
-                    {
-                        _levelConveyor = _numFoodComplete / 5;
-                    }
                     break;
                 }
             }

@@ -43,7 +43,7 @@ namespace PrototypeGame2D.Object
                             GameManager.Instance.CalculateMoney(order.priceOrder);
                             FoodManager.Instance.CompleteOrder(order);
                             os.ResetSlot();
-                            UpdatePositionSlot();
+                            _slotOrder[i].transform.SetSiblingIndex(_slotOrder.Length);
                         }
                         else
                         {
