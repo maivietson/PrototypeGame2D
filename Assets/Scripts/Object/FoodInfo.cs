@@ -9,8 +9,11 @@ namespace PrototypeGame2D.Object
     {
         private string _id;
         private string _idFoodOrder;
+
         private List<string> _symbolKey;
-        private bool _isCompleteSymbol;
+
+        private bool isUpdate;
+
         private int _amount;
 
         [SerializeField] private Sprite _image;
@@ -46,10 +49,10 @@ namespace PrototypeGame2D.Object
             set { _symbolKey = value; }
         }
 
-        public bool isCompleteSymbol
+        public bool HaveUpdate
         {
-            get { return _isCompleteSymbol; }
-            set { _isCompleteSymbol = value; }
+            get { return isUpdate; }
+            set { isUpdate = value; }
         }
 
         public int Amount
@@ -75,7 +78,7 @@ namespace PrototypeGame2D.Object
             _image = image;
             _symbolKey = symbol;
             _amount = amount;
-            _isCompleteSymbol = false;
+            isUpdate = false;
         }
 
         public void SetFoodInfo(string id, string idFoodOrder, Sprite image, Sprite icon, int amount, List<string> symbol)

@@ -111,6 +111,7 @@ namespace PrototypeGame2D.Game
                 FoodOrder fo = new FoodOrder();
                 Sprite dishOrderSprite = Resources.Load<Sprite>("themes/" + mNameTheme + "/sprites/dish/" + od.Image);
                 fo.Name = od.Name;
+                fo.Semi = od.Semi;
                 fo.SetOrderFood(od.Name, od.TimeOrder, od.PriceOrder, od.PriceMissingOrder, dishOrderSprite, foodResource);
 
                 mListDishMenu.Add(fo);

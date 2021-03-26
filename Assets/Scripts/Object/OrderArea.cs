@@ -47,7 +47,6 @@ namespace PrototypeGame2D.Object
                         }
                         else
                         {
-                            Debug.Log("OrderArea: " + order.id);
                             os.foodOrder = order;
                             os.UpdateProgress();
                             order.haveUpdate = false;

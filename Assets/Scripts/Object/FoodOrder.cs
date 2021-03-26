@@ -23,6 +23,7 @@ namespace PrototypeGame2D.Object
         private int _totalStageOrder;
 
         private bool _haveUpdate;
+        private bool _semi;
 
         //public enum STATUS
         //{
@@ -90,6 +91,12 @@ namespace PrototypeGame2D.Object
         {
             get { return _haveUpdate; }
             set { _haveUpdate = value; }
+        }
+
+        public bool Semi
+        {
+            get { return _semi; }
+            set { _semi = false; }
         }
 
         private void Start()

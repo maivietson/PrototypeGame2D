@@ -39,12 +39,10 @@ namespace PrototypeGame2D.Object
         private void Start()
         {
             _isSlotEmpty = true;
-            //_text = GetComponent<TextMesh>();
         }
 
         public void SetImageOrder(Sprite image)
         {
-            //transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = image;
             transform.GetChild(1).GetComponent<Image>().sprite = image;
             _isSlotEmpty = false;
         }
@@ -56,14 +54,12 @@ namespace PrototypeGame2D.Object
 
         public void UpdateProgress()
         {
-            //_text.text = _foodOrder.Name;
             _nameOrder.text = _foodOrder.Name;
             GetComponentInChildren<FoodResourceSlot>().SetupSlot(_foodOrder.foodResource);
         }
 
         public void UpdateProgressBar()
         {
-            Debug.Log("OrderSlot: timeForOrder " + _foodOrder.TimeForOrder + " timeOrder: " + _foodOrder.timeOrder + " Name: " + _foodOrder.Name);
             if(_foodOrder.statusOrder == Core.OrderState.STATUS.FOOD_NOT_COMPLETE)
             {
                 GetComponentInChildren<ProgressOrder>().UpdatePrgressOrder(_foodOrder.TimeForOrder, _foodOrder.timeOrder);
@@ -77,12 +73,10 @@ namespace PrototypeGame2D.Object
 
         public void ResetSlot()
         {
-            //transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = null;
             transform.GetChild(1).GetComponent<Image>().sprite = null;
             GetComponentInChildren<FoodResourceSlot>().Reset();
             GetComponentInChildren<ProgressOrder>().InitProgress();
             _isSlotEmpty = true;
-            //_text.text = "";
             _nameOrder.text = "";
             _progressBar.SetActive(false);
 

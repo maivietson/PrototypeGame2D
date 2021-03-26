@@ -10,12 +10,23 @@ namespace PrototypeGame2D.Object
     {
         private List<FoodInfo> _listFoodResource;
 
+        [SerializeField] private ParticleSystem[] _listEffect;
+
         [SerializeField] private GameObject[] _listSlot;
+
+        private void Awake()
+        {
+            for (int i = 0; i < _listSlot.Length; i++)
+            {
+                //_listEffect[i] = _listSlot[i].transform.GetComponentInChildren<ParticleSystem>();
+                _listEffect[i].Stop();
+            }
+        }
 
         public void SetupSlot(List<FoodInfo> foodInfo)
         {
-            _listFoodResource = foodInfo;
-            for (int i = 0; i < _listFoodResource.Count; i++)
+            //_listFoodResource = foodInfo;
+            for (int i = 0; i < foodInfo.Count; i++)
             {
                 Color tempColor = _listSlot[i].GetComponent<Image>().color;
                 tempColor.a = 1.0f;
@@ -23,12 +34,17 @@ namespace PrototypeGame2D.Object
                 _listSlot[i].GetComponent<Image>().sprite = foodInfo[i].Icon;
                 _listSlot[i].transform.GetChild(0).gameObject.SetActive(true);
                 _listSlot[i].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = foodInfo[i].Amount.ToString();
+                if (foodInfo[i].HaveUpdate)
+                {
+                    _listEffect[i].Play();
+                    foodInfo[i].HaveUpdate = false;
+                }
             }
         }
 
         public void Reset()
         {
-            for (int i = 0; i < _listFoodResource.Count; i++)
+            for (int i = 0; i < _listSlot.Length; i++)
             {
                 Color tempColor = _listSlot[i].GetComponent<Image>().color;
                 tempColor.a = 0.0f;

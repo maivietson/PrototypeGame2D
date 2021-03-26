@@ -190,6 +190,7 @@ namespace PrototypeGame2D.Game
             if (food.Amount > 0)
             {
                 food.Amount -= 1;
+                food.HaveUpdate = true;
                 for (int i = 0; i < _foodForSpawn.Count; i++)
                 {
                     if (_foodForSpawn[i].ID.Equals(food.id))
