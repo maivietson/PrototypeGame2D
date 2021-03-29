@@ -40,6 +40,7 @@ namespace PrototypeGame2D.Game
         private string mNameTheme;
 
         private List<FoodOrder> mListDishMenu = new List<FoodOrder>();
+        private List<FoodOrder> mListSemiDish = new List<FoodOrder>();
 
         private List<string> mListSymbol;
 
@@ -114,7 +115,14 @@ namespace PrototypeGame2D.Game
                 fo.Semi = od.Semi;
                 fo.SetOrderFood(od.Name, od.TimeOrder, od.PriceOrder, od.PriceMissingOrder, dishOrderSprite, foodResource);
 
-                mListDishMenu.Add(fo);
+                if(fo.Semi)
+                {
+                    mListSemiDish.Add(fo);
+                }
+                else
+                {
+                    mListDishMenu.Add(fo);
+                }
             }
         }
 
@@ -156,6 +164,14 @@ namespace PrototypeGame2D.Game
             int random = Random.Range(currentNumberDish, mListDishMenu.Count);
             FoodOrder dish = mListDishMenu[random];
             SwapDish(random);
+
+            return dish;
+        }
+
+        public FoodOrder GetDishSemiFromPool()
+        {
+            int random = Random.Range(0, mListSemiDish.Count);
+            FoodOrder dish = mListSemiDish[random];
 
             return dish;
         }

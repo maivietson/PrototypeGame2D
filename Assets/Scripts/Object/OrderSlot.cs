@@ -18,6 +18,13 @@ namespace PrototypeGame2D.Object
         [SerializeField] Text _nameOrder;
         [SerializeField] GameObject _progressBar;
 
+        [SerializeField] ParticleSystem cardEffects;
+
+        private void Awake()
+        {
+            cardEffects.Stop();
+        }
+
         public bool isSlotEmpty
         {
             get { return _isSlotEmpty; }
@@ -73,15 +80,50 @@ namespace PrototypeGame2D.Object
 
         public void ResetSlot()
         {
-            transform.GetChild(1).GetComponent<Image>().sprite = null;
-            GetComponentInChildren<FoodResourceSlot>().Reset();
-            GetComponentInChildren<ProgressOrder>().InitProgress();
+            TurnOffEffect();
+            UpdatPosition();
+            ResetUI();
+            ResetProgressBar();
+
             _isSlotEmpty = true;
-            _nameOrder.text = "";
-            _progressBar.SetActive(false);
 
             // Order
             GameManager.Instance.OrderFood(5.0f);
+        }
+
+        private void TurnOffEffect()
+        {
+            ToggleEffectSemi(false);
+        }
+
+        private void UpdatPosition()
+        {
+            this.transform.SetSiblingIndex(3);
+        }
+
+        private void ResetProgressBar()
+        {
+            GetComponentInChildren<ProgressOrder>().InitProgress();
+            _progressBar.SetActive(false);
+        }
+
+        private void ResetUI()
+        {
+            transform.GetChild(1).GetComponent<Image>().sprite = null;
+            _nameOrder.text = "";
+            GetComponentInChildren<FoodResourceSlot>().Reset();
+        }
+
+        public void ToggleEffectSemi(bool semi)
+        {
+            if(semi)
+            {
+                cardEffects.Play();
+            }
+            else
+            {
+                cardEffects.Stop();
+            }
         }
     }
 }

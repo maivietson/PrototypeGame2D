@@ -28,6 +28,8 @@ namespace PrototypeGame2D.Game
 
         [SerializeField] private Text _textMoney;
         [SerializeField] private Text _textLive;
+        [SerializeField] private Text _speedSpawn;
+        [SerializeField] private Text _completeOrder;
         [SerializeField] TextAsset dataJson;
 
         private float _money;
@@ -35,6 +37,8 @@ namespace PrototypeGame2D.Game
         private int _idNumber;
         private int _missingOrder = Defination.LIMIT_MISSING_ORDER;
         private List<FoodOrder> listDishForOrder;
+
+        private bool generateSemi;
 
         public bool isGameOver
         {
@@ -63,7 +67,7 @@ namespace PrototypeGame2D.Game
         public void CalculateMoney(float money)
         {
             CheckNumberDishComplete();
-
+            UpdateUICompletDish();
             DisplayUIMoney(money);
         }
 
@@ -82,11 +86,16 @@ namespace PrototypeGame2D.Game
                 IncrementLevelSpeed();
                 ThemesManager.Instance.IncrementLimitDifficult(listDishForOrder.Count);
             }
+            if(dishComplete % 2 == 0)
+            {
+                generateSemi = true;
+            }
         }
 
         private void IncrementLevelSpeed()
         {
             FoodManager.Instance.LevelConveyor += 1;
+            UpdateUISpeedSpawn();
         }
 
         public void MissingOrder()
@@ -107,6 +116,11 @@ namespace PrototypeGame2D.Game
             _isGameOver = false;
             _idNumber = 0;
 
+            UpdateUICompletDish();
+            UpdateUISpeedSpawn();
+
+            _completeOrder.text = dishComplete.ToString();
+
             StartGame();
             SetTextLive(Defination.LIMIT_MISSING_ORDER);
         }
@@ -118,6 +132,16 @@ namespace PrototypeGame2D.Game
                 //_isGameOver = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene(2);
             }
+        }
+
+        private void UpdateUISpeedSpawn()
+        {
+            _speedSpawn.text = FoodManager.Instance.LevelConveyor.ToString();
+        }
+
+        private void UpdateUICompletDish()
+        {
+            _completeOrder.text = dishComplete.ToString();
         }
 
         private void MakeFirstTime()
@@ -135,6 +159,11 @@ namespace PrototypeGame2D.Game
                 OrderFood();
             }
             OrderFood(5.0f);
+        }
+
+        private void AppearSemiBoss()
+        {
+            listDishForOrder.Add(ThemesManager.Instance.GetDishSemiFromPool());
         }
 
         private void IncrementDifficult()
@@ -156,8 +185,7 @@ namespace PrototypeGame2D.Game
         IEnumerator DelayOrderFood(float timeOrder)
         {
             yield return new WaitForSeconds(timeOrder);
-            int ranOrder = Random.Range(0, ThemesManager.Instance.ListDishPool.Count);
-            FoodOrder order = new FoodOrder(ThemesManager.Instance.ListDishPool[ranOrder]);
+            FoodOrder order = new FoodOrder(RandomNormalOrSemi());
             order.id = _idNumber.ToString();
             
             StartOrder(order);
@@ -190,6 +218,21 @@ namespace PrototypeGame2D.Game
             {
                 _missingOrder++;
                 SetTextLive(_missingOrder);
+            }
+        }
+
+        private FoodOrder RandomNormalOrSemi()
+        {
+            int random = Random.Range(0, 9);
+            if(random >= 2 && generateSemi)
+            {
+                generateSemi = false;
+                return ThemesManager.Instance.GetDishSemiFromPool();
+            }
+            else
+            {
+                int ranOrder = Random.Range(0, listDishForOrder.Count);
+                return listDishForOrder[ranOrder];
             }
         }
     }

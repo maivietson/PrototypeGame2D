@@ -123,6 +123,10 @@ namespace PrototypeGame2D.Object
                 {
                     foodResource.GetComponent<FoodInfoSpaw>().PlayEffect();
                 }
+                else
+                {
+                    foodResource.GetComponent<FoodInfoSpaw>().StopEffect();
+                }
                 if (_symbolForPowerUp.Count > 0)
                 {
                     foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, _symbolForPowerUp, food.Semi);
@@ -141,12 +145,13 @@ namespace PrototypeGame2D.Object
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
                 foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
                 ++_indexFoodSpawn;
+                yield return new WaitForSeconds(_timeSpawn);
             }
             else
             {
                 _indexFoodSpawn = 0;
             }
-            yield return new WaitForSeconds(_timeSpawn);
+            //yield return new WaitForSeconds(_timeSpawn);
             _delaySpawnFood = false;
         }
 

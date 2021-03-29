@@ -52,6 +52,11 @@ namespace PrototypeGame2D.Object
             sparkleEffect.Play();
         }
 
+        public void StopEffect()
+        {
+            sparkleEffect.Stop();
+        }
+
         public void InitSymbol()
         {
             foreach (string sb in _symbol)

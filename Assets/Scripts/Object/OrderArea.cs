@@ -24,6 +24,7 @@ namespace PrototypeGame2D.Object
                     os.foodOrder = foodOrder;
                     os.DisplayProgress();
                     os.UpdateProgress();
+                    os.ToggleEffectSemi(foodOrder.Semi);
                     break;
                 }
             }
@@ -43,7 +44,7 @@ namespace PrototypeGame2D.Object
                             GameManager.Instance.CalculateMoney(order.priceOrder);
                             FoodManager.Instance.CompleteOrder(order);
                             os.ResetSlot();
-                            _slotOrder[i].transform.SetSiblingIndex(_slotOrder.Length);
+                            //_slotOrder[i].transform.SetSiblingIndex(_slotOrder.Length);
                         }
                         else
                         {
