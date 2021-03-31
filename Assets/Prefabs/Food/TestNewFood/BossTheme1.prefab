@@ -341,6 +341,7 @@ GameObject:
   - component: {fileID: 7026575494771176113}
   - component: {fileID: 7026575494771176118}
   - component: {fileID: 3968735282648212585}
+  - component: {fileID: 4883721512191484947}
   m_Layer: 0
   m_Name: BossTheme1
   m_TagString: Untagged
@@ -430,7 +431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a4aa14acf772d4caa22034ee17b2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _symbolList: []
   symbolsBG:
   - {fileID: 7026575494535057375}
   - {fileID: 7026575496290988048}
@@ -443,6 +443,29 @@ MonoBehaviour:
   - {fileID: 1274239549034752494}
   - {fileID: 5210980979695806866}
   - {fileID: 177265606524729044}
+  symbols:
+  - {fileID: 7026575494535057372}
+  - {fileID: 7026575496290988049}
+  - {fileID: 7026575494690645891}
+  - {fileID: 7026575496072180529}
+  - {fileID: 7026575496281626308}
+--- !u!114 &4883721512191484947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7026575494771176119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ab69de3503a03428936d29869a55e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  routes:
+  - {fileID: 1300204128410945348, guid: c7689021258d63b42ba07ef3282ff124, type: 3}
+  - {fileID: 7648103842921850451, guid: c59ef6d3d87a47f4ab36402d654e18d7, type: 3}
+  - {fileID: 6833759388132980915, guid: 413d9e1286cba3f46af5f67e5e3a213d, type: 3}
+  - {fileID: 7247128996365279814, guid: f65fce33f61570349a07400ad1f1bc0c, type: 3}
 --- !u!1 &7026575496072180534
 GameObject:
   m_ObjectHideFlags: 0

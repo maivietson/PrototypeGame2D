@@ -12,7 +12,6 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
     public SpriteRenderer[] symbolsDrawing;
     private int currentActive;
 
-   
     public void SetGesture(Sprite[] symbolList)
     {
         for (int i = 0; i < symbolList.Length; i++)
@@ -36,12 +35,7 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
         throw new System.NotImplementedException();
     }
 
-    private void ShowUpOrder()
-    {
-
-    }
-
-    private void ShowImage(int idx)
+    public void ShowImage(int idx)
     {
         if (!symbolsBG[idx].enabled)
         {
@@ -50,4 +44,13 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
         }
     }
 
+    public void HideImage()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void ShowUpOrder()
+    {
+
+    }
 }

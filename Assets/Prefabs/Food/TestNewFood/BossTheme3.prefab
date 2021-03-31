@@ -265,7 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b24401932e25df4497e386d9a701c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _symbolList: []
   symbolsBG:
   - {fileID: 5083388041833877212}
   - {fileID: 5083388042371078457}
@@ -278,6 +277,12 @@ MonoBehaviour:
   - {fileID: 7885608799582698041}
   - {fileID: 2918660358623658579}
   - {fileID: 4857440250667209471}
+  symbols:
+  - {fileID: 5083388041833877219}
+  - {fileID: 5083388042371078456}
+  - {fileID: 5083388042096652249}
+  - {fileID: 5083388041465040731}
+  - {fileID: 5083388040887611313}
 --- !u!1 &5083388041465040730
 GameObject:
   m_ObjectHideFlags: 0

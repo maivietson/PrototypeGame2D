@@ -158,7 +158,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1cc279b5129c16046bacd47551d8fb4c, type: 3}
   - {fileID: 21300000, guid: 51abf71e889db784b8b9f6195c08eff7, type: 3}
   - {fileID: 21300000, guid: 51abf71e889db784b8b9f6195c08eff7, type: 3}
-  targetPrefab: {fileID: 5083388041128804650, guid: f1c4d392812e952409f7fcb647ae6144,
+  targetPrefab: {fileID: 7026575494771176119, guid: 183e601e77110194a8ebc55a027517bb,
     type: 3}
   targetMovement: {fileID: 1387183558}
   canvasRect: {fileID: 1033756836}
@@ -178,7 +178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625737276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 59.629265, y: 61.639412, z: -17.02641}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

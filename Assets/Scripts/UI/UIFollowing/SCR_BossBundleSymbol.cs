@@ -9,6 +9,7 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
     //public Sprite[] _symbolList;
     public SpriteRenderer[] symbolsBG;
     public SpriteRenderer[] symbolsDrawing;
+    public Transform[] symbols;
     private int currentActive;
     // Start is called before the first frame update
     void Start()
@@ -45,6 +46,33 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
         currentActive = 0;
     }
 
+    public void ShowImage(int idx)
+    {
+        if (!symbolsBG[idx].enabled)
+        {
+            symbolsBG[idx].enabled = true;
+            symbolsDrawing[idx].enabled = true;
+        }
+    }
+
+    public void HideImage()
+    {
+        symbolsBG[currentActive].enabled = false;
+        symbolsDrawing[currentActive].enabled = false;
+        UpdatePosition();
+        currentActive++;
+    }
+
+    private void UpdatePosition()
+    {
+        for (int i = symbols.Length - 1; i > currentActive; i--)
+        {
+            Vector3 curr = symbols[i].localPosition;
+            Vector3 prev = symbols[i - 1].localPosition;
+            symbols[i].localPosition = symbols[i - 1].localPosition;
+        }
+    }
+
     //Check drew gesture
     //public void HandleRightGesture(GesturePattern drewPattern)
     //{
@@ -57,19 +85,4 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
     //        ResetBundle();
     //    }
     //}
-
-    private void HideImage()
-    {
-        symbolsBG[currentActive].enabled = false;
-        symbolsDrawing[currentActive].enabled = false;
-        currentActive++;
-    }
-    private void ShowImage(int idx)
-    {
-        if (!symbolsBG[idx].enabled)
-        {
-            symbolsBG[idx].enabled = true;
-            symbolsDrawing[idx].enabled = true;
-        }
-    }
 }
