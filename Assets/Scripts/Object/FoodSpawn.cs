@@ -29,12 +29,15 @@ namespace PrototypeGame2D.Object
         }
         #endregion
         [SerializeField] private GameObject _foodPrefab;
+        [SerializeField] private GameObject[] bossIngredients;
 
         [SerializeField] private float _timeSpawn;
         [SerializeField] private float _spawnRate;
 
         private int _indexFoodSpawn = 0;
         private bool _delaySpawnFood;
+
+        private GameObject bossIngredient;
 
         private List<FoodInfoSpaw> _foodForSpawn;
         private List<string> _symbolForPowerUp;
@@ -91,10 +94,40 @@ namespace PrototypeGame2D.Object
             }
         }
 
+        public void PauseSpawnFood()
+        {
+            StopCoroutine("SpawnFoodResource");
+        }
+
+        public void StartSpawnBoss(THEME theme)
+        {
+            switch(theme)
+            {
+                case THEME.THEME_USA:
+                    bossIngredient = bossIngredients[1];
+                    break;
+                case THEME.THEME_ITALY:
+                    bossIngredient = bossIngredients[2];
+                    break;
+                case THEME.THEME_JAPAN:
+                default:
+                    bossIngredient = bossIngredients[0];
+                    break;
+            }
+            StartCoroutine("SpawnBossIngredients");
+        }
+
         public void PowerupStartSpawnFoodWithOneSymbol()
         {
             _symbolForPowerUp = RandomSymbol();
             StartCoroutine("SpawnFoodWithOneSymbol");
+        }
+
+        private IEnumerator SpawnBossIngredients()
+        {
+            GameObject boss = Instantiate(bossIngredient, transform.position, Quaternion.identity) as GameObject;
+
+            yield return new WaitForSeconds(0.1f);
         }
 
         private IEnumerator SpawnFoodWithOneSymbol()

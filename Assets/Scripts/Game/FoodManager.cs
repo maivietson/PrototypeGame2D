@@ -129,8 +129,9 @@ namespace PrototypeGame2D.Game
             }
         }
 
-        private void InitMenuOrder()
+        public void BossForTheme(THEME theme)
         {
+            FoodSpawn.Instance.PauseSpawnFood();
 
         }
 
@@ -167,7 +168,6 @@ namespace PrototypeGame2D.Game
                         {
                             if (fi.Amount > 0)
                             {
-                                Debug.Log("FoodManger: " + fo.id + " line 144");
                                 minTime = fo.timeOrder;
                                 _foodOrderTmp = fo;
                                 _foodInfoTmp = fi;
@@ -306,13 +306,6 @@ namespace PrototypeGame2D.Game
                 }
             }
         }
-
-        // at time not use
-        public int GetNumberOrder()
-        {
-            return _foodOrder.Count;
-        }
-        //
     }
 }
 
