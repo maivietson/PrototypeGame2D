@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GestureRecognizer;
+using PrototypeGame2D.Core;
+using PrototypeGame2D.Game;
 
 public class SCR_BossOverlap : MonoBehaviour, IBossInfo
 {
     //public Sprite[] _symbolList;
     public SpriteRenderer[] symbolsBG;
     public SpriteRenderer[] symbolsDrawing;
+    
     public Transform[] symbols;
+
     private int currentActive;
     // Start is called before the first frame update
     void Start()
     {
-        //SetGesture(_symbolList);
+        SetGesture(symbolsDrawing);
     }
 
     private void Update()
@@ -23,39 +27,27 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
         {
             HideImage();
         }
+        if(!GameManager.Instance.isGameOver)
+        {
+            string message = GameManager.Instance.message;
+        }
     }
 
 
     public void SetGesture(GesturePattern[] patterns)
     {
         throw new System.NotImplementedException();
-        //for (int i = 0; i < patterns.Length; i++)
-        //{
-        //    //symbolsDrawing[i].pattern = patterns[i];
-        //}
-        //currentActive = 0;
     }
     public void SetGesture(Sprite[] symbolList)
     {
-        //throw new System.NotImplementedException();
         for (int i = 0; i < symbolList.Length; i++)
         {
             ShowImage(i);
-            symbolsDrawing[i].sprite = symbolList[i];
+            //symbolsDrawing[i].sprite = symbolList[i];
+            symbolsDrawing[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
         }
         currentActive = 0;
     } 
-   
-
-    //Check drew gesture
-    //public void HandleRightGesture(GesturePattern drewPattern)
-    //{
-    //    if (symbolsDrawing[currentActive].pattern.id.Equals(drewPattern.id))
-    //    {
-    //        HideImage();
-
-    //    }
-    //}
 
     private void UpdatePosition()
     {
@@ -69,7 +61,7 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
 
     public void ShowImage(int idx)
     {
-        if (!symbolsBG[idx].enabled)
+        if (!symbolsDrawing[idx].enabled)
         {
             symbolsBG[idx].enabled = true;
             symbolsDrawing[idx].enabled = true;
@@ -82,5 +74,25 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
         symbolsDrawing[currentActive].enabled = false;
         UpdatePosition();
         currentActive++;
+        if(currentActive < symbolsDrawing.Length)
+            ShowImage(currentActive);
+    }
+
+    public void SetGesture(SpriteRenderer[] sprites)
+    {
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            sprites[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
+        }
+        currentActive = 0;
+        ShowImage(currentActive);
+    }
+
+    public void HandleRightSymbol(string symbolAction)
+    {
+        if (symbolsDrawing[currentActive].name.Equals(symbolAction))
+        {
+            HideImage();
+        }
     }
 }

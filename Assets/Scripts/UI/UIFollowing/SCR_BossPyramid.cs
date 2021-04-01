@@ -53,4 +53,9 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
     {
 
     }
+
+    public void SetGesture(SpriteRenderer[] sprites)
+    {
+        throw new System.NotImplementedException();
+    }
 }

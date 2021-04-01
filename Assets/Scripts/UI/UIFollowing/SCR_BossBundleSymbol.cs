@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GestureRecognizer;
+using PrototypeGame2D.Core;
 
 public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
 {
@@ -14,7 +15,7 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
     // Start is called before the first frame update
     void Start()
     {
-
+        SetGesture(symbolsDrawing);
     }
 
     private void Update()
@@ -48,7 +49,7 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
 
     public void ShowImage(int idx)
     {
-        if (!symbolsBG[idx].enabled)
+        if (!symbolsDrawing[idx].enabled)
         {
             symbolsBG[idx].enabled = true;
             symbolsDrawing[idx].enabled = true;
@@ -70,6 +71,24 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
             Vector3 curr = symbols[i].localPosition;
             Vector3 prev = symbols[i - 1].localPosition;
             symbols[i].localPosition = symbols[i - 1].localPosition;
+        }
+    }
+
+    public void SetGesture(SpriteRenderer[] sprites)
+    {
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            sprites[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
+        }
+        currentActive = 0;
+        ShowImage(currentActive);
+    }
+
+    public void HandleRightSymbol(string symbolAction)
+    {
+        if(symbolsDrawing[currentActive].name.Equals(symbolAction))
+        {
+            HideImage();
         }
     }
 

@@ -125,7 +125,8 @@ namespace PrototypeGame2D.Game
             if(!GameManager.Instance.isGameOver && _haveFoodOrder && !_checking)
             {
                 _checking = true;
-                FoodSpawn.Instance.StartSpawnFood();
+                //FoodSpawn.Instance.StartSpawnFood();
+                FoodSpawn.Instance.StartSpawnBoss(THEME.THEME_JAPAN);
             }
         }
 
