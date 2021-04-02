@@ -48826,7 +48826,7 @@ MonoBehaviour:
   line: {fileID: 1689300924}
   scoreToAccept: 0.8
   minLines: 1
-  maxLines: 4
+  maxLines: 1
   removeStrategy: 0
   clearNotRecognizedLines: 0
   fixedArea: 0

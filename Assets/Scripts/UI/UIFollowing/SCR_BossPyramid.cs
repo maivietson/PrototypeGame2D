@@ -58,4 +58,9 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
     {
         throw new System.NotImplementedException();
     }
+
+    public void HandleRightSymbol(string symbolAction)
+    {
+        throw new System.NotImplementedException();
+    }
 }

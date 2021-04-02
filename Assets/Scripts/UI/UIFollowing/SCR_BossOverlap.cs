@@ -23,13 +23,18 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
 
     private void Update()
     {
+        Debug.Log(GameManager.Instance.message);
         if (Input.GetKeyDown(KeyCode.Q))
         {
             HideImage();
         }
         if(!GameManager.Instance.isGameOver)
         {
-            string message = GameManager.Instance.message;
+            if(GameManager.Instance.message.Length > 0)
+            {
+                Debug.Log("mksdmfos");
+                HandleRightSymbol(GameManager.Instance.message);
+            }
         }
     }
 
@@ -90,9 +95,10 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
 
     public void HandleRightSymbol(string symbolAction)
     {
-        if (symbolsDrawing[currentActive].name.Equals(symbolAction))
+        if (symbolsDrawing[currentActive].sprite.name.Equals(symbolAction))
         {
             HideImage();
+            GameManager.Instance.message = "done";
         }
     }
 }
