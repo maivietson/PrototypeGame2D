@@ -8,7 +8,8 @@ using PrototypeGame2D.Game;
 
 public class SCR_BossOverlap : MonoBehaviour, IBossInfo
 {
-    //public Sprite[] _symbolList;
+    [SerializeField] private float priceBoss;
+
     public SpriteRenderer[] symbolsBG;
     public SpriteRenderer[] symbolsDrawing;
     
@@ -23,18 +24,16 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
 
     private void Update()
     {
-        Debug.Log(GameManager.Instance.message);
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            HideImage();
-        }
         if(!GameManager.Instance.isGameOver)
         {
             if(GameManager.Instance.message.Length > 0)
             {
-                Debug.Log("mksdmfos");
                 HandleRightSymbol(GameManager.Instance.message);
             }
+        }
+        if(currentActive == symbolsDrawing.Length)
+        {
+            GameManager.Instance.CalculateMoney(priceBoss);
         }
     }
 

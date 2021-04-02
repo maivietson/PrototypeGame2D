@@ -100,40 +100,42 @@ namespace PrototypeGame2D.Game
         // Update is called once per frame
         void Update()
         {
-            if(_foodOrder.Count > 0 && !GameManager.Instance.isGameOver)
+            if(!GameManager.Instance.isGameOver)
             {
-                for(int i = 0; i < _foodOrder.Count; i++)
+                if (_foodOrder.Count > 0)
                 {
-                    if(_foodOrder[i].statusOrder == STATUS.FOOD_NOT_COMPLETE)
+                    for (int i = 0; i < _foodOrder.Count; i++)
                     {
-                        if (_foodOrder[i].timeOrder > 0)
+                        if (_foodOrder[i].statusOrder == STATUS.FOOD_NOT_COMPLETE)
                         {
-                            _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle);
+                            if (_foodOrder[i].timeOrder > 0)
+                            {
+                                _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle);
+                            }
+                            else
+                            {
+                                _foodOrder[i].timeOrder = 0;
+                                _foodOrder[i].statusOrder = STATUS.FOOD_MISSING;
+                            }
+                            areaOrder.UpdateProgressBar();
                         }
-                        else
-                        {
-                            _foodOrder[i].timeOrder = 0;
-                            _foodOrder[i].statusOrder = STATUS.FOOD_MISSING;
-                        }
-                        areaOrder.UpdateProgressBar();
                     }
+
+                    _foodOrder = _foodOrder.OrderBy(item => item.timeOrder).ToList();
                 }
 
-                _foodOrder = _foodOrder.OrderBy(item => item.timeOrder).ToList();
-            }
-
-            if(!GameManager.Instance.isGameOver && _haveFoodOrder && !_checking)
-            {
-                _checking = true;
-                //FoodSpawn.Instance.StartSpawnFood();
-                FoodSpawn.Instance.StartSpawnBoss(THEME.THEME_JAPAN);
+                if (_haveFoodOrder && !_checking)
+                {
+                    _checking = true;
+                    FoodSpawn.Instance.StartSpawnFood();
+                }
             }
         }
 
         public void BossForTheme(THEME theme)
         {
             FoodSpawn.Instance.PauseSpawnFood();
-
+            FoodSpawn.Instance.StartSpawnBoss(THEME.THEME_JAPAN);
         }
 
         public void OrderFood(FoodOrder order)

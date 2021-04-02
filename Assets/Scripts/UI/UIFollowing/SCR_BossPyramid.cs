@@ -4,63 +4,98 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GestureRecognizer;
+using PrototypeGame2D.Game;
+using PrototypeGame2D.Core;
 
 public class SCR_BossPyramid : MonoBehaviour, IBossInfo
 {
-   // public Sprite[] _symbolList;
+    [SerializeField] private float priceBoss;
+
     public SpriteRenderer[] symbolsBG;
     public SpriteRenderer[] symbolsDrawing;
+
+    public Transform[] symbols;
+
     private int currentActive;
+
+    void Start()
+    {
+        SetGesture(symbolsDrawing);
+    }
+
+    private void Update()
+    {
+        if (!GameManager.Instance.isGameOver)
+        {
+            if (GameManager.Instance.message.Length > 0)
+            {
+                HandleRightSymbol(GameManager.Instance.message);
+            }
+        }
+        if (currentActive == symbolsDrawing.Length)
+        {
+            GameManager.Instance.CalculateMoney(priceBoss);
+        }
+    }
+
+    public void HandleRightSymbol(string symbolAction)
+    {
+        if (symbolsDrawing[currentActive].sprite.name.Equals(symbolAction))
+        {
+            HideImage();
+            GameManager.Instance.message = "done";
+        }
+    }
+
+    public void HideImage()
+    {
+        symbolsBG[currentActive].enabled = false;
+        symbolsDrawing[currentActive].enabled = false;
+        UpdatePosition();
+        currentActive++;
+    }
+
+    public void SetGesture(GesturePattern[] patterns)
+    {
+        throw new System.NotImplementedException();
+    }
 
     public void SetGesture(Sprite[] symbolList)
     {
         for (int i = 0; i < symbolList.Length; i++)
         {
             ShowImage(i);
-            symbolsDrawing[i].sprite = symbolList[i];
+            //symbolsDrawing[i].sprite = symbolList[i];
+            symbolsDrawing[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
         }
         currentActive = 0;
     }
 
-    public void SetGesture(GesturePattern[] patterns)
+    public void SetGesture(SpriteRenderer[] sprites)
     {
-       
-        //for (int i = 0; i < patterns.Length; i++)
-        //{
-        //    //symbolsDrawing[i].pattern = patterns[i];
-        //}
-        //ShowUpOrder();
-        //currentActive = 0;
-
-        throw new System.NotImplementedException();
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            ShowImage(i);
+            sprites[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
+        }
+        currentActive = 0;
     }
 
     public void ShowImage(int idx)
     {
-        if (!symbolsBG[idx].enabled)
+        if (!symbolsDrawing[idx].enabled)
         {
             symbolsBG[idx].enabled = true;
             symbolsDrawing[idx].enabled = true;
         }
     }
-
-    public void HideImage()
+    private void UpdatePosition()
     {
-        throw new System.NotImplementedException();
-    }
-
-    private void ShowUpOrder()
-    {
-
-    }
-
-    public void SetGesture(SpriteRenderer[] sprites)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void HandleRightSymbol(string symbolAction)
-    {
-        throw new System.NotImplementedException();
+        for (int i = symbols.Length - 1; i > currentActive; i--)
+        {
+            Vector3 curr = symbols[i].localPosition;
+            Vector3 prev = symbols[i - 1].localPosition;
+            symbols[i].localPosition = symbols[i - 1].localPosition;
+        }
     }
 }

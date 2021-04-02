@@ -4,15 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using GestureRecognizer;
 using PrototypeGame2D.Core;
+using PrototypeGame2D.Game;
 
 public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
 {
-    //public Sprite[] _symbolList;
+    [SerializeField] private float priceBoss;
+
     public SpriteRenderer[] symbolsBG;
     public SpriteRenderer[] symbolsDrawing;
+
     public Transform[] symbols;
+
     private int currentActive;
-    // Start is called before the first frame update
+
     void Start()
     {
         SetGesture(symbolsDrawing);
@@ -20,20 +24,38 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (!GameManager.Instance.isGameOver)
         {
-            HideImage();
+            if (GameManager.Instance.message.Length > 0)
+            {
+                HandleRightSymbol(GameManager.Instance.message);
+            }
+        }
+        if (currentActive == symbolsDrawing.Length)
+        {
+            GameManager.Instance.CalculateMoney(priceBoss);
         }
     }
 
+    public void HandleRightSymbol(string symbolAction)
+    {
+        if (symbolsDrawing[currentActive].sprite.name.Equals(symbolAction))
+        {
+            HideImage();
+            GameManager.Instance.message = "done";
+        }
+    }
+
+    public void HideImage()
+    {
+        symbolsBG[currentActive].enabled = false;
+        symbolsDrawing[currentActive].enabled = false;
+        UpdatePosition();
+        currentActive++;
+    }
 
     public void SetGesture(GesturePattern[] patterns)
     {
-        //for (int i = 0; i < patterns.Length; i++)
-        //{
-        //    //symbolsDrawing[i].pattern = patterns[i];
-        //}
-        //currentActive = 0;
         throw new System.NotImplementedException();
     }
 
@@ -42,7 +64,18 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
         for (int i = 0; i < symbolList.Length; i++)
         {
             ShowImage(i);
-            symbolsDrawing[i].sprite = symbolList[i];
+            //symbolsDrawing[i].sprite = symbolList[i];
+            symbolsDrawing[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
+        }
+        currentActive = 0;
+    }
+
+    public void SetGesture(SpriteRenderer[] sprites)
+    {
+        for (int i = 0; i < sprites.Length; i++)
+        {
+            ShowImage(currentActive);
+            sprites[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
         }
         currentActive = 0;
     }
@@ -55,15 +88,6 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
             symbolsDrawing[idx].enabled = true;
         }
     }
-
-    public void HideImage()
-    {
-        symbolsBG[currentActive].enabled = false;
-        symbolsDrawing[currentActive].enabled = false;
-        UpdatePosition();
-        currentActive++;
-    }
-
     private void UpdatePosition()
     {
         for (int i = symbols.Length - 1; i > currentActive; i--)
@@ -73,35 +97,4 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
             symbols[i].localPosition = symbols[i - 1].localPosition;
         }
     }
-
-    public void SetGesture(SpriteRenderer[] sprites)
-    {
-        for (int i = 0; i < sprites.Length; i++)
-        {
-            sprites[i].sprite = Resources.Load<Sprite>("symbol/" + Symbols.GetRandomSymbol()); ;
-        }
-        currentActive = 0;
-        ShowImage(currentActive);
-    }
-
-    public void HandleRightSymbol(string symbolAction)
-    {
-        if(symbolsDrawing[currentActive].name.Equals(symbolAction))
-        {
-            HideImage();
-        }
-    }
-
-    //Check drew gesture
-    //public void HandleRightGesture(GesturePattern drewPattern)
-    //{
-    //    if (symbolsDrawing[currentActive].pattern.id.Equals(drewPattern.id))
-    //    {
-    //        HideImage();
-    //    }
-    //    else
-    //    {
-    //        ResetBundle();
-    //    }
-    //}
 }

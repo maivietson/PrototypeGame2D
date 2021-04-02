@@ -8,6 +8,12 @@ using PrototypeGame2D.Core;
 
 namespace PrototypeGame2D.Game
 {
+    public enum STATE
+    {
+        STATE_PLAY = 0,
+        STATE_PAUSE = 1,
+        STATE_GAMEOVER = 2
+    }
     public class GameManager : MonoBehaviour
     {
         #region Singleton class: GameManager
@@ -25,6 +31,8 @@ namespace PrototypeGame2D.Game
 
         private bool _isGameOver;
         private string _message = string.Empty;
+
+        private STATE currentState;
 
         [SerializeField] private Text _textMoney;
         [SerializeField] private Text _textLive;
@@ -111,23 +119,28 @@ namespace PrototypeGame2D.Game
 
         private void Start()
         {
-            listDishForOrder = new List<FoodOrder>();
-            dishComplete = 0;
-            _isGameOver = false;
-            _idNumber = 0;
+            InitGame();
 
             UpdateUICompletDish();
             UpdateUISpeedSpawn();
-
-            _completeOrder.text = dishComplete.ToString();
 
             StartGame();
             SetTextLive(Defination.LIMIT_MISSING_ORDER);
         }
 
+        private void InitGame()
+        {
+            listDishForOrder = new List<FoodOrder>();
+            dishComplete = 0;
+            _isGameOver = false;
+            _idNumber = 0;
+            currentState = STATE.STATE_PLAY;
+            _completeOrder.text = dishComplete.ToString();
+        }
+
         private void Update()
         {
-            if(_isGameOver)
+            if(currentState == STATE.STATE_GAMEOVER)
             {
                 //_isGameOver = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene(2);
@@ -234,6 +247,11 @@ namespace PrototypeGame2D.Game
                 int ranOrder = Random.Range(0, listDishForOrder.Count);
                 return listDishForOrder[ranOrder];
             }
+        }
+
+        public STATE GetCurrentState()
+        {
+            return currentState;
         }
     }
 }

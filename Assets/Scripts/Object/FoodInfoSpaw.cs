@@ -83,12 +83,10 @@ namespace PrototypeGame2D.Object
                     {
                         if (_symbol.Count > 0)
                         {
-                            //Debug.Log("FoodManager: message: " + message + " _symbol size: " + _symbol.Count);
                             HandleSymbol(message);
                         }
                         if (_symbol.Count == 0)
                         {
-                            //Debug.Log("FoodManager: _symbol size: " + _symbol.Count);
                             CompleteFoodResource();
                         }
 
