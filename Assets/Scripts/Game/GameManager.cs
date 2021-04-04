@@ -10,9 +10,13 @@ namespace PrototypeGame2D.Game
 {
     public enum STATE
     {
-        STATE_PLAY = 0,
-        STATE_PAUSE = 1,
-        STATE_GAMEOVER = 2
+        STATE_START = 0,
+        STATE_PLAY = 1,
+        STATE_PAUSE = 2,
+        STATE_RESUME = 3,
+        STATE_GAMEOVER = 4,
+        STATE_FINAL_BOSS = 5,
+        STATE_CHANGE_THEME = 6,
     }
     public class GameManager : MonoBehaviour
     {
@@ -29,10 +33,10 @@ namespace PrototypeGame2D.Game
         }
         #endregion
 
-        private bool _isGameOver;
         private string _message = string.Empty;
 
         private STATE currentState;
+        private THEME currentTheme;
 
         [SerializeField] private Text _textMoney;
         [SerializeField] private Text _textLive;
@@ -47,18 +51,6 @@ namespace PrototypeGame2D.Game
         private List<FoodOrder> listDishForOrder;
 
         private bool generateSemi;
-
-        public bool isGameOver
-        {
-            get
-            {
-                return _isGameOver;
-            }
-            set
-            {
-                _isGameOver = value;
-            }
-        }
 
         public string message
         {
@@ -113,7 +105,7 @@ namespace PrototypeGame2D.Game
 
             if(_missingOrder == 0)
             {
-                _isGameOver = true;
+                currentState = STATE.STATE_GAMEOVER;
             }
         }
 
@@ -132,9 +124,9 @@ namespace PrototypeGame2D.Game
         {
             listDishForOrder = new List<FoodOrder>();
             dishComplete = 0;
-            _isGameOver = false;
             _idNumber = 0;
-            currentState = STATE.STATE_PLAY;
+            currentState = STATE.STATE_START;
+            currentTheme = THEME.THEME_JAPAN;
             _completeOrder.text = dishComplete.ToString();
         }
 
@@ -142,8 +134,12 @@ namespace PrototypeGame2D.Game
         {
             if(currentState == STATE.STATE_GAMEOVER)
             {
-                //_isGameOver = false;
                 UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+            }
+
+            if(currentState == STATE.STATE_PLAY)
+            {
+                //currentState = STATE.STATE_FINAL_BOSS;
             }
         }
 
@@ -174,10 +170,10 @@ namespace PrototypeGame2D.Game
             OrderFood(5.0f);
         }
 
-        private void AppearSemiBoss()
-        {
-            listDishForOrder.Add(ThemesManager.Instance.GetDishSemiFromPool());
-        }
+        //private void AppearSemiBoss()
+        //{
+        //    listDishForOrder.Add(ThemesManager.Instance.GetDishSemiFromPool());
+        //}
 
         private void IncrementDifficult()
         {
@@ -191,8 +187,11 @@ namespace PrototypeGame2D.Game
 
         public void OrderFood(float timeOrder = 0)
         {
-            StartCoroutine(DelayOrderFood(timeOrder));
-            _idNumber++;
+            if(currentState == STATE.STATE_PLAY || currentState == STATE.STATE_START)
+            {
+                StartCoroutine(DelayOrderFood(timeOrder));
+                _idNumber++;
+            }
         }
 
         IEnumerator DelayOrderFood(float timeOrder)
@@ -206,16 +205,24 @@ namespace PrototypeGame2D.Game
 
         public void StartGame()
         {
-            if(ThemesManager.Instance.CreateTheme(THEME.THEME_JAPAN))
+            if(ThemesManager.Instance.CreateTheme(currentTheme))
             {
+                currentState = STATE.STATE_START;
                 MakeFirstTime();
                 MakeFirstOrder();
             }
         }
 
-        public void ChangeTheme(THEME theme)
+        public void ChangeTheme()
         {
-            ThemesManager.Instance.CreateTheme(theme);
+            currentTheme += 1;
+            if((int)currentTheme > 2)
+            {
+                currentTheme = THEME.THEME_JAPAN;
+            }
+            //ThemesManager.Instance.CreateTheme(currentTheme);
+            //currentState = STATE.STATE_PLAY;
+            StartGame();
         }
 
         public void StartOrder(FoodOrder order)
@@ -252,6 +259,21 @@ namespace PrototypeGame2D.Game
         public STATE GetCurrentState()
         {
             return currentState;
+        }
+
+        public void SetState(STATE state)
+        {
+            currentState = state;
+        }
+
+        public THEME GetCurrentTheme()
+        {
+            return currentTheme;
+        }
+
+        public void PauseGame()
+        {
+            currentState = STATE.STATE_PAUSE;
         }
     }
 }

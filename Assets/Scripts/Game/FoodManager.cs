@@ -100,42 +100,78 @@ namespace PrototypeGame2D.Game
         // Update is called once per frame
         void Update()
         {
-            if(!GameManager.Instance.isGameOver)
+            switch(GameManager.Instance.GetCurrentState())
             {
-                if (_foodOrder.Count > 0)
-                {
-                    for (int i = 0; i < _foodOrder.Count; i++)
+                case STATE.STATE_PLAY:
+                    if (_foodOrder.Count > 0)
                     {
-                        if (_foodOrder[i].statusOrder == STATUS.FOOD_NOT_COMPLETE)
+                        for (int i = 0; i < _foodOrder.Count; i++)
                         {
-                            if (_foodOrder[i].timeOrder > 0)
+                            if (_foodOrder[i].statusOrder == STATUS.FOOD_NOT_COMPLETE)
                             {
-                                _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle);
+                                if (_foodOrder[i].timeOrder > 0)
+                                {
+                                    _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle);
+                                }
+                                else
+                                {
+                                    _foodOrder[i].timeOrder = 0;
+                                    _foodOrder[i].statusOrder = STATUS.FOOD_MISSING;
+                                }
+                                areaOrder.UpdateProgressBar();
                             }
-                            else
+                        }
+
+                        _foodOrder = _foodOrder.OrderBy(item => item.timeOrder).ToList();
+                    }
+                    break;
+                case STATE.STATE_PAUSE:
+                    {
+                        FoodSpawn.Instance.PauseSpawnFood();
+                    }
+                    break;
+                case STATE.STATE_RESUME:
+                    {
+                        GameManager.Instance.SetState(STATE.STATE_PLAY);
+                        FoodSpawn.Instance.StartSpawnFood();
+                    }
+                    break;
+                case STATE.STATE_FINAL_BOSS:
+                    {
+                        _haveFoodOrder = false;
+                        if (_foodOrder.Count == 0)
+                        {
+                            FoodInfoSpaw[] ingredientsSpaw = FindObjectsOfType<FoodInfoSpaw>();
+                            if (ingredientsSpaw.Length == 0)
                             {
-                                _foodOrder[i].timeOrder = 0;
-                                _foodOrder[i].statusOrder = STATUS.FOOD_MISSING;
+                                FoodSpawn.Instance.ResetIngredientSpawn();
+                                FoodSpawn.Instance.StartSpawnBoss(GameManager.Instance.GetCurrentTheme());
                             }
-                            areaOrder.UpdateProgressBar();
                         }
                     }
-
-                    _foodOrder = _foodOrder.OrderBy(item => item.timeOrder).ToList();
-                }
-
-                if (_haveFoodOrder && !_checking)
-                {
-                    _checking = true;
-                    FoodSpawn.Instance.StartSpawnFood();
-                }
+                    break;
+                case STATE.STATE_CHANGE_THEME:
+                    {
+                        if(_foodOrder.Count == 0)
+                        {
+                            FoodInfoSpaw[] ingredientsSpaw = FindObjectsOfType<FoodInfoSpaw>();
+                            if (ingredientsSpaw.Length == 0)
+                            {
+                                FoodSpawn.Instance.ResetIngredientSpawn();
+                                GameManager.Instance.ChangeTheme();
+                            }
+                        }
+                    }
+                    break;
+                default:
+                case STATE.STATE_START:
+                    if (_haveFoodOrder)
+                    {
+                        GameManager.Instance.SetState(STATE.STATE_PLAY);
+                        FoodSpawn.Instance.StartSpawnFood();
+                    }
+                    break;
             }
-        }
-
-        public void BossForTheme(THEME theme)
-        {
-            FoodSpawn.Instance.PauseSpawnFood();
-            FoodSpawn.Instance.StartSpawnBoss(THEME.THEME_JAPAN);
         }
 
         public void OrderFood(FoodOrder order)
@@ -166,7 +202,8 @@ namespace PrototypeGame2D.Game
                 {
                     if (fo.statusOrder == STATUS.FOOD_NOT_COMPLETE)
                     {
-                        var fi = fo.foodResource.Where(i => i.id == id).FirstOrDefault();
+                        //var fi = fo.foodResource.Where(i => i.id == id).FirstOrDefault();
+                        var fi = FindIngredient(fo, id);
                         if (fo.timeOrder < minTime)
                         {
                             if (fi.Amount > 0)
@@ -226,6 +263,18 @@ namespace PrototypeGame2D.Game
                     _foodForSpawn.Add(fis);
                 }
             }
+        }
+
+        private FoodInfo FindIngredient(FoodOrder fo, string id)
+        {
+            foreach(FoodInfo fi in fo.foodResource)
+            {
+                if(fi.id.Equals(id))
+                {
+                    return fi;
+                }
+            }
+            return null;
         }
 
         public void CompleteOrder(FoodOrder order)

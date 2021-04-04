@@ -68,7 +68,7 @@ namespace PrototypeGame2D.Object
 
         private void Update()
         {
-            if(!GameManager.Instance.isGameOver)
+            if(GameManager.Instance.GetCurrentState() != STATE.STATE_PAUSE || GameManager.Instance.GetCurrentState() != STATE.STATE_GAMEOVER)
             {
                 bool activeSymbol = transform.GetChild(1).gameObject.activeSelf;
                 if (PowerUpManager.Instance.PowerupCompleteAllFoodInConveyor)

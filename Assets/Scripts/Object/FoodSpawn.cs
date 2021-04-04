@@ -70,7 +70,7 @@ namespace PrototypeGame2D.Object
         // Update is called once per frame
         void Update()
         {
-            if(GameManager.Instance.isGameOver && !FoodManager.Instance.haveFoodOrder)
+            if(GameManager.Instance.GetCurrentState() == STATE.STATE_GAMEOVER && !FoodManager.Instance.haveFoodOrder)
             {
                 StopAllCoroutines();
             }
@@ -86,7 +86,7 @@ namespace PrototypeGame2D.Object
 
         public void StartSpawnFood()
         {
-            if (!GameManager.Instance.isGameOver && FoodManager.Instance.haveFoodOrder)
+            if (GameManager.Instance.GetCurrentState() != STATE.STATE_PAUSE && FoodManager.Instance.haveFoodOrder)
             {
                 _foodForSpawn = FoodManager.Instance.FoodInfoSpaws;
 
@@ -97,6 +97,12 @@ namespace PrototypeGame2D.Object
         public void PauseSpawnFood()
         {
             StopCoroutine("SpawnFoodResource");
+        }
+
+        public void ResetIngredientSpawn()
+        {
+            StopCoroutine("SpawnFoodResource");
+            _foodForSpawn.Clear();
         }
 
         public void StartSpawnBoss(THEME theme)

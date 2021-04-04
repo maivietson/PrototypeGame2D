@@ -42,7 +42,7 @@ namespace PrototypeGame2D.Game
 
         public void ChangeThemeUSA()
         {
-            GameManager.Instance.ChangeTheme(THEME.THEME_USA);
+            GameManager.Instance.SetState(STATE.STATE_CHANGE_THEME);
         }
     }
 }
