@@ -48,6 +48,7 @@ namespace PrototypeGame2D.Game
         private int dishComplete;
         private int _idNumber;
         private int _missingOrder = Defination.LIMIT_MISSING_ORDER;
+        private int _numberAppearSemi;
         private List<FoodOrder> listDishForOrder;
 
         private bool generateSemi;
@@ -125,6 +126,7 @@ namespace PrototypeGame2D.Game
             listDishForOrder = new List<FoodOrder>();
             dishComplete = 0;
             _idNumber = 0;
+            _numberAppearSemi = 0;
             currentState = STATE.STATE_START;
             currentTheme = THEME.THEME_JAPAN;
             _completeOrder.text = dishComplete.ToString();
@@ -139,7 +141,11 @@ namespace PrototypeGame2D.Game
 
             if(currentState == STATE.STATE_PLAY)
             {
-                //currentState = STATE.STATE_FINAL_BOSS;
+                if(_numberAppearSemi == 3)
+                {
+                    currentState = STATE.STATE_FINAL_BOSS;
+                    _numberAppearSemi = 0;
+                }
             }
         }
 
@@ -183,6 +189,14 @@ namespace PrototypeGame2D.Game
         private void SetTextLive(int live)
         {
             _textLive.text = live.ToString();
+        }
+
+        public void AppearBoss()
+        {
+            FoodOrder order = new FoodOrder(ThemesManager.Instance.GetDishBoss());
+            order.id = _idNumber.ToString();
+
+            StartOrder(order);
         }
 
         public void OrderFood(float timeOrder = 0)
@@ -246,6 +260,7 @@ namespace PrototypeGame2D.Game
             int random = Random.Range(0, 9);
             if(random >= 2 && generateSemi)
             {
+                _numberAppearSemi++;
                 generateSemi = false;
                 return ThemesManager.Instance.GetDishSemiFromPool();
             }

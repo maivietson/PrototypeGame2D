@@ -33,7 +33,8 @@ public class SCR_BossOverlap : MonoBehaviour, IBossInfo
         }
         if(currentActive == symbolsDrawing.Length)
         {
-            GameManager.Instance.CalculateMoney(priceBoss);
+            //GameManager.Instance.CalculateMoney(priceBoss);
+            FoodManager.Instance.HandleFood(gameObject.name);
             GameManager.Instance.SetState(STATE.STATE_CHANGE_THEME);
         }
     }

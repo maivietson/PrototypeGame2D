@@ -7,6 +7,12 @@ using static PrototypeGame2D.Core.OrderState;
 
 namespace PrototypeGame2D.Object
 {
+    public enum TypeDish
+    {
+        DISH_NORMAL,
+        DISH_SEMI,
+        DISH_BOSS
+    }
     public class FoodOrder : MonoBehaviour
     {
         private List<FoodInfo> _foodResources;
@@ -23,7 +29,8 @@ namespace PrototypeGame2D.Object
         private int _totalStageOrder;
 
         private bool _haveUpdate;
-        private bool _semi;
+
+        public TypeDish typeDish;
 
         //public enum STATUS
         //{
@@ -93,12 +100,6 @@ namespace PrototypeGame2D.Object
             set { _haveUpdate = value; }
         }
 
-        public bool Semi
-        {
-            get { return _semi; }
-            set { _semi = value; }
-        }
-
         private void Start()
         {
             _currentStageOrder = 0;
@@ -119,7 +120,7 @@ namespace PrototypeGame2D.Object
                 foodResource.Add(food);
             }
             _name = order.Name;
-            _semi = order.Semi;
+            typeDish = order.typeDish;
             SetOrderFood(order.id, order.timeOrder, order.priceOrder, order.priceMissingOrder, order.imageFoodOrder, foodResource);
         }
 

@@ -24,7 +24,7 @@ namespace PrototypeGame2D.Object
                     os.foodOrder = foodOrder;
                     os.DisplayProgress();
                     os.UpdateProgress();
-                    os.ToggleEffectSemi(foodOrder.Semi);
+                    os.ToggleEffectSemi(foodOrder.typeDish);
                     break;
                 }
             }

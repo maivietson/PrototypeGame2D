@@ -93,7 +93,7 @@ namespace PrototypeGame2D.Object
 
         private void TurnOffEffect()
         {
-            ToggleEffectSemi(false);
+            ToggleEffectSemi(TypeDish.DISH_NORMAL);
         }
 
         private void UpdatPosition()
@@ -114,9 +114,9 @@ namespace PrototypeGame2D.Object
             GetComponentInChildren<FoodResourceSlot>().Reset();
         }
 
-        public void ToggleEffectSemi(bool semi)
+        public void ToggleEffectSemi(TypeDish type)
         {
-            if(semi)
+            if(type == TypeDish.DISH_SEMI)
             {
                 cardEffects.Play();
             }

@@ -33,7 +33,7 @@ public class SCR_BossBundleSymbol : MonoBehaviour, IBossInfo
         }
         if (currentActive == symbolsDrawing.Length)
         {
-            GameManager.Instance.CalculateMoney(priceBoss);
+            FoodManager.Instance.HandleFood(gameObject.name);
             GameManager.Instance.SetState(STATE.STATE_CHANGE_THEME);
         }
     }

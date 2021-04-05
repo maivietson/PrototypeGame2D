@@ -76,10 +76,17 @@ namespace PrototypeGame2D.Object
             }
             else
             {
-                if(!_delaySpawnFood)
+                if (!_delaySpawnFood)
                 {
                     _delaySpawnFood = true;
-                    StartSpawnFood();
+                    if(GameManager.Instance.GetCurrentState() == STATE.STATE_FINAL_BOSS)
+                    {
+                        StartSpawnBoss(GameManager.Instance.GetCurrentTheme());
+                    }
+                    else
+                    {
+                        StartSpawnFood();
+                    }
                 }
             }
         }
@@ -103,6 +110,7 @@ namespace PrototypeGame2D.Object
         {
             StopCoroutine("SpawnFoodResource");
             _foodForSpawn.Clear();
+            _indexFoodSpawn = 0;
         }
 
         public void StartSpawnBoss(THEME theme)
@@ -131,9 +139,18 @@ namespace PrototypeGame2D.Object
 
         private IEnumerator SpawnBossIngredients()
         {
-            GameObject boss = Instantiate(bossIngredient, transform.position, Quaternion.identity) as GameObject;
-            boss.transform.localScale = new Vector3(0.4f, 0.4f);
-            yield return new WaitForSeconds(0.1f);
+            if (_indexFoodSpawn < _foodForSpawn.Count)
+            {
+                FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
+
+                GameObject boss = Instantiate(bossIngredient, transform.position, Quaternion.identity) as GameObject;
+                boss.transform.localScale = new Vector3(0.4f, 0.4f);
+                boss.GetComponent<SpriteRenderer>().sprite = food.Image;
+                boss.name = food.ID;
+                ++_indexFoodSpawn;
+                yield return new WaitForSeconds(_timeSpawn);
+            }
+            _delaySpawnFood = false;
         }
 
         private IEnumerator SpawnFoodWithOneSymbol()
@@ -158,7 +175,7 @@ namespace PrototypeGame2D.Object
                 GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
                 foodResource.transform.localScale = new Vector3(0.4f, 0.4f);
                 foodResource.name = food.ID;
-                if (food.Semi)
+                if (food.typeDish == TypeDish.DISH_SEMI)
                 {
                     foodResource.GetComponent<FoodInfoSpaw>().PlayEffect();
                 }
@@ -168,17 +185,17 @@ namespace PrototypeGame2D.Object
                 }
                 if (_symbolForPowerUp.Count > 0)
                 {
-                    foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, _symbolForPowerUp, food.Semi);
+                    foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, _symbolForPowerUp, food.typeDish);
                 }
                 else
                 {
-                    if(food.Semi)
+                    if(food.typeDish == TypeDish.DISH_SEMI)
                     {
-                        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbolSemi(), food.Semi);
+                        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbolSemi(), food.typeDish);
                     }
                     else
                     {
-                        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol(), food.Semi);
+                        foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol(), food.typeDish);
                     }
                 }
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
@@ -209,7 +226,7 @@ namespace PrototypeGame2D.Object
 
                 GameObject foodResource = Instantiate(_foodPrefab, transform.position, Quaternion.identity) as GameObject;
                 foodResource.name = food.ID;
-                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol(), food.Semi);
+                foodResource.GetComponent<FoodInfoSpaw>().SetFoodSpawn(food.ID, food.Image, RandomSymbol(), food.typeDish);
                 foodResource.GetComponent<SpriteRenderer>().sprite = food.Image;
                 foodResource.GetComponent<FoodInfoSpaw>().InitSymbol();
                 ++_indexFoodSpawn;

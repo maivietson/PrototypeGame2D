@@ -14,7 +14,7 @@ namespace PrototypeGame2D.Core
         public float PriceOrder;
         public float PriceMissingOrder;
         public ResourceFood[] ResourceFoodOrder;
-        public bool Semi;
+        public string Type;
     }
 }
 

@@ -13,7 +13,7 @@ namespace PrototypeGame2D.Object
         [SerializeField] private List<string> _symbol;
         [SerializeField] private ParticleSystem sparkleEffect;
 
-        private bool _semi;
+        public TypeDish typeDish;
 
         public string ID
         {
@@ -33,18 +33,12 @@ namespace PrototypeGame2D.Object
             set { _symbol = value; }
         }
 
-        public bool Semi
-        {
-            get { return _semi; }
-            set { _semi = value; }
-        }
-
-        public void SetFoodSpawn(string id, Sprite image, List<string> symbol, bool semi)
+        public void SetFoodSpawn(string id, Sprite image, List<string> symbol, TypeDish type)
         {
             _id = id;
             _image = image;
             _symbol = symbol;
-            _semi = semi;
+            typeDish = type;
         }
 
         public void PlayEffect()

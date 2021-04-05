@@ -145,7 +145,11 @@ namespace PrototypeGame2D.Game
                             if (ingredientsSpaw.Length == 0)
                             {
                                 FoodSpawn.Instance.ResetIngredientSpawn();
-                                FoodSpawn.Instance.StartSpawnBoss(GameManager.Instance.GetCurrentTheme());
+                                GameManager.Instance.AppearBoss();
+                                if(_haveFoodOrder)
+                                {
+                                    FoodSpawn.Instance.StartSpawnBoss(GameManager.Instance.GetCurrentTheme());
+                                }
                             }
                         }
                     }
@@ -259,7 +263,7 @@ namespace PrototypeGame2D.Game
                 for(int i = 0; i < fi.Amount; i++)
                 {
                     FoodInfoSpaw fis = new FoodInfoSpaw();
-                    fis.SetFoodSpawn(fi.id, fi.image, fi.SymbolKey, foodOrder.Semi);
+                    fis.SetFoodSpawn(fi.id, fi.image, fi.SymbolKey, foodOrder.typeDish);
                     _foodForSpawn.Add(fis);
                 }
             }

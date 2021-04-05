@@ -41,6 +41,7 @@ namespace PrototypeGame2D.Game
 
         private List<FoodOrder> mListDishMenu = new List<FoodOrder>();
         private List<FoodOrder> mListSemiDish = new List<FoodOrder>();
+        private FoodOrder mBoss = new FoodOrder();
 
         private List<string> mListSymbol;
 
@@ -112,18 +113,44 @@ namespace PrototypeGame2D.Game
                 FoodOrder fo = new FoodOrder();
                 Sprite dishOrderSprite = Resources.Load<Sprite>("themes/" + mNameTheme + "/sprites/dish/" + od.Image);
                 fo.Name = od.Name;
-                fo.Semi = od.Semi;
+                fo.typeDish = GetTypeDish(od.Type);
+                //fo.Semi = od.Semi;
                 fo.SetOrderFood(od.Name, od.TimeOrder, od.PriceOrder, od.PriceMissingOrder, dishOrderSprite, foodResource);
 
-                if(fo.Semi)
+                if(fo.typeDish == TypeDish.DISH_SEMI)
                 {
                     mListSemiDish.Add(fo);
+                }
+                else if(fo.typeDish == TypeDish.DISH_BOSS)
+                {
+                    mBoss = fo;
                 }
                 else
                 {
                     mListDishMenu.Add(fo);
                 }
             }
+        }
+
+        private TypeDish GetTypeDish(string type)
+        {
+            TypeDish typeDish;
+
+            switch(type)
+            {
+                case "semi":
+                    typeDish = TypeDish.DISH_SEMI;
+                    break;
+                case "boss":
+                    typeDish = TypeDish.DISH_BOSS;
+                    break;
+                default:
+                case "normal":
+                    typeDish = TypeDish.DISH_NORMAL;
+                    break;
+            }
+
+            return typeDish;
         }
 
         public void LoadTheme()
@@ -166,6 +193,11 @@ namespace PrototypeGame2D.Game
             SwapDish(random);
 
             return dish;
+        }
+
+        public FoodOrder GetDishBoss()
+        {
+            return mBoss;
         }
 
         public FoodOrder GetDishSemiFromPool()
