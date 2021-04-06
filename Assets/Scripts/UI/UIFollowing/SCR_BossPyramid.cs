@@ -25,7 +25,7 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
 
     private void Update()
     {
-        if (GameManager.Instance.GetCurrentState() == STATE.STATE_PLAY)
+        if (GameManager.Instance.GetCurrentState() == STATE.STATE_FINAL_BOSS_SPAWN)
         {
             if (GameManager.Instance.message.Length > 0)
             {
@@ -34,9 +34,8 @@ public class SCR_BossPyramid : MonoBehaviour, IBossInfo
         }
         if (currentActive == symbolsDrawing.Length)
         {
-            //GameManager.Instance.CalculateMoney(priceBoss);
             FoodManager.Instance.HandleFood(gameObject.name);
-            GameManager.Instance.SetState(STATE.STATE_CHANGE_THEME);
+            //GameManager.Instance.SetState(STATE.STATE_CHANGE_THEME);
         }
     }
 

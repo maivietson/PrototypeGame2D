@@ -17,6 +17,7 @@ namespace PrototypeGame2D.Game
         STATE_GAMEOVER = 4,
         STATE_FINAL_BOSS = 5,
         STATE_CHANGE_THEME = 6,
+        STATE_FINAL_BOSS_SPAWN = 7
     }
     public class GameManager : MonoBehaviour
     {
@@ -87,7 +88,7 @@ namespace PrototypeGame2D.Game
                 IncrementLevelSpeed();
                 ThemesManager.Instance.IncrementLimitDifficult(listDishForOrder.Count);
             }
-            if(dishComplete % 2 == 0)
+            if(dishComplete % 10 == 0)
             {
                 generateSemi = true;
             }
@@ -134,18 +135,23 @@ namespace PrototypeGame2D.Game
 
         private void Update()
         {
-            if(currentState == STATE.STATE_GAMEOVER)
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(2);
-            }
+            GameOver();
 
-            if(currentState == STATE.STATE_PLAY)
+            if (currentState == STATE.STATE_PLAY)
             {
-                if(_numberAppearSemi == 3)
+                if (_numberAppearSemi == 3)
                 {
                     currentState = STATE.STATE_FINAL_BOSS;
                     _numberAppearSemi = 0;
                 }
+            }
+        }
+
+        public void GameOver()
+        {
+            if (currentState == STATE.STATE_GAMEOVER)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(2);
             }
         }
 
@@ -204,7 +210,6 @@ namespace PrototypeGame2D.Game
             if(currentState == STATE.STATE_PLAY || currentState == STATE.STATE_START)
             {
                 StartCoroutine(DelayOrderFood(timeOrder));
-                _idNumber++;
             }
         }
 
@@ -212,7 +217,7 @@ namespace PrototypeGame2D.Game
         {
             yield return new WaitForSeconds(timeOrder);
             FoodOrder order = new FoodOrder(RandomNormalOrSemi());
-            order.id = _idNumber.ToString();
+            //order.id = _idNumber.ToString();
             
             StartOrder(order);
         }
@@ -241,9 +246,11 @@ namespace PrototypeGame2D.Game
 
         public void StartOrder(FoodOrder order)
         {
+            order.id = _idNumber.ToString();
             FoodManager.Instance.OrderFood(order);
             OrderArea areaOrder = FindObjectOfType<OrderArea>();
             areaOrder.OrderFood(order);
+            _idNumber++;
         }
 
         public void PowerupAddLive()

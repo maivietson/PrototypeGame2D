@@ -37,13 +37,14 @@ namespace PrototypeGame2D.Game
         private FoodInfo _foodInfoTmp;
         private FoodOrder _foodOrderTmp;
 
-        private bool _checking = false;
+        public bool delaySpawnIngredientsBoss = false;
 
         private float _timeSacle = 0.5f;
         private int _missingOrder = 0;
 
         private int _numFoodComplete;
         private int _levelConveyor;
+        private float _speedSpawnIngredientsBoss;
 
         OrderArea areaOrder;
 
@@ -75,6 +76,12 @@ namespace PrototypeGame2D.Game
         {
             get { return _levelConveyor; }
             set { _levelConveyor = value; }
+        }
+
+        public float SpeedSpawnIngredintsBoss
+        {
+            get { return _speedSpawnIngredientsBoss; }
+            set { _speedSpawnIngredientsBoss = value; }
         }
 
         // Start is called before the first frame update
@@ -138,19 +145,29 @@ namespace PrototypeGame2D.Game
                     break;
                 case STATE.STATE_FINAL_BOSS:
                     {
-                        _haveFoodOrder = false;
                         if (_foodOrder.Count == 0)
                         {
                             FoodInfoSpaw[] ingredientsSpaw = FindObjectsOfType<FoodInfoSpaw>();
                             if (ingredientsSpaw.Length == 0)
                             {
+                                _haveFoodOrder = false;
                                 FoodSpawn.Instance.ResetIngredientSpawn();
                                 GameManager.Instance.AppearBoss();
                                 if(_haveFoodOrder)
                                 {
-                                    FoodSpawn.Instance.StartSpawnBoss(GameManager.Instance.GetCurrentTheme());
+                                    _speedSpawnIngredientsBoss = 0.3f;
+                                    GameManager.Instance.SetState(STATE.STATE_FINAL_BOSS_SPAWN);
                                 }
                             }
+                        }
+                    }
+                    break;
+                case STATE.STATE_FINAL_BOSS_SPAWN:
+                    {
+                        if(!delaySpawnIngredientsBoss)
+                        {
+                            delaySpawnIngredientsBoss = true;
+                            FoodSpawn.Instance.StartSpawnBoss(GameManager.Instance.GetCurrentTheme());
                         }
                     }
                     break;
@@ -165,6 +182,11 @@ namespace PrototypeGame2D.Game
                                 GameManager.Instance.ChangeTheme();
                             }
                         }
+                    }
+                    break;
+                case STATE.STATE_GAMEOVER:
+                    {
+                        GameManager.Instance.GameOver();
                     }
                     break;
                 default:
@@ -201,7 +223,8 @@ namespace PrototypeGame2D.Game
 
             foreach (FoodOrder fo in _foodOrder)
             {
-                bool existFood = fo.foodResource.Any(i => i.id == id);
+                //bool existFood = fo.foodResource.Any(i => i.id == id);
+                bool existFood = ExistIngredients(fo, id);
                 if(existFood)
                 {
                     if (fo.statusOrder == STATUS.FOOD_NOT_COMPLETE)
@@ -252,6 +275,11 @@ namespace PrototypeGame2D.Game
         public void UpdateSlotOrder(FoodOrder order)
         {
             areaOrder.UpdateProgress(order);
+
+            if (GameManager.Instance.GetCurrentState() == STATE.STATE_FINAL_BOSS_SPAWN && order.statusOrder == STATUS.FOOD_COMPLETE)
+            {
+                GameManager.Instance.SetState(STATE.STATE_CHANGE_THEME);
+            }
         }
 
         public void AddOrder(FoodOrder foodOrder)
@@ -279,6 +307,18 @@ namespace PrototypeGame2D.Game
                 }
             }
             return null;
+        }
+
+        private bool ExistIngredients(FoodOrder fo, string id)
+        {
+            foreach (FoodInfo fi in fo.foodResource)
+            {
+                if (fi.id.Equals(id) && fi.Amount > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void CompleteOrder(FoodOrder order)

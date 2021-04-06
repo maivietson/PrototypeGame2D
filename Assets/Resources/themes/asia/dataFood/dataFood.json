@@ -149,6 +149,38 @@
         }
       ],
       "Type": "semi"
+    },
+    {
+      "ID": "7",
+      "Name": "TonkatsuBoss",
+      "Image": "Tonkatsu",
+      "TimeOrder": 30,
+      "PriceOrder": 8,
+      "PriceMissingOrder": 4,
+      "ResourceFoodOrder": [
+        {
+          "ID": "Pork",
+          "IdFoodOrder": "Tonkatsu",
+		  "Icon": "Pork",
+          "Image": "Pork",
+          "Amount": 1
+        },
+        {
+          "ID": "Flour",
+          "IdFoodOrder": "Tonkatsu",
+		  "Icon": "Flour",
+          "Image": "Flour",
+          "Amount": 1
+        },
+        {
+          "ID": "Shrimp",
+          "IdFoodOrder": "Tonkatsu",
+		  "Icon": "Shrimp",
+          "Image": "Shrimp",
+          "Amount": 1
+        }
+      ],
+      "Type": "boss"
     }
   ]
 }

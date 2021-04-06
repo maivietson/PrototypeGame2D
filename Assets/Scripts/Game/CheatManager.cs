@@ -44,6 +44,11 @@ namespace PrototypeGame2D.Game
         {
             GameManager.Instance.SetState(STATE.STATE_CHANGE_THEME);
         }
+
+        public void EnableBoss()
+        {
+            GameManager.Instance.SetState(STATE.STATE_FINAL_BOSS);
+        }
     }
 }
 

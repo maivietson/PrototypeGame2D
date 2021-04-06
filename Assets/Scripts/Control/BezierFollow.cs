@@ -17,23 +17,23 @@ namespace PrototypeGame2D.Control
 
         private Vector2 objPosition;
 
-        private float speedModifier;
+        private float speedIngredients;
 
         private bool coroutineAllowed;
 
         private float minScale, maxScale;
 
-        public float SpeedModifier
-        {
-            get { return speedModifier; }
-            set { speedModifier = value; }
-        }
+        //public float SpeedModifier
+        //{
+        //    get { return speedModifier; }
+        //    set { speedModifier = value; }
+        //}
 
         private void Start()
         {
             routeToGo = 0;
             tParam = 0;
-            speedModifier = 0.5f;
+            //speedModifier = 0.5f;
             coroutineAllowed = true;
             minScale = 0.4f;
             maxScale = 0.75f;
@@ -41,6 +41,15 @@ namespace PrototypeGame2D.Control
 
         private void Update()
         {
+            if(GameManager.Instance.GetCurrentState() == STATE.STATE_FINAL_BOSS_SPAWN)
+            {
+                speedIngredients = FoodManager.Instance.SpeedSpawnIngredintsBoss;
+            }
+            else
+            {
+                speedIngredients = (Defination.SPEED_CONVEYOR_BASE + FoodManager.Instance.LevelConveyor * Defination.SPEED_CONVEYOR);
+            }
+
             if (coroutineAllowed)
                 StartCoroutine(GoByTheRoute(routeToGo));
         }
@@ -59,7 +68,7 @@ namespace PrototypeGame2D.Control
             while (tParam < 1)
             {
                 //tParam += Time.deltaTime * speedModifier;
-                tParam += Time.deltaTime * (Defination.SPEED_CONVEYOR_BASE + FoodManager.Instance.LevelConveyor * Defination.SPEED_CONVEYOR);
+                tParam += Time.deltaTime * speedIngredients;
 
                 objPosition = Mathf.Pow(1 - tParam, 3) * p0 +
                     3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
@@ -94,9 +103,15 @@ namespace PrototypeGame2D.Control
 
             if (routeToGo > routes.Length - 1)
             {
-                //FoodSpawn.Instance.foodDestroied.Add(gameObject.GetComponent<FoodInfo>().id);
-                Destroy(gameObject);
-                //routeToGo = 0;
+                if(GameManager.Instance.GetCurrentState() == STATE.STATE_FINAL_BOSS_SPAWN)
+                {
+                    GameManager.Instance.SetState(STATE.STATE_GAMEOVER);
+                    //Destroy(gameObject);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
             coroutineAllowed = true;
         }

@@ -76,15 +76,11 @@ namespace PrototypeGame2D.Object
             }
             else
             {
-                if (!_delaySpawnFood)
+                if(GameManager.Instance.GetCurrentState() != STATE.STATE_FINAL_BOSS_SPAWN)
                 {
-                    _delaySpawnFood = true;
-                    if(GameManager.Instance.GetCurrentState() == STATE.STATE_FINAL_BOSS)
+                    if (!_delaySpawnFood)
                     {
-                        StartSpawnBoss(GameManager.Instance.GetCurrentTheme());
-                    }
-                    else
-                    {
+                        _delaySpawnFood = true;
                         StartSpawnFood();
                     }
                 }
@@ -108,7 +104,8 @@ namespace PrototypeGame2D.Object
 
         public void ResetIngredientSpawn()
         {
-            StopCoroutine("SpawnFoodResource");
+            //StopCoroutine("SpawnFoodResource");
+            StopAllCoroutines();
             _foodForSpawn.Clear();
             _indexFoodSpawn = 0;
         }
@@ -139,18 +136,15 @@ namespace PrototypeGame2D.Object
 
         private IEnumerator SpawnBossIngredients()
         {
-            if (_indexFoodSpawn < _foodForSpawn.Count)
-            {
-                FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
+            FoodInfoSpaw food = _foodForSpawn[_indexFoodSpawn];
 
-                GameObject boss = Instantiate(bossIngredient, transform.position, Quaternion.identity) as GameObject;
-                boss.transform.localScale = new Vector3(0.4f, 0.4f);
-                boss.GetComponent<SpriteRenderer>().sprite = food.Image;
-                boss.name = food.ID;
-                ++_indexFoodSpawn;
-                yield return new WaitForSeconds(_timeSpawn);
-            }
-            _delaySpawnFood = false;
+            GameObject boss = Instantiate(bossIngredient, transform.position, Quaternion.identity) as GameObject;
+            boss.transform.localScale = new Vector3(0.4f, 0.4f);
+            boss.GetComponent<SpriteRenderer>().sprite = food.Image;
+            boss.name = food.ID;
+            ++_indexFoodSpawn;
+            yield return new WaitForSeconds(10);
+            FoodManager.Instance.delaySpawnIngredientsBoss = false;
         }
 
         private IEnumerator SpawnFoodWithOneSymbol()
