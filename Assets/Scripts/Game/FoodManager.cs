@@ -118,7 +118,7 @@ namespace PrototypeGame2D.Game
                             {
                                 if (_foodOrder[i].timeOrder > 0)
                                 {
-                                    _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle);
+                                    _foodOrder[i].CountDownTime(Time.deltaTime * _timeSacle * GameManager.Instance.LocalTimeScale);
                                 }
                                 else
                                 {

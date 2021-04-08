@@ -201,7 +201,7 @@ namespace PrototypeGame2D.Object
             {
                 _indexFoodSpawn = 0;
             }
-            //yield return new WaitForSeconds(_timeSpawn);
+
             _delaySpawnFood = false;
         }
 

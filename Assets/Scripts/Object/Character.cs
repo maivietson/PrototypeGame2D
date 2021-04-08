@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PrototypeGame2D.Game;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ public class Character : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = false;
             _directionTrans = -1;
         }
-        transform.Translate(new Vector3(_speedTrans * Time.deltaTime * _directionTrans, 0, 0));
+        transform.Translate(new Vector3(_speedTrans * Time.deltaTime * _directionTrans * GameManager.Instance.LocalTimeScale, 0, 0));
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
@@ -44,7 +45,7 @@ public class Character : MonoBehaviour
         {
             _direction = 1;
         }
-        _rotation = _speedRot * Time.deltaTime * _direction;
+        _rotation = _speedRot * Time.deltaTime * _direction * GameManager.Instance.LocalTimeScale;
         transform.Rotate(new Vector3(0, 0, _rotation));
     }
 }

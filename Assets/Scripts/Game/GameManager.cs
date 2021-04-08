@@ -50,9 +50,11 @@ namespace PrototypeGame2D.Game
         private int _idNumber;
         private int _missingOrder = Defination.LIMIT_MISSING_ORDER;
         private int _numberAppearSemi;
+        private bool generateSemi;
+        private float localTimeScale;
+
         private List<FoodOrder> listDishForOrder;
 
-        private bool generateSemi;
 
         public string message
         {
@@ -64,6 +66,12 @@ namespace PrototypeGame2D.Game
         {
             get { return _money; }
             set { _money = value; }
+        }
+
+        public float LocalTimeScale
+        {
+            get { return localTimeScale; }
+            set { localTimeScale = value; }
         }
 
         public void CalculateMoney(float money)
@@ -131,6 +139,7 @@ namespace PrototypeGame2D.Game
             currentState = STATE.STATE_START;
             currentTheme = THEME.THEME_JAPAN;
             _completeOrder.text = dishComplete.ToString();
+            localTimeScale = 1.0f;
         }
 
         private void Update()

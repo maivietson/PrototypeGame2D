@@ -67,8 +67,7 @@ namespace PrototypeGame2D.Control
 
             while (tParam < 1)
             {
-                //tParam += Time.deltaTime * speedModifier;
-                tParam += Time.deltaTime * speedIngredients;
+                tParam += Time.deltaTime * speedIngredients * GameManager.Instance.LocalTimeScale;
 
                 objPosition = Mathf.Pow(1 - tParam, 3) * p0 +
                     3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
